@@ -1,30 +1,20 @@
 package tile;
 
 public class DefaultTile implements Tile {
-	/**
-	 * The difficulty of infecting a tile, the higher the value the more difficult it is to infect
-	 */
 	private double difficulty;
-	/**
-	 * The number of resources on a tile, guaranteed non negative
-	 */
 	private double resources;
 	
 	public DefaultTile(double difficulty, double resources) {
 		this.difficulty = difficulty;
-		this.resources = Math.max(resources, 0);
+		this.resources = Math.max(0, resources);
 	}
 	
 	@Override
 	public double infect(double power) {
-		if (power < 0) {
-			power = 0;
-		}
+		power = Math.max(0, power);
 		
 		difficulty -= Math.sqrt(power);
-		if (difficulty <= 0) {
-			difficulty = 0;
-		}
+		difficulty = Math.max(0, difficulty);
 		
 		return power - difficulty;
 	}
