@@ -36,7 +36,7 @@ public class DefaultTileTests {
 		assertEquals(10, tile.getOccupierPower());
 		assertEquals(90, tile.getDifficulty());
 		
-		tile.reduceOccupiers(10);
+		tile.changeOccupierPower(-10);
 		assertEquals(null, tile.getOccupier());
 		assertEquals(0, tile.getOccupierPower());
 		
@@ -50,15 +50,15 @@ public class DefaultTileTests {
 		assertEquals(8100, tile.getOccupierPower());
 		assertEquals(0, tile.getDifficulty());
 		
-		tile.reduceOccupiers(-500);
+		tile.changeOccupierPower(500);
 		assertEquals(spreader, tile.getOccupier());
-		assertEquals(8100, tile.getOccupierPower());
+		assertEquals(8600, tile.getOccupierPower());
 		
-		tile.reduceOccupiers(1000);
+		tile.changeOccupierPower(-1500);
 		assertEquals(spreader, tile.getOccupier());
 		assertEquals(7100, tile.getOccupierPower());
 		
-		tile.reduceOccupiers(10000);
+		tile.changeOccupierPower(-10000);
 		assertEquals(null, tile.getOccupier());
 		assertEquals(0, tile.getOccupierPower());
 		

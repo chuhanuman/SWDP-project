@@ -36,8 +36,8 @@ public class DefaultTile implements Tile {
 	}
 	
 	@Override
-	public void reduceOccupiers(double amountToReduce) {
-		occupierPower = Math.min(0, occupierPower - Math.max(0, amountToReduce));
+	public void changeOccupierPower(double amount) {
+		occupierPower = Math.min(0, occupierPower + amount);
 		if (occupierPower == 0) {
 			occupier = null;
 		}

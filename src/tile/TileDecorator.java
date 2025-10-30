@@ -20,8 +20,8 @@ public class TileDecorator implements Tile {
 	}
 	
 	@Override
-	public void reduceOccupiers(double amountToReduce) {
-		child.reduceOccupiers(amountToReduce);
+	public void changeOccupierPower(double amount) {
+		child.changeOccupierPower(amount);
 	}
 
 	@Override

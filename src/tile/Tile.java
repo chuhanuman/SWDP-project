@@ -18,10 +18,10 @@ public interface Tile {
 	public abstract double extract(double amountToExtract);
 	
 	/**
-	 * Reduces occupier power on the tile
-	 * @param amountToReduce the total occupier power to remove
+	 * Changes occupier power on the tile
+	 * @param amount the increase in power if positive and the decrease in power if negative
 	 */
-	public abstract void reduceOccupiers(double amountToReduce);
+	public abstract void changeOccupierPower(double amount);
 	
 	/**
 	 * Returns the difficulty of infecting the tile
