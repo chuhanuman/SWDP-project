@@ -1,12 +1,14 @@
 package tile;
 
+import spreader.Spreader;
+
 public interface Tile {
 	/**
 	 * Attempts to infect the tile
 	 * @param power the power of the infection attempt
-	 * @return the power left over from the attempt, a negative value means that the attempt failed
+	 * @param spreader the spreader doing the infection
 	 */
-	public abstract double infect(double power);
+	public abstract void infect(double power, Spreader spreader);
 	
 	/**
 	 * Attempts to extract resources from the tile
@@ -14,6 +16,12 @@ public interface Tile {
 	 * @return the amount of resources extracted
 	 */
 	public abstract double extract(double amountToExtract);
+	
+	/**
+	 * Reduces occupier power on the tile
+	 * @param amountToReduce the total occupier power to remove
+	 */
+	public abstract void reduceOccupiers(double amountToReduce);
 	
 	/**
 	 * Returns the difficulty of infecting the tile
@@ -27,4 +35,16 @@ public interface Tile {
 	 * @return the number of resources in the tile
 	 */
 	public abstract double getResources();
+	
+	/**
+	 * Returns the occupier of the tile or null if there are no occupiers
+	 * @return the occupier of the tile or null if there are no occupiers
+	 */
+	public abstract Spreader getOccupier();
+	
+	/**
+	 * Returns the power of the occupiers on the tile
+	 * @return the power of the occupiers on the tile
+	 */
+	public abstract double getOccupierPower();
 }

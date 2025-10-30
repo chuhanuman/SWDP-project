@@ -1,5 +1,7 @@
 package tile;
 
+import spreader.Spreader;
+
 public class TileDecorator implements Tile {
 	protected Tile child;
 	
@@ -8,13 +10,18 @@ public class TileDecorator implements Tile {
 	}
 
 	@Override
-	public double infect(double power) {
-		return child.infect(power);
+	public void infect(double power, Spreader spreader) {
+		child.infect(power, spreader);
 	}
 
 	@Override
 	public double extract(double amountToExtract) {
 		return child.extract(amountToExtract);
+	}
+	
+	@Override
+	public void reduceOccupiers(double amountToReduce) {
+		child.reduceOccupiers(amountToReduce);
 	}
 
 	@Override
@@ -25,5 +32,15 @@ public class TileDecorator implements Tile {
 	@Override
 	public double getResources() {
 		return child.getResources();
+	}
+
+	@Override
+	public Spreader getOccupier() {
+		return child.getOccupier();
+	}
+
+	@Override
+	public double getOccupierPower() {
+		return child.getOccupierPower();
 	}
 }

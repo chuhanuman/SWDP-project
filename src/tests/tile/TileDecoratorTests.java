@@ -3,6 +3,8 @@ package tests.tile;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
+import spreader.DefaultSpreader;
+import spreader.Spreader;
 import tile.Tile;
 import tile.DefaultTile;
 import tile.ExtraDefensesDecorator;
@@ -13,17 +15,21 @@ public class TileDecoratorTests {
 	@Test
 	public void extraDefensesDecoratorTests() {
 		Tile tile = new ExtraDefensesDecorator(new DefaultTile(100, 100));
-		double result = tile.infect(5);
-		assertEquals(-100, result);
+		Spreader spreader = new DefaultSpreader(null, null);
+		tile.infect(5, spreader);
+		assertEquals(null, tile.getOccupier());
+		assertEquals(0, tile.getOccupierPower());
 		assertEquals(100, tile.getDifficulty());
 		
-		result = tile.infect(30);
-		assertEquals(-70, result);
+		tile.infect(30, spreader);
+		assertEquals(null, tile.getOccupier());
+		assertEquals(0, tile.getOccupierPower());
 		assertEquals(95, tile.getDifficulty());
 		
 		tile = new ExtraDefensesDecorator(tile);
-		result = tile.infect(110);
-		assertEquals(15, result);
+		tile.infect(110, spreader);
+		assertEquals(spreader, tile.getOccupier());
+		assertEquals(15, tile.getOccupierPower());
 		assertEquals(85, tile.getDifficulty());
 	}
 	
@@ -56,8 +62,10 @@ public class TileDecoratorTests {
 		tile = new StealthyDecorator(tile);
 		assertEquals(-100, tile.getDifficulty());
 		
-		double result = tile.infect(100);
-		assertEquals(10, result);
+		Spreader spreader = new DefaultSpreader(null, null);
+		tile.infect(100, spreader);
+		assertEquals(spreader, tile.getOccupier());
+		assertEquals(10, tile.getOccupierPower());
 		assertEquals(-110, tile.getDifficulty());
 	}
 	
@@ -77,8 +85,11 @@ public class TileDecoratorTests {
 		assertEquals(168.75, result);
 		assertEquals(50, tile.getResources());
 		
-		result = tile.infect(105);
-		assertEquals(10, result);
+		
+		Spreader spreader = new DefaultSpreader(null, null);
+		tile.infect(105, spreader);
+		assertEquals(spreader, tile.getOccupier());
+		assertEquals(10, tile.getOccupierPower());
 		assertEquals(-110, tile.getDifficulty());
 	}
 }
