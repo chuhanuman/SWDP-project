@@ -3,6 +3,7 @@ package spreader.spreading_strategy;
 import java.util.ArrayList;
 import java.util.List;
 
+import prng.PRNG;
 import spreader.Spreader;
 import tile.Tile;
 
@@ -19,7 +20,7 @@ public class RandomSpreading implements SpreadingStrategy {
 				}
 			}
 			
-			List<Double> powerAllocations = PRNG::getInstance().split(availablePower);
+			List<Double> powerAllocations = PRNG.getInstance().split(availablePower, targetTiles.size());
 			
 			for (int i = 0; i < targetTiles.size(); i++) {
 				simulation.queueMove(tile, targetTiles.get(i), powerAllocations.get(i));
