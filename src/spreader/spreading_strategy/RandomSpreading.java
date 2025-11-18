@@ -5,16 +5,18 @@ import java.util.List;
 
 import prng.PRNG;
 import spreader.Spreader;
-import tile.Tile;
+import simulation.GridView;
+import simulation.TurnChange;
+import tile.ViewableTile;
 
 public class RandomSpreading implements SpreadingStrategy {
 	@Override
-	public void getMoveActions(Simulation simulation, Spreader spreader) {
-		for (Tile tile : simulation.getOccupiedTiles(spreader)) {
+	public void getMoveActions(GridView grid, TurnChange simulation, Spreader spreader) {
+		for (ViewableTile tile : grid.getOccupiedTiles(spreader)) {
 			double availablePower = tile.getOccupierPower() / 2;
 			
-			List<Tile> targetTiles = new ArrayList<Tile>();
-			for (Tile potentialTarget : simulation.getAllTilesInRange(tile, 1)) {
+			List<ViewableTile> targetTiles = new ArrayList<ViewableTile>();
+			for (ViewableTile potentialTarget : grid.getAllTilesInRange(tile, 1)) {
 				if (potentialTarget.getOccupier() == null && potentialTarget != tile) {
 					targetTiles.add(potentialTarget);
 				}

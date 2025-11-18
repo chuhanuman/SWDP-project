@@ -5,23 +5,28 @@ import java.util.List;
 import java.util.PriorityQueue;
 
 import spreader.Spreader;
-import tile.Tile;
+import simulation.GridView;
+import simulation.TurnChange;
+import tile.ViewableTile;
 
 public class CowardSpreading implements SpreadingStrategy {
-	PriorityQueue<Tile> potentialTargets = null;
-	List<Tile> occupiedResourceTiles = null;
+	PriorityQueue<ViewableTile> potentialTargets = null;
+	List<ViewableTile> occupiedResourceTiles = null;
 	
 	@Override
-	public void getMoveActions(Simulation simulation, Spreader spreader) {
+	public void getMoveActions(GridView grid, TurnChange simulation, Spreader spreader) {
 		if (potentialTargets == null) {
-			potentialTargets = new PriorityQueue<Tile>(
-				(Tile left, Tile right) -> Double.compare(right.getDifficulty(), left.getDifficulty())
+			potentialTargets = new PriorityQueue<ViewableTile>(
+				(ViewableTile left, ViewableTile right) -> Double.compare(right.getDifficulty(), left.getDifficulty())
 			);
-			potentialTargets.addAll(simulation.getUnoccupiedResourceTiles());
-			occupiedResourceTiles = new ArrayList<Tile>();
+			// loop because addAll doesn't accept Iterables
+			for (ViewableTile t : grid.getUnoccupiedResourceTiles()) {
+				potentialTargets.add(t);
+			}
+			occupiedResourceTiles = new ArrayList<ViewableTile>();
 		} else {
-			List<Tile> tilesToRemove = new ArrayList<Tile>();
-			for (Tile tile : occupiedResourceTiles) {
+			List<ViewableTile> tilesToRemove = new ArrayList<ViewableTile>();
+			for (ViewableTile tile : occupiedResourceTiles) {
 				if (tile.getResources() == 0) {
 					tilesToRemove.add(tile);
 				} else if (tile.getOccupier() == null) {
@@ -33,7 +38,7 @@ public class CowardSpreading implements SpreadingStrategy {
 			occupiedResourceTiles.removeAll(tilesToRemove);
 		}
 		
-		Tile target = null;
+		ViewableTile target = null;
 		while (target == null && !potentialTargets.isEmpty()) {
 			if (potentialTargets.peek().getResources() == 0) {
 				potentialTargets.remove();
@@ -43,7 +48,7 @@ public class CowardSpreading implements SpreadingStrategy {
 		}
 		
 		if (target != null) {
-			for (Tile tile : simulation.getOccupiedTiles(spreader)) {
+			for (ViewableTile tile : grid.getOccupiedTiles(spreader)) {
 				double availablePower = tile.getOccupierPower();
 				if (tile.getResources() > 0) {
 					if (availablePower <= 1) {

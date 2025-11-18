@@ -1,17 +1,20 @@
 package spreader;
 
-import simulation.Simulation;
+import simulation.GridView;
+import simulation.TurnChange;
 
 public interface Spreader {
 	/**
 	 * Tells the spreader to queue up any movements it wants its infections to make
-	 * @param simulation simulation to view and queue actions to
+	 * @param grid simulation grid to view
+	 * @param simulation simulation object to queue actions to
 	 */
-	public abstract void getMoveActions(Simulation simulation);
+	public abstract void getMoveActions(GridView grid, TurnChange simulation);
 	
 	/**
 	 * Tells the spreader to queue up any resource extractions it wants to do
-	 * @param simulation simulation to view and queue actions to
+	 * @param grid simulation grid to view
+	 * @param simulation simulation object to queue actions to
 	 */
-	public abstract void getExtractActions(Simulation simulation);
+	public abstract void getExtractActions(GridView grid, TurnChange simulation);
 }

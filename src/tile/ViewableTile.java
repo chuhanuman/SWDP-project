@@ -2,28 +2,8 @@ package tile;
 
 import spreader.Spreader;
 
-public interface Tile {
-	/**
-	 * Attempts to infect the tile
-	 * @param power the power of the infection attempt
-	 * @param spreader the spreader doing the infection
-	 */
-	public abstract void infect(double power, Spreader spreader);
-	
-	/**
-	 * Attempts to extract resources from the tile
-	 * @param amountToExtract the number of resources to extract
-	 * @return the amount of resources extracted
-	 */
-	public abstract double extract(double amountToExtract);
-	
-	/**
-	 * Changes occupier power on the tile
-	 * @param amount the increase in power if positive and the decrease in power if negative
-	 */
-	public abstract void changeOccupierPower(double amount);
-	
-	/**
+public interface ViewableTile {
+    /**
 	 * Returns the difficulty of infecting the tile
 	 * @return the difficulty of infecting the tile, in general higher values mean more losses 
 	 * when infecting but this is implementation specific
@@ -47,4 +27,16 @@ public interface Tile {
 	 * @return the power of the occupiers on the tile
 	 */
 	public abstract double getOccupierPower();
+
+    /**
+     * Returns the row location of the tile
+     * @return 0-indexed row of tile in grid
+     */
+	public abstract int getRow();
+
+    /**
+     * Returns the column locaiton of the tile
+     * @return 0-indexed column of tile in grid
+     */
+    public abstract int getCol();
 }

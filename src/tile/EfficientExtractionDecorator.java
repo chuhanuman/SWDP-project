@@ -1,7 +1,7 @@
 package tile;
 
 public class EfficientExtractionDecorator extends TileDecorator {
-	public EfficientExtractionDecorator(Tile child) {
+	public EfficientExtractionDecorator(MutableTile child) {
 		super(child);
 	}
 	

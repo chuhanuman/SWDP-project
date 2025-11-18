@@ -2,10 +2,11 @@ package tile;
 
 import spreader.Spreader;
 
-public class TileDecorator implements Tile {
-	protected Tile child;
+public class TileDecorator extends MutableTile {
+	protected MutableTile child;
 	
-	public TileDecorator(Tile child) {
+	public TileDecorator(MutableTile child) {
+		super(child.getRow(), child.getCol());
 		this.child = child;
 	}
 

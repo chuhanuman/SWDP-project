@@ -5,26 +5,26 @@ import org.junit.jupiter.api.Test;
 
 import spreader.Spreader;
 import spreader.DefaultSpreader;
-import tile.Tile;
+import tile.MutableTile;
 import tile.DefaultTile;
 
 public class DefaultTileTests {
 	@Test
 	public void basicTests() {
-		Tile tile = new DefaultTile(-5, -5);
+		MutableTile tile = new DefaultTile(0, 0, -5, -5);
 		assertEquals(-5, tile.getDifficulty());
 		assertEquals(0, tile.getResources());
 		assertEquals(null, tile.getOccupier());
 		assertEquals(0, tile.getOccupierPower());
 		
-		tile = new DefaultTile(0.5, 0.5);
+		tile = new DefaultTile(0, 0, 0.5, 0.5);
 		assertEquals(0.5, tile.getDifficulty());
 		assertEquals(0.5, tile.getResources());
 	}
 	
 	@Test
 	public void infectAndReduceOccupierTests() {
-		Tile tile = new DefaultTile(100, 100);
+		MutableTile tile = new DefaultTile(0, 0, 100, 100);
 		Spreader spreader = new DefaultSpreader(null, null);
 		tile.infect(0, spreader);
 		assertEquals(null, tile.getOccupier());
@@ -75,7 +75,7 @@ public class DefaultTileTests {
 	
 	@Test
 	public void extractTests() {
-		Tile tile = new DefaultTile(100, 100);
+		MutableTile tile = new DefaultTile(0, 0, 100, 100);
 		double result = tile.extract(50);
 		assertEquals(50, result);
 		assertEquals(50, tile.getResources());

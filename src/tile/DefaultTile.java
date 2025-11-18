@@ -2,13 +2,14 @@ package tile;
 
 import spreader.Spreader;
 
-public class DefaultTile implements Tile {
+public class DefaultTile extends MutableTile {
 	private double difficulty;
 	private double resources;
 	private Spreader occupier;
 	private double occupierPower;
 	
-	public DefaultTile(double difficulty, double resources) {
+	public DefaultTile(int row, int col, double difficulty, double resources) {
+		super(row, col);
 		this.difficulty = difficulty;
 		this.resources = Math.max(0, resources);
 		this.occupier = null;

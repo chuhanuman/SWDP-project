@@ -1,7 +1,7 @@
 package tile;
 
 public class StealthyDecorator extends TileDecorator {
-	public StealthyDecorator(Tile child) {
+	public StealthyDecorator(MutableTile child) {
 		super(child);
 	}
 	

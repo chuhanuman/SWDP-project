@@ -1,7 +1,9 @@
 package spreader.extraction_strategy;
 
 import spreader.Spreader;
-import tile.Tile;
+import simulation.GridView;
+import simulation.TurnChange;
+import tile.ViewableTile;
 
 public class LearningExtraction implements ExtractionStrategy {
 	private double efficiency;
@@ -13,9 +15,9 @@ public class LearningExtraction implements ExtractionStrategy {
 	}
 	
 	@Override
-	public void getExtractActions(Simulation simulation, Spreader spreader) {
+	public void getExtractActions(GridView grid, TurnChange simulation, Spreader spreader) {
 		double tilesLearned = 0;
-		for (Tile tile : simulation.getOccupiedTiles(spreader)) {
+		for (ViewableTile tile : grid.getOccupiedTiles(spreader)) {
 			simulation.queueExtract(spreader, tile.getResources(), efficiency);
 			
 			if (tile.getResources() > 0) {

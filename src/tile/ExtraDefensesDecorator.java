@@ -3,7 +3,7 @@ package tile;
 import spreader.Spreader;
 
 public class ExtraDefensesDecorator extends TileDecorator {
-	public ExtraDefensesDecorator(Tile child) {
+	public ExtraDefensesDecorator(MutableTile child) {
 		super(child);
 	}
 	
