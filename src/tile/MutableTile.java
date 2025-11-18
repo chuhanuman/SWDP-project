@@ -3,6 +3,15 @@ package tile;
 import spreader.Spreader;
 
 public abstract class MutableTile implements ViewableTile {
+	public static abstract class Builder {
+		/**
+		 * Creates a {@code MutableTile} at {@code row, col}.
+		 * @param row the row location of the tile
+		 * @param col the column location of the tile
+		 * @return the created {@code MutableTile}
+		 */
+		public abstract MutableTile build(int row, int col);
+	}
 
 	private int row;
 	private int col;

@@ -11,20 +11,21 @@ import tile.DefaultTile;
 public class DefaultTileTests {
 	@Test
 	public void basicTests() {
-		MutableTile tile = new DefaultTile(0, 0, -5, -5);
+		DefaultTile.Builder builder = new DefaultTile.Builder();
+		MutableTile tile = builder.setRequired(-5, -5).build(0, 0);
 		assertEquals(-5, tile.getDifficulty());
 		assertEquals(0, tile.getResources());
 		assertEquals(null, tile.getOccupier());
 		assertEquals(0, tile.getOccupierPower());
 		
-		tile = new DefaultTile(0, 0, 0.5, 0.5);
+		tile = builder.setRequired(0.5, 0.5).build(0, 0);
 		assertEquals(0.5, tile.getDifficulty());
 		assertEquals(0.5, tile.getResources());
 	}
 	
 	@Test
 	public void infectAndReduceOccupierTests() {
-		MutableTile tile = new DefaultTile(0, 0, 100, 100);
+		MutableTile tile = new DefaultTile.Builder().setRequired(100, 100).build(0, 0);
 		Spreader spreader = new DefaultSpreader(null, null);
 		tile.infect(0, spreader);
 		assertEquals(null, tile.getOccupier());
@@ -75,7 +76,7 @@ public class DefaultTileTests {
 	
 	@Test
 	public void extractTests() {
-		MutableTile tile = new DefaultTile(0, 0, 100, 100);
+		MutableTile tile = new DefaultTile.Builder().setRequired(100, 100).build(0, 0);
 		double result = tile.extract(50);
 		assertEquals(50, result);
 		assertEquals(50, tile.getResources());
