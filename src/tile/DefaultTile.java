@@ -67,7 +67,7 @@ public class DefaultTile extends MutableTile {
 		difficulty -= Math.sqrt(power);
 		difficulty = Math.max(0, difficulty);
 		
-		occupierPower = Math.min(0, power - difficulty);
+		occupierPower = Math.max(0, power - difficulty);
 		if (occupierPower > 0) {
 			occupier = spreader;
 		}
@@ -82,7 +82,7 @@ public class DefaultTile extends MutableTile {
 	
 	@Override
 	public void changeOccupierPower(double amount) {
-		occupierPower = Math.min(0, occupierPower + amount);
+		occupierPower = Math.max(0, occupierPower + amount);
 		if (occupierPower == 0) {
 			occupier = null;
 		}
