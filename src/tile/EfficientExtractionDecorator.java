@@ -6,6 +6,11 @@ public class EfficientExtractionDecorator extends TileDecorator {
 	}
 	
 	@Override
+	public MutableTile copy() {
+		return new EfficientExtractionDecorator(child.copy());
+	}
+	
+	@Override
 	public double extract(double amountToExtract) {
 		return child.extract(amountToExtract) * 1.5;
 	}

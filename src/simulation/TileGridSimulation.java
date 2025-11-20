@@ -3,13 +3,14 @@ package simulation;
 import java.util.ArrayList;
 import java.util.List;
 
+import tile.DefaultTile;
 import tile.MutableTile;
 
 public class TileGridSimulation extends Simulation {
     public static class Builder extends Simulation.Builder {
         private List<List<MutableTile>> tileGrid;
         private int numRows, numCols;
-        private MutableTile.Builder defaultTile;
+        private DefaultTile defaultTile;
         boolean firstBuild;
 
         public Builder() {
@@ -71,8 +72,8 @@ public class TileGridSimulation extends Simulation {
          * provides a default {@code MutableTile.Builder} for filling in uninitialized tiles at build time.
          * @param tileBuilder the builder specifying the default tile
          */
-        public void setDefaultTile(MutableTile.Builder tileBuilder) {
-            this.defaultTile = tileBuilder;
+        public void setDefaultTile(DefaultTile defaultTile) {
+            this.defaultTile = defaultTile;
         }
 
         @Override
@@ -88,7 +89,7 @@ public class TileGridSimulation extends Simulation {
             for (int i = 0; i < this.numRows; i++) {
                 for (int j = 0; j < this.numCols; j++) {
                     if (this.tileGrid.get(i).get(j) == null) {
-                        this.tileGrid.get(i).set(j, this.defaultTile.build());
+                        this.tileGrid.get(i).set(j, defaultTile.copy());
                     }
                 }
             }

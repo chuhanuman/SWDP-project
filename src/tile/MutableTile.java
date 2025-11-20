@@ -3,14 +3,13 @@ package tile;
 import spreader.Spreader;
 
 public interface MutableTile extends ViewableTile {
-	public static abstract class Builder {
-		/**
-		 * Creates a MutableTile.
-		 * @return the created MutableTile
-		 */
-		public abstract MutableTile build();
-	}
-
+	
+	/**
+	 * Performs a deep copy of the tile
+	 * @return a deep copy of the tile
+	 */
+	public abstract MutableTile copy();
+	
 	/**
 	 * Attempts to infect the tile
 	 * @param power the power of the infection attempt

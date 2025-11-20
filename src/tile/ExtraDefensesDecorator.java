@@ -8,6 +8,11 @@ public class ExtraDefensesDecorator extends TileDecorator {
 	}
 	
 	@Override
+	public MutableTile copy() {
+		return new ExtraDefensesDecorator(child.copy());
+	}
+	
+	@Override
 	public void infect(double power, Spreader spreader) {
 		child.infect(power - 5, spreader);
 	}

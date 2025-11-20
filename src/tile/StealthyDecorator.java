@@ -6,6 +6,11 @@ public class StealthyDecorator extends TileDecorator {
 	}
 	
 	@Override
+	public MutableTile copy() {
+		return new StealthyDecorator(child.copy());
+	}
+	
+	@Override
 	public double getDifficulty() {
 		return child.getDifficulty() - 100;
 	}
