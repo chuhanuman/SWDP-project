@@ -3,9 +3,9 @@ package spreader.spreading_strategy;
 import java.util.ArrayList;
 import java.util.List;
 
+import grid.GridView;
 import prng.PRNG;
 import spreader.Spreader;
-import simulation.GridView;
 import simulation.TurnChange;
 import tile.ConstTile;
 

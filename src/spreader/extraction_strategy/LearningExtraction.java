@@ -1,7 +1,7 @@
 package spreader.extraction_strategy;
 
 import spreader.Spreader;
-import simulation.GridView;
+import grid.GridView;
 import simulation.TurnChange;
 import tile.ConstTile;
 

@@ -16,13 +16,19 @@ public abstract class Simulation {
          * sets the simulation's seed used for randomness
          * @param rngSeed the seed value
          */
-        public void setRNGSeed(long rngSeed) { this.rngSeed = rngSeed; }
+        public Builder setRNGSeed(long rngSeed) { 
+            this.rngSeed = rngSeed; 
+            return this;
+        }
 
         /**
          * sets the simulation's occupier power loss rate per turn
          * @param powerLossRate the amount of power occupiers globally lose each turn
          */
-        public void setPowerLossRate(double powerLossRate) { this.powerLossRate = powerLossRate; }
+        public Builder setPowerLossRate(double powerLossRate) { 
+            this.powerLossRate = powerLossRate; 
+            return this;
+        }
 
         /**
          * builds the Simulation object based on the builder's specifications

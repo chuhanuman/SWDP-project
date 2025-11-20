@@ -1,7 +1,7 @@
 package spreader.spreading_strategy;
 
 import spreader.Spreader;
-import simulation.GridView;
+import grid.GridView;
 import simulation.TurnChange;
 
 public interface SpreadingStrategy {

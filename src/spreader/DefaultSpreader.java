@@ -2,7 +2,7 @@ package spreader;
 
 import spreader.extraction_strategy.ExtractionStrategy;
 import spreader.spreading_strategy.SpreadingStrategy;
-import simulation.GridView;
+import grid.GridView;
 import simulation.TurnChange;
 
 public class DefaultSpreader implements Spreader {

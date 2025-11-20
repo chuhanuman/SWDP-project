@@ -1,4 +1,4 @@
-package simulation;
+package grid;
 
 import tile.ConstTile;
 import spreader.Spreader;

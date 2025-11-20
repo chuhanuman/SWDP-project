@@ -1,4 +1,4 @@
-package simulation;
+package grid;
 
 import java.util.List;
 
@@ -7,10 +7,9 @@ import tile.Tile;
 import tile.ConstTile;
 
 public class DefaultGridView extends GridView {
+    private TileGrid tileGrid;
 
-    private List<List<Tile>> tileGrid;
-
-    public DefaultGridView(List<List<Tile>> tileGrid) {
+    public DefaultGridView(TileGrid tileGrid) {
         this.tileGrid = tileGrid;
     }
 

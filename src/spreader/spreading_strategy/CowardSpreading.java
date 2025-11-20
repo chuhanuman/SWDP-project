@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
 
+import grid.GridView;
 import spreader.Spreader;
-import simulation.GridView;
 import simulation.TurnChange;
 import tile.ConstTile;
 

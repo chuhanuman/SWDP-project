@@ -1,6 +1,6 @@
 package spreader;
 
-import simulation.GridView;
+import grid.GridView;
 import simulation.TurnChange;
 
 public interface Spreader {
