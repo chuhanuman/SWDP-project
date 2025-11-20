@@ -51,10 +51,12 @@ public class TileGridSimulation extends Simulation {
          * @throws IllegalStateException if {@code tileGrid} is uninitialized
          */
         public void setTile(MutableTile tile) throws IllegalArgumentException, IllegalStateException{
+        	//TODO: this doesn't actually do anything but throw errors?
             if (this.tileGrid == null) {
                 throw new IllegalStateException("tileGrid is uninitialized");
             }
 
+            /*
             int row = tile.getRow();
             int col = tile.getCol();
 
@@ -62,6 +64,7 @@ public class TileGridSimulation extends Simulation {
                 throw new IllegalArgumentException("tile location out of bounds: (" + row + ", " + col + ") not in [(0, 0), (" 
                                                     + numRows + ", " + numCols + "))");
             }
+            */
         }
 
         /**
@@ -85,7 +88,7 @@ public class TileGridSimulation extends Simulation {
             for (int i = 0; i < this.numRows; i++) {
                 for (int j = 0; j < this.numCols; j++) {
                     if (this.tileGrid.get(i).get(j) == null) {
-                        this.tileGrid.get(i).set(j, this.defaultTile.build(i, j));
+                        this.tileGrid.get(i).set(j, this.defaultTile.build());
                     }
                 }
             }

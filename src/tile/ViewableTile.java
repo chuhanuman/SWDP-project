@@ -27,16 +27,4 @@ public interface ViewableTile {
 	 * @return the power of the occupiers on the tile
 	 */
 	public abstract double getOccupierPower();
-
-    /**
-     * Returns the row location of the tile
-     * @return 0-indexed row of tile in grid
-     */
-	public abstract int getRow();
-
-    /**
-     * Returns the column locaiton of the tile
-     * @return 0-indexed column of tile in grid
-     */
-    public abstract int getCol();
 }

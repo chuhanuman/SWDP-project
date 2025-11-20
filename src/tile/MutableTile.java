@@ -2,23 +2,13 @@ package tile;
 
 import spreader.Spreader;
 
-public abstract class MutableTile implements ViewableTile {
+public interface MutableTile extends ViewableTile {
 	public static abstract class Builder {
 		/**
-		 * Creates a {@code MutableTile} at {@code row, col}.
-		 * @param row the row location of the tile
-		 * @param col the column location of the tile
-		 * @return the created {@code MutableTile}
+		 * Creates a MutableTile.
+		 * @return the created MutableTile
 		 */
-		public abstract MutableTile build(int row, int col);
-	}
-
-	private int row;
-	private int col;
-
-	public MutableTile(int row, int col) {
-		this.row = row;
-		this.col = col;
+		public abstract MutableTile build();
 	}
 
 	/**
@@ -40,10 +30,4 @@ public abstract class MutableTile implements ViewableTile {
 	 * @param amount the increase in power if positive and the decrease in power if negative
 	 */
 	public abstract void changeOccupierPower(double amount);
-
-	@Override
-	public int getRow() { return row; }
-
-	@Override
-	public int getCol() { return col; }
 }

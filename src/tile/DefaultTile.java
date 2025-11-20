@@ -2,7 +2,7 @@ package tile;
 
 import spreader.Spreader;
 
-public class DefaultTile extends MutableTile {
+public class DefaultTile implements MutableTile {
 	public static class Builder extends MutableTile.Builder {
 		private double difficulty, resources;
 		private Spreader occupier;
@@ -42,8 +42,8 @@ public class DefaultTile extends MutableTile {
 		}
 
 		@Override
-		public MutableTile build(int row, int col) {
-			return new DefaultTile(row, col, this.difficulty, this.resources, this.occupier, this.occupierPower);
+		public MutableTile build() {
+			return new DefaultTile(this.difficulty, this.resources, this.occupier, this.occupierPower);
 		}
 	}
 
@@ -52,8 +52,7 @@ public class DefaultTile extends MutableTile {
 	private Spreader occupier;
 	private double occupierPower;
 	
-	protected DefaultTile(int row, int col, double difficulty, double resources, Spreader occupier, double occupierPower) {
-		super(row, col);
+	protected DefaultTile(double difficulty, double resources, Spreader occupier, double occupierPower) {
 		this.difficulty = difficulty;
 		this.resources = Math.max(0, resources);
 		this.occupier = occupier;
