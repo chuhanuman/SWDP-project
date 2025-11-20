@@ -1,5 +1,6 @@
 package tests.tile;
 
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
@@ -91,5 +92,21 @@ public class TileDecoratorTests {
 		assertEquals(spreader, tile.getOccupier());
 		assertEquals(10, tile.getOccupierPower());
 		assertEquals(-110, tile.getDifficulty());
+	}
+
+	@Test
+	public void idTests() {
+		Tile t1 = new DefaultTile(0, 0);
+		Tile t2 = new DefaultTile(0, 0);
+		Tile d1 = new StealthyDecorator(t1);
+		Tile d2 = new EfficientExtractionDecorator(d1);
+		Tile d3 = new EfficientExtractionDecorator(t1);
+		Tile d4 = new ExtraDefensesDecorator(t2);
+
+		assertEquals(t1.getID(), d1.getID());
+		assertEquals(t1.getID(), d2.getID());
+		assertEquals(t1.getID(), d3.getID());
+		assertNotEquals(t1.getID(), t2.getID());
+		assertEquals(t2.getID(), d4.getID());
 	}
 }

@@ -1,5 +1,7 @@
 package tile;
 
+import java.util.UUID;
+
 import spreader.Spreader;
 
 public abstract class TileDecorator implements Tile {
@@ -42,5 +44,10 @@ public abstract class TileDecorator implements Tile {
 	@Override
 	public double getOccupierPower() {
 		return child.getOccupierPower();
+	}
+	
+	@Override
+	public final UUID getID() {
+		return child.getID();
 	}
 }

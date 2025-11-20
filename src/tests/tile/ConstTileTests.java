@@ -26,6 +26,7 @@ public class ConstTileTests {
 		constTile = new ConstTile(tile);
 		assertEquals(0.5, constTile.getDifficulty());
 		assertEquals(0.5, constTile.getResources());
+		assertEquals(tile.getID(), constTile.getID());
 	}
 	
 	@Test

@@ -1,23 +1,25 @@
 package tile;
 
+import java.util.UUID;
+
 import spreader.Spreader;
 
 public class DefaultTile implements Tile {
+	private UUID id;
+
 	private double difficulty;
 	private double resources;
 	private Spreader occupier;
 	private double occupierPower;
 	
 	public DefaultTile(double difficulty, double resources) {
-		this.difficulty = difficulty;
-		this.resources = Math.max(0, resources);
+		this.setRequired(difficulty, resources);
 		this.occupier = null;
 		this.occupierPower = 0;
 	}
 	
 	public DefaultTile(double difficulty, double resources, Spreader occupier, double occupierPower) {
-		this.difficulty = difficulty;
-		this.resources = Math.max(0, resources);
+		this.setRequired(difficulty, resources);
 		this.occupier = occupier;
 		this.occupierPower = occupierPower;
 	}
@@ -73,5 +75,17 @@ public class DefaultTile implements Tile {
 	@Override
 	public double getOccupierPower() {
 		return occupierPower;
+	}
+
+	@Override
+	public UUID getID() {
+		return this.id;
+	}
+	
+	private void setRequired(double difficulty, double resources) {
+		this.id = UUID.randomUUID();
+		
+		this.difficulty = difficulty;
+		this.resources = Math.max(0, resources);
 	}
 }

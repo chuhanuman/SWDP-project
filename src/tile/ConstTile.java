@@ -1,44 +1,38 @@
 package tile;
 
+import java.util.UUID;
+
 import spreader.Spreader;
 
-public class ConstTile {
+public class ConstTile implements ViewableTile {
 	private Tile child;
 	
 	public ConstTile(Tile child) {
 		this.child = child;
 	}
 	
-    /**
-	 * Returns the difficulty of infecting the tile
-	 * @return the difficulty of infecting the tile, in general higher values mean more losses 
-	 * when infecting but this is implementation specific
-	 */
+	@Override
 	public double getDifficulty() {
 		return child.getDifficulty();
 	}
 	
-	/**
-	 * Returns the number of resources in the tile
-	 * @return the number of resources in the tile
-	 */
+	@Override
 	public double getResources() {
 		return child.getResources();
 	}
-	
-	/**
-	 * Returns the occupier of the tile or null if there are no occupiers
-	 * @return the occupier of the tile or null if there are no occupiers
-	 */
+
+	@Override
 	public Spreader getOccupier() {
 		return child.getOccupier();
 	}
-	
-	/**
-	 * Returns the power of the occupiers on the tile
-	 * @return the power of the occupiers on the tile
-	 */
+
+	@Override
 	public double getOccupierPower() {
 		return child.getOccupierPower();
+	}
+
+	@Override
+	public UUID getID() {
+		return child.getID();
 	}
 }
