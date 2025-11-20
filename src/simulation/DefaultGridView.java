@@ -3,31 +3,31 @@ package simulation;
 import java.util.List;
 
 import spreader.Spreader;
-import tile.MutableTile;
-import tile.ViewableTile;
+import tile.Tile;
+import tile.ConstTile;
 
 public class DefaultGridView extends GridView {
 
-    private List<List<MutableTile>> tileGrid;
+    private List<List<Tile>> tileGrid;
 
-    public DefaultGridView(List<List<MutableTile>> tileGrid) {
+    public DefaultGridView(List<List<Tile>> tileGrid) {
         this.tileGrid = tileGrid;
     }
 
     @Override
-    public Iterable<ViewableTile> getOccupiedTiles(Spreader spreader) {
+    public Iterable<ConstTile> getOccupiedTiles(Spreader spreader) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getOccupiedTiles'");
     }
 
     @Override
-    public Iterable<ViewableTile> getUnoccupiedResourceTiles() {
+    public Iterable<ConstTile> getUnoccupiedResourceTiles() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getUnoccupiedResourceTiles'");
     }
 
     @Override
-    public Iterable<ViewableTile> getAllTilesInRange(ViewableTile tile, int range) {
+    public Iterable<ConstTile> getAllTilesInRange(ConstTile tile, int range) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getAllTilesInRange'");
     }

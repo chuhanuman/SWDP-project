@@ -3,12 +3,12 @@ package tile;
 import spreader.Spreader;
 
 public class ExtraDefensesDecorator extends TileDecorator {
-	public ExtraDefensesDecorator(MutableTile child) {
+	public ExtraDefensesDecorator(Tile child) {
 		super(child);
 	}
 	
 	@Override
-	public MutableTile copy() {
+	public Tile copy() {
 		return new ExtraDefensesDecorator(child.copy());
 	}
 	

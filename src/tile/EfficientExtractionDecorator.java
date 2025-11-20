@@ -1,12 +1,12 @@
 package tile;
 
 public class EfficientExtractionDecorator extends TileDecorator {
-	public EfficientExtractionDecorator(MutableTile child) {
+	public EfficientExtractionDecorator(Tile child) {
 		super(child);
 	}
 	
 	@Override
-	public MutableTile copy() {
+	public Tile copy() {
 		return new EfficientExtractionDecorator(child.copy());
 	}
 	

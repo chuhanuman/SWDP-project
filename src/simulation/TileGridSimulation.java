@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tile.DefaultTile;
-import tile.MutableTile;
+import tile.Tile;
 
 public class TileGridSimulation extends Simulation {
     public static class Builder extends Simulation.Builder {
-        private List<List<MutableTile>> tileGrid;
+        private List<List<Tile>> tileGrid;
         private int numRows, numCols;
         private DefaultTile defaultTile;
         boolean firstBuild;
@@ -36,9 +36,9 @@ public class TileGridSimulation extends Simulation {
             this.firstBuild = true;
             this.numRows = numRows;
             this.numCols = numCols;
-            this.tileGrid = new ArrayList<List<MutableTile>>(numRows);
+            this.tileGrid = new ArrayList<List<Tile>>(numRows);
             for (int i = 0; i < numRows; i++) {
-                tileGrid.add(new ArrayList<MutableTile>(numCols));
+                tileGrid.add(new ArrayList<Tile>(numCols));
                 for (int j = 0; j < numCols; j++) {
                     tileGrid.get(i).add(null);
                 }
@@ -51,7 +51,7 @@ public class TileGridSimulation extends Simulation {
          * @throws IllegalArgumentException if the tile's location (row, col) is out of bounds for the {@code tileGrid}
          * @throws IllegalStateException if {@code tileGrid} is uninitialized
          */
-        public void setTile(MutableTile tile) throws IllegalArgumentException, IllegalStateException{
+        public void setTile(Tile tile) throws IllegalArgumentException, IllegalStateException{
         	//TODO: this doesn't actually do anything but throw errors?
             if (this.tileGrid == null) {
                 throw new IllegalStateException("tileGrid is uninitialized");
@@ -69,7 +69,7 @@ public class TileGridSimulation extends Simulation {
         }
 
         /**
-         * provides a default {@code MutableTile.Builder} for filling in uninitialized tiles at build time.
+         * provides a default {@code Tile.Builder} for filling in uninitialized tiles at build time.
          * @param tileBuilder the builder specifying the default tile
          */
         public void setDefaultTile(DefaultTile defaultTile) {
@@ -96,13 +96,13 @@ public class TileGridSimulation extends Simulation {
         }
     }
 
-    private List<List<MutableTile>> tileGrid;
+    private List<List<Tile>> tileGrid;
     private int numRows, numCols;
     
     private GridView gridView;
     private TurnChange turnChange;
 
-    protected TileGridSimulation(long rngSeed, double powerLossRate, List<List<MutableTile>> tileGrid, int numRows, int numCols) {
+    protected TileGridSimulation(long rngSeed, double powerLossRate, List<List<Tile>> tileGrid, int numRows, int numCols) {
         super(rngSeed, powerLossRate);
         this.tileGrid = tileGrid;
         this.numRows = numRows;

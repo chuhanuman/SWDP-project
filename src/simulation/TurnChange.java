@@ -4,15 +4,15 @@ import java.util.List;
 import java.util.Queue;
 
 import spreader.Spreader;
-import tile.MutableTile;
-import tile.ViewableTile;
+import tile.Tile;
+import tile.ConstTile;
 
 public class TurnChange {
 
-    protected record ExtractAction(ViewableTile tile, double resourcesToExtract, double efficiency) {}
+    protected record ExtractAction(ConstTile tile, double resourcesToExtract, double efficiency) {}
     protected Queue<ExtractAction> extractQueue;
 
-    protected record MoveAction(ViewableTile fromTile, ViewableTile toTile, double availablePower) { }
+    protected record MoveAction(ConstTile fromTile, ConstTile toTile, double availablePower) { }
     protected Queue<MoveAction> moveQueue;
 
     /**
@@ -21,7 +21,7 @@ public class TurnChange {
      * @param resourcesToExtract the amount of resources to extract
      * @param efficiency the efficiency at which resources are extracted
      */
-    public void queueExtract(ViewableTile tile, double resourcesToExtract, double efficiency) {
+    public void queueExtract(ConstTile tile, double resourcesToExtract, double efficiency) {
         this.extractQueue.add(new ExtractAction(tile, resourcesToExtract, efficiency));
     }
 
@@ -31,7 +31,7 @@ public class TurnChange {
      * @param toTile the tile to move to
      * @param availablePower the amount of spreader power which will move
      */
-    public void queueMove(ViewableTile fromTile, ViewableTile toTile, double availablePower) {
+    public void queueMove(ConstTile fromTile, ConstTile toTile, double availablePower) {
         this.moveQueue.add(new MoveAction(fromTile, toTile, availablePower));
     }
 
@@ -39,7 +39,7 @@ public class TurnChange {
      * Executes all queued changes upon the provided {@code tileGrid}
      * @param tileGrid the grid to execute all queued changes upon
      */
-    public void executeTurn(List<List<MutableTile>> tileGrid) {
+    public void executeTurn(List<List<Tile>> tileGrid) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'executeTurn'");
     }

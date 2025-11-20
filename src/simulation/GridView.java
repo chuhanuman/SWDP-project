@@ -1,6 +1,6 @@
 package simulation;
 
-import tile.ViewableTile;
+import tile.ConstTile;
 import spreader.Spreader;
 
 public abstract class GridView {
@@ -10,13 +10,13 @@ public abstract class GridView {
      * @param spreader the Spreader object to search for within the grid
      * @return a read-only view of all tiles occupied by spreader
      */
-    public abstract Iterable<ViewableTile> getOccupiedTiles(Spreader spreader);
+    public abstract Iterable<ConstTile> getOccupiedTiles(Spreader spreader);
 
     /**
      * Provides a view of all tiles unnocupied by any spreaders
      * @return a read-only view of all tiles unnocupied by any spreaders
      */
-    public abstract Iterable<ViewableTile> getUnoccupiedResourceTiles();
+    public abstract Iterable<ConstTile> getUnoccupiedResourceTiles();
 
     /**
      * Provides a view of all tiles in a square range of the provided tile in the grid.
@@ -24,5 +24,5 @@ public abstract class GridView {
      * @param range the distance from tile to provide within
      * @return all tiles within {@code range} of {@code tile}
      */
-    public abstract Iterable<ViewableTile> getAllTilesInRange(ViewableTile tile, int range);
+    public abstract Iterable<ConstTile> getAllTilesInRange(ConstTile tile, int range);
 }

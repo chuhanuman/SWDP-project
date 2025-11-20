@@ -2,7 +2,7 @@ package tile;
 
 import spreader.Spreader;
 
-public class DefaultTile implements MutableTile {
+public class DefaultTile implements Tile {
 	private double difficulty;
 	private double resources;
 	private Spreader occupier;
@@ -23,7 +23,7 @@ public class DefaultTile implements MutableTile {
 	}
 	
 	@Override
-	public MutableTile copy() {
+	public Tile copy() {
 		return new DefaultTile(difficulty, resources, occupier, occupierPower);
 	}
 	

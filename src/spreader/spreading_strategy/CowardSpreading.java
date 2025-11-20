@@ -7,26 +7,26 @@ import java.util.PriorityQueue;
 import spreader.Spreader;
 import simulation.GridView;
 import simulation.TurnChange;
-import tile.ViewableTile;
+import tile.ConstTile;
 
 public class CowardSpreading implements SpreadingStrategy {
-	PriorityQueue<ViewableTile> potentialTargets = null;
-	List<ViewableTile> occupiedResourceTiles = null;
+	PriorityQueue<ConstTile> potentialTargets = null;
+	List<ConstTile> occupiedResourceTiles = null;
 	
 	@Override
 	public void getMoveActions(GridView grid, TurnChange simulation, Spreader spreader) {
 		if (potentialTargets == null) {
-			potentialTargets = new PriorityQueue<ViewableTile>(
-				(ViewableTile left, ViewableTile right) -> Double.compare(right.getDifficulty(), left.getDifficulty())
+			potentialTargets = new PriorityQueue<ConstTile>(
+				(ConstTile left, ConstTile right) -> Double.compare(right.getDifficulty(), left.getDifficulty())
 			);
 			// loop because addAll doesn't accept Iterables
-			for (ViewableTile t : grid.getUnoccupiedResourceTiles()) {
+			for (ConstTile t : grid.getUnoccupiedResourceTiles()) {
 				potentialTargets.add(t);
 			}
-			occupiedResourceTiles = new ArrayList<ViewableTile>();
+			occupiedResourceTiles = new ArrayList<ConstTile>();
 		} else {
-			List<ViewableTile> tilesToRemove = new ArrayList<ViewableTile>();
-			for (ViewableTile tile : occupiedResourceTiles) {
+			List<ConstTile> tilesToRemove = new ArrayList<ConstTile>();
+			for (ConstTile tile : occupiedResourceTiles) {
 				if (tile.getResources() == 0) {
 					tilesToRemove.add(tile);
 				} else if (tile.getOccupier() == null) {
@@ -38,7 +38,7 @@ public class CowardSpreading implements SpreadingStrategy {
 			occupiedResourceTiles.removeAll(tilesToRemove);
 		}
 		
-		ViewableTile target = null;
+		ConstTile target = null;
 		while (target == null && !potentialTargets.isEmpty()) {
 			if (potentialTargets.peek().getResources() == 0) {
 				potentialTargets.remove();
@@ -50,7 +50,7 @@ public class CowardSpreading implements SpreadingStrategy {
 		}
 		
 		if (target != null) {
-			for (ViewableTile tile : grid.getOccupiedTiles(spreader)) {
+			for (ConstTile tile : grid.getOccupiedTiles(spreader)) {
 				double availablePower = tile.getOccupierPower();
 				if (tile.getResources() > 0) {
 					if (availablePower <= 1) {

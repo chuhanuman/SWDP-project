@@ -1,12 +1,12 @@
 package tile;
 
 public class StealthyDecorator extends TileDecorator {
-	public StealthyDecorator(MutableTile child) {
+	public StealthyDecorator(Tile child) {
 		super(child);
 	}
 	
 	@Override
-	public MutableTile copy() {
+	public Tile copy() {
 		return new StealthyDecorator(child.copy());
 	}
 	

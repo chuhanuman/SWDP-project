@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import spreader.DefaultSpreader;
 import spreader.Spreader;
-import tile.MutableTile;
+import tile.Tile;
 import tile.DefaultTile;
 import tile.ExtraDefensesDecorator;
 import tile.EfficientExtractionDecorator;
@@ -14,7 +14,7 @@ import tile.StealthyDecorator;
 public class TileDecoratorTests {
 	@Test
 	public void extraDefensesDecoratorTests() {
-		MutableTile tile = new ExtraDefensesDecorator(new DefaultTile(100, 100));
+		Tile tile = new ExtraDefensesDecorator(new DefaultTile(100, 100));
 		Spreader spreader = new DefaultSpreader(null, null);
 		tile.infect(5, spreader);
 		assertEquals(null, tile.getOccupier());
@@ -35,7 +35,7 @@ public class TileDecoratorTests {
 	
 	@Test
 	public void efficientExtractionDecoratorTests() {
-		MutableTile tile = new EfficientExtractionDecorator(new DefaultTile(100, 100));
+		Tile tile = new EfficientExtractionDecorator(new DefaultTile(100, 100));
 		double result = tile.extract(10);
 		assertEquals(15, result);
 		assertEquals(90, tile.getResources());
@@ -56,7 +56,7 @@ public class TileDecoratorTests {
 	
 	@Test
 	public void stealthyDecoratorTests() {
-		MutableTile tile = new StealthyDecorator(new DefaultTile(100, 100));
+		Tile tile = new StealthyDecorator(new DefaultTile(100, 100));
 		assertEquals(0, tile.getDifficulty());
 		
 		tile = new StealthyDecorator(tile);
@@ -71,7 +71,7 @@ public class TileDecoratorTests {
 	
 	@Test
 	public void multiDecoratorTests() {
-		MutableTile tile = new DefaultTile(100, 100);
+		Tile tile = new DefaultTile(100, 100);
 		tile = new StealthyDecorator(tile);
 		tile = new EfficientExtractionDecorator(tile);
 		tile = new ExtraDefensesDecorator(tile);

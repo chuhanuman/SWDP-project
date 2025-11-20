@@ -7,17 +7,17 @@ import prng.PRNG;
 import spreader.Spreader;
 import simulation.GridView;
 import simulation.TurnChange;
-import tile.ViewableTile;
+import tile.ConstTile;
 
 public class RandomSpreading implements SpreadingStrategy {
 	@Override
 	public void getMoveActions(GridView grid, TurnChange simulation, Spreader spreader) {
-		for (ViewableTile tile : grid.getOccupiedTiles(spreader)) {
+		for (ConstTile tile : grid.getOccupiedTiles(spreader)) {
 			double availablePower = tile.getOccupierPower() / 2;
 			
-			List<ViewableTile> targetTiles = new ArrayList<ViewableTile>();
-			for (ViewableTile potentialTarget : grid.getAllTilesInRange(tile, 1)) {
-				if (potentialTarget.getOccupier() == null && potentialTarget != tile) {
+			List<ConstTile> targetTiles = new ArrayList<ConstTile>();
+			for (ConstTile potentialTarget : grid.getAllTilesInRange(tile, 1)) {
+				if (potentialTarget.getOccupier() == null || potentialTarget.getOccupier() == spreader) {
 					targetTiles.add(potentialTarget);
 				}
 			}
