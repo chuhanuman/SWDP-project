@@ -17,7 +17,7 @@ public class SlowExtraction implements ExtractionStrategy {
 	@Override
 	public void getExtractActions(GridView grid, TurnChange simulation, Spreader spreader) {
 		for (ViewableTile tile : grid.getOccupiedTiles(spreader)) {
-			simulation.queueExtract(spreader, maxConsumption, efficiency);
+			simulation.queueExtract(tile, maxConsumption, efficiency);
 		}
 	}
 }

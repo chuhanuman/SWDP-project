@@ -15,7 +15,7 @@ public class InstantExtraction implements ExtractionStrategy {
 	@Override
 	public void getExtractActions(GridView grid, TurnChange simulation, Spreader spreader) {
 		for (ViewableTile tile : grid.getOccupiedTiles(spreader)) {
-			simulation.queueExtract(spreader, tile.getResources(), efficiency);
+			simulation.queueExtract(tile, tile.getResources(), efficiency);
 		}
 	}
 }

@@ -18,7 +18,7 @@ public class LearningExtraction implements ExtractionStrategy {
 	public void getExtractActions(GridView grid, TurnChange simulation, Spreader spreader) {
 		double tilesLearned = 0;
 		for (ViewableTile tile : grid.getOccupiedTiles(spreader)) {
-			simulation.queueExtract(spreader, tile.getResources(), efficiency);
+			simulation.queueExtract(tile, tile.getResources(), efficiency);
 			
 			if (tile.getResources() > 0) {
 				tilesLearned++;

@@ -9,7 +9,7 @@ import tile.ViewableTile;
 
 public class TurnChange {
 
-    protected record ExtractAction(Spreader spreader, double resourcesToExtract, double efficiency) {}
+    protected record ExtractAction(ViewableTile tile, double resourcesToExtract, double efficiency) {}
     protected Queue<ExtractAction> extractQueue;
 
     protected record MoveAction(ViewableTile fromTile, ViewableTile toTile, double availablePower) { }
@@ -17,12 +17,12 @@ public class TurnChange {
 
     /**
      * Queue a resource extraction action for the turn.
-     * @param spreader the spreader which will perform the action
+     * @param tile the tile to perform the action on
      * @param resourcesToExtract the amount of resources to extract
      * @param efficiency the efficiency at which resources are extracted
      */
-    public void queueExtract(Spreader spreader, double resourcesToExtract, double efficiency) {
-        this.extractQueue.add(new ExtractAction(spreader, resourcesToExtract, efficiency));
+    public void queueExtract(ViewableTile tile, double resourcesToExtract, double efficiency) {
+        this.extractQueue.add(new ExtractAction(tile, resourcesToExtract, efficiency));
     }
 
     /**

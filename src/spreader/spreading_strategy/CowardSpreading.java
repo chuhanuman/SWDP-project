@@ -44,6 +44,8 @@ public class CowardSpreading implements SpreadingStrategy {
 				potentialTargets.remove();
 			} else if (potentialTargets.peek().getOccupier() != null) {
 				occupiedResourceTiles.add(potentialTargets.poll());
+			} else {
+				target = potentialTargets.peek();
 			}
 		}
 		
