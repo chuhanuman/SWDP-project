@@ -5,6 +5,13 @@ import java.util.UUID;
 import spreader.Spreader;
 
 public abstract class TileDecorator implements Tile {
+	/**
+	 * Functional interface for applying a decorator to an inner tile
+	 */
+	public static interface Applier {
+		TileDecorator apply(Tile inner);
+	}
+
 	protected Tile child;
 	
 	public TileDecorator(Tile child) {

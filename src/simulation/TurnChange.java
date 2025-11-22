@@ -3,6 +3,7 @@ package simulation;
 import java.util.List;
 import java.util.Queue;
 
+import grid.TileGrid;
 import spreader.Spreader;
 import tile.Tile;
 import tile.ConstTile;
@@ -39,7 +40,7 @@ public class TurnChange {
      * Executes all queued changes upon the provided {@code tileGrid}
      * @param tileGrid the grid to execute all queued changes upon
      */
-    public void executeTurn(List<List<Tile>> tileGrid) {
+    public void executeTurn(TileGrid tileGrid) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'executeTurn'");
     }

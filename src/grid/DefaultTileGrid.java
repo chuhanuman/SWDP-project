@@ -5,10 +5,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 import tile.DefaultTile;
 import tile.Tile;
+import tile.TileDecorator;
 import tile.ViewableTile;
 
 public class DefaultTileGrid extends TileGrid {
@@ -24,50 +26,13 @@ public class DefaultTileGrid extends TileGrid {
         public Builder(int numRows, int numCols) throws IllegalArgumentException {
             super();
 
-            setDimensions(numRows, numCols);
+            this.setDimensions(numRows, numCols);
 
             this.defaultTile = null;
-            this.firstBuild = true;
         }
 
         /**
-         * Sets the provided tile within the grid at the tile's location.
-         * @param tile the tile to put within the grid
-         * @throws IllegalArgumentException if the tile's location (row, col) is out of bounds for the {@code tileGrid}
-         * @throws IllegalStateException if {@code tileGrid} is uninitialized
-         */
-        public void setTile(Tile tile, GridPos pos) throws IllegalArgumentException, IllegalStateException{
-            if (this.tileGrid == null) {
-                throw new IllegalStateException("tileGrid is uninitialized");
-            }
-
-            if (!pos.inBounds(0, 0, numRows, numCols)) {
-                throw new IllegalArgumentException("tile location out of bounds: (" + pos.row() + ", " + pos.col() + ") not in [(0, 0), (" 
-                                                    + numRows + ", " + numCols + "))");
-            }
-
-            this.validSetTile(tile, pos);
-        }
-
-        /**
-         * provides a default {@code Tile.Builder} for filling in uninitialized tiles at build time.
-         * @param tileBuilder the builder specifying the default tile
-         */
-        public void setDefaultTile(DefaultTile defaultTile) {
-            this.defaultTile = defaultTile;
-        }
-
-        @Override
-        public TileGrid build() {
-            if (firstBuild) {
-                this.setDefaultTiles();
-            }
-
-            return new DefaultTileGrid(tileGrid, numRows, numCols, tilePosMap);
-        }
-
-        /**
-         * Sets the grid size for the builder and initializes the grid to null values.
+         * Sets/resets the grid size for the builder and initializes the grid to null values.
          * @param numRows the number of rows (vertical size) in grid
          * @param numCols the number of columns (horizontal size) in grid
          * @throws IllegalArgumentException if {@code numRows} or {@code numCols} negative or zero
@@ -89,6 +54,44 @@ public class DefaultTileGrid extends TileGrid {
             }
 
             this.tilePosMap = new HashMap<>(numRows * numCols);
+        }
+
+        /**
+         * Sets the provided tile within the grid at the tile's location.
+         * @param tile the tile to put within the grid
+         * @throws IllegalArgumentException if the tile's location (row, col) is out of bounds for the {@code tileGrid}
+         * @throws IllegalStateException if {@code tileGrid} is uninitialized
+         */
+        public Builder setTile(Tile tile, GridPos pos) throws IllegalArgumentException, IllegalStateException{
+            if (this.tileGrid == null) {
+                throw new IllegalStateException("tileGrid is uninitialized");
+            }
+
+            if (!pos.inBounds(0, 0, numRows, numCols)) {
+                throw new IllegalArgumentException("tile location out of bounds: (" + pos.row() + ", " + pos.col() + ") not in [(0, 0), (" 
+                                                    + numRows + ", " + numCols + "))");
+            }
+            this.validSetTile(tile, pos);
+
+            return this;
+        }
+
+        /**
+         * provides a default {@code Tile.Builder} for filling in uninitialized tiles at build time.
+         * @param tileBuilder the builder specifying the default tile
+         */
+        public Builder setDefaultTile(DefaultTile defaultTile) {
+            this.defaultTile = defaultTile;
+            return this;
+        }
+
+        @Override
+        public TileGrid build() {
+            if (firstBuild) {
+                this.setDefaultTiles();
+            }
+
+            return new DefaultTileGrid(tileGrid, numRows, numCols, tilePosMap);
         }
 
         private void setDefaultTiles() {
@@ -123,19 +126,47 @@ public class DefaultTileGrid extends TileGrid {
 
     @Override
     public Iterator<Tile> iterator() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'iterator'");
+        return new Iterator<Tile>() {
+            private int r = 0;
+            private int c = 0;
+
+            @Override
+            public boolean hasNext() {
+                if (c >= numCols) {
+                    r++;
+                    c = 0;
+                }
+                return r < numRows;
+            }
+
+            @Override
+            public Tile next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
+
+                return tileGrid.get(r).get(c++);
+            }
+        };
     }
 
     @Override
     public GridPos getPos(ViewableTile tile) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPos'");
+        return tilePosMap.get(tile.getID());
     }
 
     @Override
-    public Tile get(GridPos pos) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'get'");
+    public Tile get(GridPos pos) throws IllegalArgumentException {
+        if (!pos.inBounds(0, 0, numRows, numCols)) {
+            throw new IllegalArgumentException("tile location out of bounds: (" + pos.row() + ", " + pos.col() + ") not in [(0, 0), (" 
+                                                    + numRows + ", " + numCols + "))");
+        }
+        
+        return tileGrid.get(pos.row()).get(pos.col());
     } 
+
+    @Override
+    public void decorateTile(GridPos pos, TileDecorator.Applier decoratorFunc) {
+        tileGrid.get(pos.row()).set(pos.col(), decoratorFunc.apply(this.get(pos)));
+    }
 }

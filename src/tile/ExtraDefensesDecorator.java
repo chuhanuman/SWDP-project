@@ -3,6 +3,8 @@ package tile;
 import spreader.Spreader;
 
 public class ExtraDefensesDecorator extends TileDecorator {
+	public static final TileDecorator.Applier APPLIER = ExtraDefensesDecorator::new;
+
 	public ExtraDefensesDecorator(Tile child) {
 		super(child);
 	}

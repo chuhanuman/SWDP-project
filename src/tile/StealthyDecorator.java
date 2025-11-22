@@ -1,6 +1,8 @@
 package tile;
 
 public class StealthyDecorator extends TileDecorator {
+	public static final TileDecorator.Applier APPLIER = StealthyDecorator::new;
+
 	public StealthyDecorator(Tile child) {
 		super(child);
 	}

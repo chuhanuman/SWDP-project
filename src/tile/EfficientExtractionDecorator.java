@@ -1,6 +1,8 @@
 package tile;
 
 public class EfficientExtractionDecorator extends TileDecorator {
+	public static final TileDecorator.Applier APPLIER = EfficientExtractionDecorator::new;
+
 	public EfficientExtractionDecorator(Tile child) {
 		super(child);
 	}
