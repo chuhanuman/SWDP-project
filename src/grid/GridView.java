@@ -1,6 +1,7 @@
 package grid;
 
 import tile.ConstTile;
+import tile.ViewableTile;
 import spreader.Spreader;
 
 public abstract class GridView {
@@ -24,5 +25,7 @@ public abstract class GridView {
      * @param range the distance from tile to provide within
      * @return all tiles within {@code range} of {@code tile}
      */
-    public abstract Iterable<ConstTile> getAllTilesInRange(ConstTile tile, int range);
+    public abstract Iterable<ConstTile> getAllTilesInRange(ViewableTile tile, int range);
+
+    public abstract ConstTile get(GridPos pos);
 }

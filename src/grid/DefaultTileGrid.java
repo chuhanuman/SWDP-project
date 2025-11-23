@@ -67,7 +67,7 @@ public class DefaultTileGrid extends TileGrid {
                 throw new IllegalStateException("tileGrid is uninitialized");
             }
 
-            if (!pos.inBounds(0, 0, numRows, numCols)) {
+            if (!pos.inBounds(0, 0, numRows-1, numCols-1)) {
                 throw new IllegalArgumentException("tile location out of bounds: (" + pos.row() + ", " + pos.col() + ") not in [(0, 0), (" 
                                                     + numRows + ", " + numCols + "))");
             }
@@ -157,7 +157,7 @@ public class DefaultTileGrid extends TileGrid {
 
     @Override
     public Tile get(GridPos pos) throws IllegalArgumentException {
-        if (!pos.inBounds(0, 0, numRows, numCols)) {
+        if (!pos.inBounds(0, 0, numRows-1, numCols-1)) {
             throw new IllegalArgumentException("tile location out of bounds: (" + pos.row() + ", " + pos.col() + ") not in [(0, 0), (" 
                                                     + numRows + ", " + numCols + "))");
         }
@@ -168,5 +168,15 @@ public class DefaultTileGrid extends TileGrid {
     @Override
     public void decorateTile(GridPos pos, TileDecorator.Applier decoratorFunc) {
         tileGrid.get(pos.row()).set(pos.col(), decoratorFunc.apply(this.get(pos)));
+    }
+
+    @Override
+    public int getNumRows() {
+        return this.numRows;
+    }
+
+    @Override
+    public int getNumCols() {
+        return this.numCols;
     }
 }

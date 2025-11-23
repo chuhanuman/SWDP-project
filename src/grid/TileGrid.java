@@ -29,4 +29,7 @@ public abstract class TileGrid implements Iterable<Tile> {
      * @param decoratorFunc the function which applies the decorator to the tile
      */
     public abstract void decorateTile(GridPos pos, TileDecorator.Applier decoratorFunc);
+
+    public abstract int getNumRows();
+    public abstract int getNumCols();
 }
