@@ -1,5 +1,8 @@
 package grid;
 
+import java.util.UUID;
+
+import tile.ConstTile;
 import tile.Tile;
 import tile.TileDecorator;
 import tile.ViewableTile;
@@ -22,6 +25,22 @@ public abstract class TileGrid implements Iterable<Tile> {
      * @return the tile or null
      */
     public abstract Tile get(GridPos pos);
+    
+    /**
+     * Get the tile with the provided ID in the grid
+     * @param id the id of the tile to find
+     * @return the tile or null
+     */
+    public abstract Tile get(UUID id);
+
+    /**
+     * Get the corresponding tile from the const tile instance
+     * @param tile the const tile instance
+     * @return the tile or null
+     */
+    public Tile get(ConstTile tile) {
+        return this.get(tile.getID());
+    }
 
     /**
      * Decorate the tile at (row, col) with the provided decorator applier

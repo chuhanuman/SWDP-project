@@ -2,7 +2,7 @@ package spreader.extraction_strategy;
 
 import spreader.Spreader;
 import grid.GridView;
-import simulation.TurnChange;
+import turn.extract.ExtractScheduler;
 import tile.ConstTile;
 
 public class InstantExtraction implements ExtractionStrategy {
@@ -13,9 +13,9 @@ public class InstantExtraction implements ExtractionStrategy {
 	}
 	
 	@Override
-	public void getExtractActions(GridView grid, TurnChange simulation, Spreader spreader) {
+	public void getExtractActions(GridView grid, ExtractScheduler scheduler, Spreader spreader) {
 		for (ConstTile tile : grid.getOccupiedTiles(spreader)) {
-			simulation.queueExtract(tile, tile.getResources(), efficiency);
+			scheduler.queueExtract(tile, tile.getResources(), efficiency);
 		}
 	}
 }

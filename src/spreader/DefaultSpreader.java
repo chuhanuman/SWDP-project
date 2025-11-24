@@ -3,7 +3,8 @@ package spreader;
 import spreader.extraction_strategy.ExtractionStrategy;
 import spreader.spreading_strategy.SpreadingStrategy;
 import grid.GridView;
-import simulation.TurnChange;
+import turn.move.MoveScheduler;
+import turn.extract.ExtractScheduler;
 
 public class DefaultSpreader implements Spreader {
 	private SpreadingStrategy spreadingStrategy;
@@ -15,12 +16,12 @@ public class DefaultSpreader implements Spreader {
 	}
 	
 	@Override
-	public void getMoveActions(GridView grid, TurnChange simulation) {
-		spreadingStrategy.getMoveActions(grid, simulation, this);
+	public void getMoveActions(GridView grid, MoveScheduler scheduler) {
+		spreadingStrategy.getMoveActions(grid, scheduler, this);
 	}
 	
 	@Override
-	public void getExtractActions(GridView grid, TurnChange simulation) {
-		extractionStrategy.getExtractActions(grid, simulation, this);
+	public void getExtractActions(GridView grid, ExtractScheduler scheduler) {
+		extractionStrategy.getExtractActions(grid, scheduler, this);
 	}
 }

@@ -166,6 +166,11 @@ public class DefaultTileGrid extends TileGrid {
     } 
 
     @Override
+    public Tile get(UUID id) {
+        return this.get(tilePosMap.get(id));
+    }
+
+    @Override
     public void decorateTile(GridPos pos, TileDecorator.Applier decoratorFunc) {
         tileGrid.get(pos.row()).set(pos.col(), decoratorFunc.apply(this.get(pos)));
     }

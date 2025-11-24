@@ -1,20 +1,21 @@
 package spreader;
 
 import grid.GridView;
-import simulation.TurnChange;
+import turn.move.MoveScheduler;
+import turn.extract.ExtractScheduler;
 
 public interface Spreader {
 	/**
 	 * Tells the spreader to queue up any movements it wants its infections to make
 	 * @param grid simulation grid to view
-	 * @param simulation simulation object to queue actions to
+	 * @param scheduler simulation object to queue actions to
 	 */
-	public abstract void getMoveActions(GridView grid, TurnChange simulation);
+	public abstract void getMoveActions(GridView grid, MoveScheduler scheduler);
 	
 	/**
 	 * Tells the spreader to queue up any resource extractions it wants to do
 	 * @param grid simulation grid to view
-	 * @param simulation simulation object to queue actions to
+	 * @param scheduler simulation object to queue actions to
 	 */
-	public abstract void getExtractActions(GridView grid, TurnChange simulation);
+	public abstract void getExtractActions(GridView grid, ExtractScheduler scheduler);
 }

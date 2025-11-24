@@ -6,7 +6,7 @@ import java.util.PriorityQueue;
 
 import grid.GridView;
 import spreader.Spreader;
-import simulation.TurnChange;
+import turn.move.MoveScheduler;
 import tile.ConstTile;
 
 public class CowardSpreading implements SpreadingStrategy {
@@ -14,7 +14,7 @@ public class CowardSpreading implements SpreadingStrategy {
 	List<ConstTile> occupiedResourceTiles = null;
 	
 	@Override
-	public void getMoveActions(GridView grid, TurnChange simulation, Spreader spreader) {
+	public void getMoveActions(GridView grid, MoveScheduler scheduler, Spreader spreader) {
 		if (potentialTargets == null) {
 			potentialTargets = new PriorityQueue<ConstTile>(
 				(ConstTile left, ConstTile right) -> Double.compare(right.getDifficulty(), left.getDifficulty())
@@ -60,7 +60,7 @@ public class CowardSpreading implements SpreadingStrategy {
 					availablePower -= 1;
 				}
 				
-				simulation.queueMove(tile, target, availablePower);
+				scheduler.queueMove(tile, target, availablePower);
 			}
 		}
 	}
