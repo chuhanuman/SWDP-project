@@ -1,7 +1,7 @@
 package tile;
 
 public class StealthyDecorator extends TileDecorator {
-	public static final TileDecorator.Applier APPLIER = StealthyDecorator::new;
+	private static final TileDecorator.Applier APPLIER = StealthyDecorator::new;
 
 	public StealthyDecorator(Tile child) {
 		super(child);
@@ -15,5 +15,8 @@ public class StealthyDecorator extends TileDecorator {
 	@Override
 	public double getDifficulty() {
 		return child.getDifficulty() - 100;
+	}
+	public static Applier getApplier() {
+		return APPLIER;
 	}
 }

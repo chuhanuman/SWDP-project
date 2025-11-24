@@ -57,7 +57,7 @@ public class DefaultTileGridTests {
 
     @Test
     public void decorateTileTests() {
-        tg.decorateTile(new GridPos(0, 0), StealthyDecorator.APPLIER);
+        tg.decorateTile(new GridPos(0, 0), StealthyDecorator.getApplier());
         Tile dTile = tg.get(new GridPos(0, 0));
         assertEquals(t1.getID(), dTile.getID());
         assert(dTile instanceof StealthyDecorator);
