@@ -14,8 +14,8 @@ public abstract class GridView {
     public abstract Iterable<ConstTile> getOccupiedTiles(Spreader spreader);
 
     /**
-     * Provides a view of all tiles unnocupied by any spreaders
-     * @return a read-only view of all tiles unnocupied by any spreaders
+     * Provides a view of all tiles unoccupied by any spreaders
+     * @return a read-only view of all tiles unoccupied by any spreaders
      */
     public abstract Iterable<ConstTile> getUnoccupiedResourceTiles();
 
