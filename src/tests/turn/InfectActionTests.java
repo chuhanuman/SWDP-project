@@ -16,7 +16,6 @@ import spreader.spreading_strategy.CowardSpreading;
 import tile.ConstTile;
 import tile.DefaultTile;
 import tile.Tile;
-import turn.extract.DefaultExtractStage;
 import turn.move.InfectAction;
 
 public class InfectActionTests {

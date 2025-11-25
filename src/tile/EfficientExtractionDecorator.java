@@ -1,7 +1,7 @@
 package tile;
 
 public class EfficientExtractionDecorator extends TileDecorator {
-	public static final TileDecorator.Applier APPLIER = EfficientExtractionDecorator::new;
+	private static final TileDecorator.Applier APPLIER = EfficientExtractionDecorator::new;
 
 	public EfficientExtractionDecorator(Tile child) {
 		super(child);
@@ -15,5 +15,8 @@ public class EfficientExtractionDecorator extends TileDecorator {
 	@Override
 	public double extract(double amountToExtract) {
 		return child.extract(amountToExtract) * 1.5;
+	}
+	public static Applier getApplier() {
+		return APPLIER;
 	}
 }
