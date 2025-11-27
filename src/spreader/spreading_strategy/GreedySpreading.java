@@ -11,7 +11,7 @@ import tile.ConstTile;
 public class GreedySpreading implements SpreadingStrategy {
 	int range;
 	
-	GreedySpreading(int range) {
+	public GreedySpreading(int range) {
 		this.range = range;
 	}
 	
