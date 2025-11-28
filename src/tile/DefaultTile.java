@@ -13,15 +13,13 @@ public class DefaultTile implements Tile {
 	private double occupierPower;
 	
 	public DefaultTile(double difficulty, double resources) {
-		this.setRequired(difficulty, resources);
+		this.setRequired(difficulty, resources, null, 0);
 		this.occupier = null;
 		this.occupierPower = 0;
 	}
 	
 	public DefaultTile(double difficulty, double resources, Spreader occupier, double occupierPower) {
-		this.setRequired(difficulty, resources);
-		this.occupier = occupier;
-		this.occupierPower = occupierPower;
+		this.setRequired(difficulty, resources, occupier, occupierPower);
 	}
 	
 	@Override
@@ -82,10 +80,12 @@ public class DefaultTile implements Tile {
 		return this.id;
 	}
 	
-	private void setRequired(double difficulty, double resources) {
+	private void setRequired(double difficulty, double resources, Spreader occupier, double occupierPower) {
 		this.id = UUID.randomUUID();
 		
 		this.difficulty = difficulty;
 		this.resources = Math.max(0, resources);
+		this.occupier = occupier;
+		this.occupierPower = (this.occupier != null) ? Math.max(0, occupierPower) : 0;
 	}
 }

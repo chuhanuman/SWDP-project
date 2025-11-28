@@ -27,7 +27,7 @@ public class FakeExtractScheduler implements ExtractScheduler {
 		for (ExtractAction extractAction : extractActions) {
 			if (extractAction.tile == tile && 
 				Math.abs(extractAction.resourcesToExtract() - resourcesToExtract) < 1e-7 &&
-				Math.abs(extractAction.efficiency() - efficiency) < 1e-7) {
+				Math.abs(extractAction.efficiency - efficiency) < 1e-7) {
 				return true;
 			}
 		}

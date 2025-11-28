@@ -17,9 +17,9 @@ public class CowardSpreading implements SpreadingStrategy {
 	public void getMoveActions(GridView grid, MoveScheduler scheduler, Spreader spreader) {
 		if (potentialTargets == null) {
 			potentialTargets = new PriorityQueue<ConstTile>(
-				(ConstTile left, ConstTile right) -> Double.compare(right.getDifficulty(), left.getDifficulty())
+				(ConstTile left, ConstTile right) -> Double.compare(left.getDifficulty(), right.getDifficulty())
 			);
-			// loop because addAll doesn't accept Iterables
+			
 			for (ConstTile t : grid.getUnoccupiedResourceTiles()) {
 				potentialTargets.add(t);
 			}

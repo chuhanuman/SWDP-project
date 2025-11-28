@@ -16,7 +16,6 @@ import tests.grid.FakeGridView;
 import tests.turn.FakeExtractScheduler;
 import tile.ConstTile;
 import tile.DefaultTile;
-import tile.Tile;
 
 
 public class ExtractionStrategyTests {
@@ -36,14 +35,14 @@ public class ExtractionStrategyTests {
 		gridView.setOccupiedTiles(List.of(tiles.get(0), tiles.get(1)));
 		extractScheduler.reset();
 		spreader.getExtractActions(gridView, extractScheduler);
-		assertEquals(extractScheduler.getNumExtractActions(), 2);
+		assertEquals(2, extractScheduler.getNumExtractActions());
 		assertTrue(extractScheduler.checkExtractAction(tiles.get(0), 10, 4.5));
 		assertTrue(extractScheduler.checkExtractAction(tiles.get(1), 0, 4.5));
 		
 		gridView.setOccupiedTiles(List.of(tiles.get(0), tiles.get(2), tiles.get(3)));
 		extractScheduler.reset();
 		spreader.getExtractActions(gridView, extractScheduler);
-		assertEquals(extractScheduler.getNumExtractActions(), 3);
+		assertEquals(3, extractScheduler.getNumExtractActions());
 		assertTrue(extractScheduler.checkExtractAction(tiles.get(0), 10, 4.5));
 		assertTrue(extractScheduler.checkExtractAction(tiles.get(2), 30, 4.5));
 		assertTrue(extractScheduler.checkExtractAction(tiles.get(3), 50, 4.5));
@@ -62,14 +61,14 @@ public class ExtractionStrategyTests {
 		gridView.setOccupiedTiles(List.of(tiles.get(0), tiles.get(1)));
 		extractScheduler.reset();
 		spreader.getExtractActions(gridView, extractScheduler);
-		assertEquals(extractScheduler.getNumExtractActions(), 2);
+		assertEquals(2, extractScheduler.getNumExtractActions());
 		assertTrue(extractScheduler.checkExtractAction(tiles.get(0), 10, 1));
 		assertTrue(extractScheduler.checkExtractAction(tiles.get(1), 0, 1));
 		
 		gridView.setOccupiedTiles(List.of(tiles.get(0), tiles.get(2), tiles.get(3)));
 		extractScheduler.reset();
 		spreader.getExtractActions(gridView, extractScheduler);
-		assertEquals(extractScheduler.getNumExtractActions(), 3);
+		assertEquals(3, extractScheduler.getNumExtractActions());
 		assertTrue(extractScheduler.checkExtractAction(tiles.get(0), 10, 1.1));
 		assertTrue(extractScheduler.checkExtractAction(tiles.get(2), 30, 1.1));
 		assertTrue(extractScheduler.checkExtractAction(tiles.get(3), 0, 1.1));
@@ -77,7 +76,7 @@ public class ExtractionStrategyTests {
 		gridView.setOccupiedTiles(List.of(tiles.get(1), tiles.get(3)));
 		extractScheduler.reset();
 		spreader.getExtractActions(gridView, extractScheduler);
-		assertEquals(extractScheduler.getNumExtractActions(), 2);
+		assertEquals(2, extractScheduler.getNumExtractActions());
 		assertTrue(extractScheduler.checkExtractAction(tiles.get(1), 0, 1.331));
 		assertTrue(extractScheduler.checkExtractAction(tiles.get(3), 0, 1.331));
 	}
@@ -95,14 +94,14 @@ public class ExtractionStrategyTests {
 		gridView.setOccupiedTiles(List.of(tiles.get(0), tiles.get(1)));
 		extractScheduler.reset();
 		spreader.getExtractActions(gridView, extractScheduler);
-		assertEquals(extractScheduler.getNumExtractActions(), 2);
+		assertEquals(2, extractScheduler.getNumExtractActions());
 		assertTrue(extractScheduler.checkExtractAction(tiles.get(0), 4, 2));
 		assertTrue(extractScheduler.checkExtractAction(tiles.get(1), 4, 2));
 		
 		gridView.setOccupiedTiles(List.of(tiles.get(0), tiles.get(2), tiles.get(3)));
 		extractScheduler.reset();
 		spreader.getExtractActions(gridView, extractScheduler);
-		assertEquals(extractScheduler.getNumExtractActions(), 3);
+		assertEquals(3, extractScheduler.getNumExtractActions());
 		assertTrue(extractScheduler.checkExtractAction(tiles.get(0), 4, 2));
 		assertTrue(extractScheduler.checkExtractAction(tiles.get(2), 4, 2));
 		assertTrue(extractScheduler.checkExtractAction(tiles.get(3), 4, 2));

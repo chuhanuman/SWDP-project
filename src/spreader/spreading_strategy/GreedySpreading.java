@@ -11,7 +11,7 @@ import tile.ConstTile;
 public class GreedySpreading implements SpreadingStrategy {
 	int range;
 	
-	GreedySpreading(int range) {
+	public GreedySpreading(int range) {
 		this.range = range;
 	}
 	
@@ -23,7 +23,7 @@ public class GreedySpreading implements SpreadingStrategy {
 			double totalDifficulty = 0;
 			List<ConstTile> targetTiles = new ArrayList<ConstTile>();
 			for (ConstTile potentialTarget : grid.getAllTilesInRange(tile, range)) {
-				if (potentialTarget.getOccupier() == null && potentialTarget.getResources() > 0) {
+				if ((potentialTarget.getOccupier() == null || potentialTarget.getOccupier() == spreader) && potentialTarget.getResources() > 0) {
 					targetTiles.add(potentialTarget);
 					totalDifficulty += Math.max(1, potentialTarget.getDifficulty());
 				}
