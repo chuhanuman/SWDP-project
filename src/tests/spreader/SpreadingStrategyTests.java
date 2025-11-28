@@ -51,7 +51,7 @@ public class SpreadingStrategyTests {
 		
 		gridView.setOccupiedTiles(List.of(tiles.get(1), tiles.get(2), tiles.get(3)));
 		gridView.setUnoccupiedResourceTiles(null);
-		changeableTile.changeOccupierPower(-1);
+		changeableTile.addFlatOccupierPower(-1);
 		moveScheduler.reset();
 		spreader.getMoveActions(gridView, moveScheduler);
 		assertEquals(3, moveScheduler.getNumMoveActions());

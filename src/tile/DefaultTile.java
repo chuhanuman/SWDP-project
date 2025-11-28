@@ -48,10 +48,21 @@ public class DefaultTile implements Tile {
 	}
 	
 	@Override
-	public void changeOccupierPower(double amount) {
+	public void addFlatOccupierPower(double amount) {
+		if (occupier == null) {
+			return;
+		}
+		
 		occupierPower = Math.max(0, occupierPower + amount);
 		if (occupierPower == 0) {
 			occupier = null;
+		}
+	}
+	
+	@Override
+	public void multiplyOccupierPower(double amount) {
+		if (amount >= 0) {
+			occupierPower *= amount;
 		}
 	}
 

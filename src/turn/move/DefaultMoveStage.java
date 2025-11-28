@@ -38,7 +38,7 @@ public class DefaultMoveStage implements TurnStage, MoveScheduler {
         while (it.hasNext()) {
             Entry<UUID, Double> e = it.next();
             Tile tile = tileGrid.get(e.getKey());
-            tile.changeOccupierPower(-e.getValue());
+            tile.addFlatOccupierPower(-e.getValue());
             it.remove();
         }
 

@@ -24,8 +24,14 @@ public interface Tile extends ViewableTile{
 	public abstract double extract(double amountToExtract);
 	
 	/**
-	 * Changes occupier power on the tile
+	 * Changes occupier power on the tile by a flat amount
 	 * @param amount the increase in power if positive and the decrease in power if negative
 	 */
-	public abstract void changeOccupierPower(double amount);
+	public abstract void addFlatOccupierPower(double amount);
+	
+	/**
+	 * Changes occupier power by a multiplier
+	 * @param amount the number to multiply power by, only non negative amounts are accepted
+	 */
+	public abstract void multiplyOccupierPower(double amount);
 }

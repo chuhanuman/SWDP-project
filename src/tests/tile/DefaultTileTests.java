@@ -20,10 +20,21 @@ public class DefaultTileTests {
 		tile = new DefaultTile(0.5, 0.5);
 		assertEquals(0.5, tile.getDifficulty());
 		assertEquals(0.5, tile.getResources());
+		
+		tile.addFlatOccupierPower(100);
+		assertEquals(0, tile.getOccupierPower());
+		
+		tile = new DefaultTile(5, 5, null, 5);
+		assertEquals(0, tile.getOccupierPower());
+		
+		Spreader spreader = new DefaultSpreader(null, null);
+		tile = new DefaultTile(5, 5, spreader, 5);
+		assertEquals(spreader, tile.getOccupier());
+		assertEquals(5, tile.getOccupierPower());
 	}
 	
 	@Test
-	public void infectAndReduceOccupierTests() {
+	public void occupierTests() {
 		Tile tile = new DefaultTile(100, 100);
 		Spreader spreader = new DefaultSpreader(null, null);
 		tile.infect(0, spreader);
@@ -36,7 +47,7 @@ public class DefaultTileTests {
 		assertEquals(10, tile.getOccupierPower());
 		assertEquals(90, tile.getDifficulty());
 		
-		tile.changeOccupierPower(-10);
+		tile.addFlatOccupierPower(-10);
 		assertEquals(null, tile.getOccupier());
 		assertEquals(0, tile.getOccupierPower());
 		
@@ -50,15 +61,27 @@ public class DefaultTileTests {
 		assertEquals(8100, tile.getOccupierPower());
 		assertEquals(0, tile.getDifficulty());
 		
-		tile.changeOccupierPower(500);
+		tile.multiplyOccupierPower(-5);
+		assertEquals(spreader, tile.getOccupier());
+		assertEquals(8100, tile.getOccupierPower());
+		
+		tile.multiplyOccupierPower(2);
+		assertEquals(spreader, tile.getOccupier());
+		assertEquals(16200, tile.getOccupierPower());
+		
+		tile.multiplyOccupierPower(0.5);
+		assertEquals(spreader, tile.getOccupier());
+		assertEquals(8100, tile.getOccupierPower());
+		
+		tile.addFlatOccupierPower(500);
 		assertEquals(spreader, tile.getOccupier());
 		assertEquals(8600, tile.getOccupierPower());
 		
-		tile.changeOccupierPower(-1500);
+		tile.addFlatOccupierPower(-1500);
 		assertEquals(spreader, tile.getOccupier());
 		assertEquals(7100, tile.getOccupierPower());
 		
-		tile.changeOccupierPower(-10000);
+		tile.addFlatOccupierPower(-10000);
 		assertEquals(null, tile.getOccupier());
 		assertEquals(0, tile.getOccupierPower());
 		

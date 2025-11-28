@@ -12,7 +12,7 @@ public record ExtractAction(ConstTile tile, double resourcesToExtract, double ef
     public void execute(TileGrid tileGrid) {
         Tile mutableTile = tileGrid.get(this.tile);
         double resources = mutableTile.extract(resourcesToExtract * efficiency);
-        mutableTile.changeOccupierPower(resources);
+        mutableTile.addFlatOccupierPower(resources);
     }
     
 }

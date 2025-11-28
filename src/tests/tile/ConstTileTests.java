@@ -44,7 +44,7 @@ public class ConstTileTests {
 		assertEquals(10, constTile.getOccupierPower());
 		assertEquals(90, constTile.getDifficulty());
 		
-		tile.changeOccupierPower(-10);
+		tile.addFlatOccupierPower(-10);
 		assertEquals(null, constTile.getOccupier());
 		assertEquals(0, constTile.getOccupierPower());
 		
@@ -58,15 +58,15 @@ public class ConstTileTests {
 		assertEquals(8100, constTile.getOccupierPower());
 		assertEquals(0, constTile.getDifficulty());
 		
-		tile.changeOccupierPower(500);
+		tile.addFlatOccupierPower(500);
 		assertEquals(spreader, constTile.getOccupier());
 		assertEquals(8600, constTile.getOccupierPower());
 		
-		tile.changeOccupierPower(-1500);
+		tile.addFlatOccupierPower(-1500);
 		assertEquals(spreader, constTile.getOccupier());
 		assertEquals(7100, constTile.getOccupierPower());
 		
-		tile.changeOccupierPower(-10000);
+		tile.addFlatOccupierPower(-10000);
 		assertEquals(null, constTile.getOccupier());
 		assertEquals(0, constTile.getOccupierPower());
 		

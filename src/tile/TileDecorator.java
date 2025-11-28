@@ -29,8 +29,13 @@ public abstract class TileDecorator implements Tile {
 	}
 	
 	@Override
-	public void changeOccupierPower(double amount) {
-		child.changeOccupierPower(amount);
+	public void addFlatOccupierPower(double amount) {
+		child.addFlatOccupierPower(amount);
+	}
+	
+	@Override
+	public void multiplyOccupierPower(double amount) {
+		child.multiplyOccupierPower(amount);
 	}
 
 	@Override
