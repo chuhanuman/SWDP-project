@@ -92,7 +92,7 @@ public class TurnManagerTests {
         manager.executeTurn(new TileGridSimulation.View(new DefaultGridView(tg), List.of(s1, s2, s3)), tg);
 
         assertEquals(resTile.getOccupier(), s3);
-        assertEquals(resTile.getOccupierPower(), 1010);
+        assertEquals(resTile.getOccupierPower(), 1000 + 5./6);
     }
 
     // TODO: add more tests
