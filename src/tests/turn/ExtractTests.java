@@ -48,14 +48,14 @@ public class ExtractTests {
     public void basicTests() {
         es.queueExtract(new ConstTile(t1), 50, 1);
         es.queueExtract(new ConstTile(t2), 50, 1);
-        es.execute(tg);
+        es.executeStage(tg);
 
         assertEquals(50.0, t1.getResources());
         assertEquals(51, t1.getOccupierPower());
         assertEquals(0, t2.getResources());
         assertEquals(4, t2.getOccupierPower());
 
-        es.execute(tg);
+        es.executeStage(tg);
 
         assertEquals(50.0, t1.getResources());
         assertEquals(51, t1.getOccupierPower());
@@ -64,7 +64,7 @@ public class ExtractTests {
 
         es.queueExtract(new ConstTile(t1), 50, 1);
         es.queueExtract(new ConstTile(t2), 50, 1);
-        es.execute(tg);
+        es.executeStage(tg);
 
         assertEquals(0, t1.getResources());
         assertEquals(101, t1.getOccupierPower());

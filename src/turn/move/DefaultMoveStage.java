@@ -7,6 +7,8 @@ import java.util.Map.Entry;
 import java.util.UUID;
 
 import grid.TileGrid;
+import simulation.TileGridSimulation.View;
+import spreader.Spreader;
 import tile.ConstTile;
 import tile.Tile;
 import turn.TurnStage;
@@ -32,7 +34,7 @@ public class DefaultMoveStage implements TurnStage, MoveScheduler {
     }
 
     @Override
-    public void execute(TileGrid tileGrid) {
+    public void executeStage(TileGrid tileGrid) {
         // occupiers leave original tiles
         Iterator<Entry<UUID, Double>> it = leavingPowerMap.entrySet().iterator();
         while (it.hasNext()) {
@@ -48,6 +50,13 @@ public class DefaultMoveStage implements TurnStage, MoveScheduler {
             InfectAction a = it2.next();
             a.execute(tileGrid);
             it2.remove();
+        }
+    }
+
+    @Override
+    public void gatherActions(View simulation) {
+        for (Spreader s : simulation.spreaders()) {
+            s.getMoveActions(simulation.grid(), this);
         }
     }
     

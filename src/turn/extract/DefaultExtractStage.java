@@ -9,6 +9,8 @@ import java.util.PriorityQueue;
 import java.util.UUID;
 
 import grid.TileGrid;
+import simulation.TileGridSimulation.View;
+import spreader.Spreader;
 import tile.ConstTile;
 import turn.TurnStage;
 
@@ -29,7 +31,7 @@ public class DefaultExtractStage implements TurnStage, ExtractScheduler {
     }
 
     @Override
-    public void execute(TileGrid tileGrid) {
+    public void executeStage(TileGrid tileGrid) {
         for (Collection<ExtractAction> actions : extractMap.values()) {
             Iterator<ExtractAction> it = actions.iterator();
             while (it.hasNext()) {
@@ -46,6 +48,13 @@ public class DefaultExtractStage implements TurnStage, ExtractScheduler {
             if (o1.efficiency() < o2.efficiency()) return 1;
             if (o1.efficiency() > o2.efficiency()) return -1;
             return 0;
+        }
+    }
+
+    @Override
+    public void gatherActions(View simulation) {
+        for (Spreader s : simulation.spreaders()) {
+            s.getExtractActions(simulation.grid(), this);
         }
     }
 }

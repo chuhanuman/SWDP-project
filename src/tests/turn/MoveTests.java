@@ -51,7 +51,7 @@ public class MoveTests {
         Tile toTile = tg.get(new GridPos(0, 1));
         ms.queueMove(new ConstTile(t1), new ConstTile(toTile), 100);
         ms.queueMove(new ConstTile(t2), new ConstTile(toTile), 150);
-        ms.execute(tg);
+        ms.executeStage(tg);
 
         assertEquals(0, t1.getOccupierPower());
         assertNull(t1.getOccupier());
@@ -60,7 +60,7 @@ public class MoveTests {
         assertEquals(50, toTile.getOccupierPower());
         assertEquals(s2, toTile.getOccupier());
 
-        ms.execute(tg);
+        ms.executeStage(tg);
 
         assertEquals(0, t1.getOccupierPower());
         assertNull(t1.getOccupier());
@@ -71,7 +71,7 @@ public class MoveTests {
 
         ms.queueMove(new ConstTile(t1), new ConstTile(toTile), 100);
         ms.queueMove(new ConstTile(t2), new ConstTile(toTile), 150);
-        ms.execute(tg);
+        ms.executeStage(tg);
 
         assertEquals(0, t1.getOccupierPower());
         assertNull(t1.getOccupier());
