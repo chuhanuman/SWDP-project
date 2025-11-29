@@ -31,6 +31,11 @@ public class DefaultTile implements Tile {
 	public void infect(double power, Spreader spreader) {
 		power = Math.max(0, power);
 		
+		if (occupier == spreader) {
+			addFlatOccupierPower(power);
+			return;
+		}
+		
 		difficulty -= Math.sqrt(power);
 		difficulty = Math.max(0, difficulty);
 		

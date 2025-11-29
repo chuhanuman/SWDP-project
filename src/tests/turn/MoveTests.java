@@ -77,7 +77,7 @@ public class MoveTests {
         assertNull(t1.getOccupier());
         assertEquals(0, t2.getOccupierPower());
         assertNull(t2.getOccupier());
-        assertEquals(50, toTile.getOccupierPower()); // TODO: should be 100?
+        assertEquals(100, toTile.getOccupierPower());
         assertEquals(s2, toTile.getOccupier());
     }
 

@@ -47,7 +47,12 @@ public class DefaultTileTests {
 		assertEquals(10, tile.getOccupierPower());
 		assertEquals(90, tile.getDifficulty());
 		
-		tile.addFlatOccupierPower(-10);
+		tile.infect(10, spreader);
+		assertEquals(spreader, tile.getOccupier());
+		assertEquals(20, tile.getOccupierPower());
+		assertEquals(90, tile.getDifficulty());
+		
+		tile.addFlatOccupierPower(-20);
 		assertEquals(null, tile.getOccupier());
 		assertEquals(0, tile.getOccupierPower());
 		
