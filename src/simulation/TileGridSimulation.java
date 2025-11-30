@@ -1,6 +1,7 @@
 package simulation;
 
 
+import java.io.PrintStream;
 import java.util.Collection;
 
 import grid.ConstGrid;
@@ -22,20 +23,33 @@ public class TileGridSimulation extends Simulation {
 
         @Override
         public Simulation build() {
-            return new TileGridSimulation(this.rngSeed, this.powerLossRate, this.tileGrid, this.turnSpec);
+            return new TileGridSimulation(this.rngSeed, this.tileGrid, this.turnSpec);
         }
     }
-    public record View(GridView grid, Collection<Spreader> spreaders) {};
 
     private TileGrid tileGrid;
     
     private GridView gridView;
-    private TurnManager turn;
+    private TurnManager turnManager;
 
-    protected TileGridSimulation(long rngSeed, double powerLossRate, TileGrid tileGrid, TurnManager turnSpec) {
-        super(rngSeed, powerLossRate);
+    protected TileGridSimulation(long rngSeed, TileGrid tileGrid, TurnManager turnSpec) {
+        super(rngSeed);
         this.tileGrid = tileGrid;
         this.gridView = new ConstGrid(this.tileGrid);
-        this.turn = turnSpec;
+        this.turnManager = turnSpec;
+    }
+
+    @Override
+    public void print(PrintStream out) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'print'");
+    }
+
+    @Override
+    public void run(int totalTurns) {
+        for (int i = 0; i < totalTurns; i++ ) {
+            turnManager.executeTurn(gridView, tileGrid);
+            turn++;
+        }
     }
 }

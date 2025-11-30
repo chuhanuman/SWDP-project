@@ -3,6 +3,7 @@ package turn;
 import java.util.LinkedList;
 import java.util.List;
 
+import grid.GridView;
 import grid.TileGrid;
 import simulation.TileGridSimulation;
 
@@ -30,7 +31,7 @@ public class TurnManager {
         this.stages = stages;
     }
 
-    public void executeTurn(TileGridSimulation.View simulation, TileGrid grid) {
+    public void executeTurn(GridView simulation, TileGrid grid) {
         for (TurnStage stage : stages) {
             stage.gatherActions(simulation);
             stage.executeStage(grid);

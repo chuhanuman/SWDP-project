@@ -1,15 +1,15 @@
 package simulation;
 
+import java.io.PrintStream;
+
 import prng.PRNG;
 
 public abstract class Simulation {
     public static abstract class Builder {
         protected long rngSeed;
-        protected double powerLossRate;
 
         public Builder() {
             rngSeed = 0;
-            powerLossRate = 0;
         }
 
         /**
@@ -22,26 +22,29 @@ public abstract class Simulation {
         }
 
         /**
-         * sets the simulation's occupier power loss rate per turn
-         * @param powerLossRate the amount of power occupiers globally lose each turn
-         */
-        public Builder setPowerLossRate(double powerLossRate) { 
-            this.powerLossRate = powerLossRate; 
-            return this;
-        }
-
-        /**
          * builds the Simulation object based on the builder's specifications
          * @return the created Simulation object
          */
         public abstract Simulation build();
     }
 
-    protected double powerLossRate;
+    protected int turn;
     
-    protected Simulation(long rngSeed, double powerLossRate) {
+    protected Simulation(long rngSeed) {
         PRNG.seed(rngSeed);
-        this.powerLossRate = powerLossRate;
-        // TODO: add more simulation parameters
+        turn = 0;
+        // TODO: add more simulation parameters?
     }
+
+    /**
+     * Output the simulation state
+     * @param out the printstream to output to
+     */
+    public abstract void print(PrintStream out);
+
+    /**
+     * Run the simulation for the specified number of turns.
+     * @param totalTurns the number of turns to run for.
+     */
+    public abstract void run(int totalTurns);
 }

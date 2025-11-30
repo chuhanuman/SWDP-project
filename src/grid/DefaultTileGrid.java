@@ -2,6 +2,7 @@ package grid;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -283,5 +284,10 @@ public class DefaultTileGrid implements TileGrid {
     @Override
     public Iterable<ViewableTile> getAllTiles() {
         return constTileGrid;
+    }
+
+    @Override
+    public Iterable<Spreader> getSpreaders() {
+    	return occupiedTiles.keySet();
     }
 }

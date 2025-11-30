@@ -1,6 +1,9 @@
 package grid;
 
 import tile.ViewableTile;
+
+import java.util.Collection;
+
 import spreader.Spreader;
 
 public interface GridView {
@@ -56,4 +59,10 @@ public interface GridView {
      * @return all tiles
      */
     public abstract Iterable<ViewableTile> getAllTiles();
+    
+    /**
+     * Returns a collection of all active spreaders in the grid
+     * @return a collection of all active spreaders in the grid
+     */
+    public abstract Iterable<Spreader> getSpreaders();
 }

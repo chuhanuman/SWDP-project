@@ -6,7 +6,6 @@ import java.util.NoSuchElementException;
 import spreader.Spreader;
 import tile.Tile;
 import tile.ViewableTile;
-import tile.ViewableTile;
 
 public class ConstGrid implements GridView {
     private TileGrid tileGrid;
@@ -53,5 +52,10 @@ public class ConstGrid implements GridView {
 	@Override
 	public Iterable<ViewableTile> getAllTiles() {
 		return tileGrid.getAllTiles();
+	}
+
+	@Override
+	public Iterable<Spreader> getSpreaders() {
+		return tileGrid.getSpreaders();
 	}
 }

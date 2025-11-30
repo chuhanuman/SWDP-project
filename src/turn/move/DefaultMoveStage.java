@@ -6,8 +6,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
+import grid.GridView;
 import grid.TileGrid;
-import simulation.TileGridSimulation.View;
 import spreader.Spreader;
 import tile.ViewableTile;
 import tile.Tile;
@@ -53,9 +53,9 @@ public class DefaultMoveStage implements TurnStage, MoveScheduler {
     }
 
     @Override
-    public void gatherActions(View simulation) {
-        for (Spreader s : simulation.spreaders()) {
-            s.getMoveActions(simulation.grid(), this);
+    public void gatherActions(GridView gridView) {
+        for (Spreader s : gridView.getSpreaders()) {
+            s.getMoveActions(gridView, this);
         }
     }
     

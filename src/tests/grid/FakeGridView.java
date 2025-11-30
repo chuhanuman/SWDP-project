@@ -7,7 +7,6 @@ import grid.GridPos;
 import grid.GridView;
 import spreader.Spreader;
 import tile.ViewableTile;
-import tile.ViewableTile;
 
 public class FakeGridView implements GridView {
 	private Iterable<ViewableTile> occupiedTiles;
@@ -73,5 +72,10 @@ public class FakeGridView implements GridView {
 	
 	public void resetTileRange() {
 		tileRangeRequests.clear();
+	}
+
+	@Override
+	public Iterable<Spreader> getSpreaders() {
+		return null;
 	}
 }

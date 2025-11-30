@@ -8,8 +8,8 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.UUID;
 
+import grid.GridView;
 import grid.TileGrid;
-import simulation.TileGridSimulation.View;
 import spreader.Spreader;
 import tile.ConstTile;
 import tile.ViewableTile;
@@ -53,9 +53,9 @@ public class DefaultExtractStage implements TurnStage, ExtractScheduler {
     }
 
     @Override
-    public void gatherActions(View simulation) {
-        for (Spreader s : simulation.spreaders()) {
-            s.getExtractActions(simulation.grid(), this);
+    public void gatherActions(GridView gridView) {
+        for (Spreader s : gridView.getSpreaders()) {
+            s.getExtractActions(gridView, this);
         }
     }
 }

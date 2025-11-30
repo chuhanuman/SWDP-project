@@ -1,5 +1,6 @@
 package grid;
 
+import java.util.Collection;
 import java.util.UUID;
 
 import spreader.Spreader;
