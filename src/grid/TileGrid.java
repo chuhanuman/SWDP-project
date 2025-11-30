@@ -1,7 +1,9 @@
 package grid;
 
+import java.util.Collection;
 import java.util.UUID;
 
+import spreader.Spreader;
 import tile.ConstTile;
 import tile.Tile;
 import tile.TileDecorator;
@@ -41,6 +43,12 @@ public abstract class TileGrid implements Iterable<Tile> {
     public Tile get(ConstTile tile) {
         return this.get(tile.getID());
     }
+
+    /**
+     * Returns a collection of all active spreaders in the grid
+     * @return
+     */
+    public abstract Collection<Spreader> getSpreaders();
 
     /**
      * Decorate the tile at (row, col) with the provided decorator applier

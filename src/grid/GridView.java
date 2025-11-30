@@ -4,7 +4,7 @@ import tile.ConstTile;
 import tile.ViewableTile;
 import spreader.Spreader;
 
-public abstract class GridView {
+public abstract class GridView implements Iterable<ConstTile> {
 
     /**
      * Provides a view of all tiles occupied by the provided {@code spreader}

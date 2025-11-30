@@ -1,6 +1,7 @@
 package tests.grid;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import grid.GridPos;
@@ -52,5 +53,11 @@ public class FakeGridView extends GridView {
 	
 	public void resetTileRange() {
 		tileRangeRequests.clear();
+	}
+
+	@Override
+	public Iterator<ConstTile> iterator() {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'iterator'");
 	}
 }

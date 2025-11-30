@@ -52,4 +52,12 @@ public class PRNG {
 		
 		return pieces;
 	}
+
+	public boolean chance(double probability) {
+		return generator.nextDouble() < probability;
+	}
+
+	public <T> T choice(List<T> items) {
+		return items.get(generator.nextInt(items.size()));
+	}
 }

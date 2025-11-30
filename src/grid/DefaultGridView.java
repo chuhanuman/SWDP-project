@@ -97,5 +97,23 @@ public class DefaultGridView extends GridView {
     public ConstTile get(GridPos pos) {
         return new ConstTile(tileGrid.get(pos));
     }
+
+    @Override
+    public Iterator<ConstTile> iterator() {
+        return new Iterator<ConstTile>() {
+
+            Iterator<Tile> it = tileGrid.iterator();
+
+            @Override
+            public boolean hasNext() {
+                return it.hasNext();
+            }
+
+            @Override
+            public ConstTile next() {
+                return new ConstTile(it.next());
+            }
+        };
+    }
     
 }

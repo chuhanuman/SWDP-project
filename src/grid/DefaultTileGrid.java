@@ -1,13 +1,16 @@
 package grid;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
+import spreader.Spreader;
 import tile.DefaultTile;
 import tile.Tile;
 import tile.TileDecorator;
@@ -183,5 +186,17 @@ public class DefaultTileGrid extends TileGrid {
     @Override
     public int getNumCols() {
         return this.numCols;
+    }
+
+    @Override
+    public Collection<Spreader> getSpreaders() {
+        Collection<Spreader> spreaders = new HashSet<>();
+        for (Tile t : this) {
+            Spreader s = t.getOccupier();
+            if (s != null) {
+                spreaders.add(s);
+            }
+        }
+        return spreaders;
     }
 }
