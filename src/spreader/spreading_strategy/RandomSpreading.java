@@ -13,8 +13,6 @@ public class RandomSpreading implements SpreadingStrategy {
 	@Override
 	public void getMoveActions(GridView grid, MoveScheduler scheduler, Spreader spreader) {
 		for (ViewableTile tile : grid.getOccupiedTiles(spreader)) {
-			double availablePower = tile.getOccupierPower() / 2;
-			
 			List<ViewableTile> targetTiles = new ArrayList<ViewableTile>();
 			for (ViewableTile potentialTarget : grid.getAllTilesInRange(tile, 1)) {
 				if (potentialTarget.getOccupier() == null || potentialTarget.getOccupier() == spreader) {
@@ -22,7 +20,7 @@ public class RandomSpreading implements SpreadingStrategy {
 				}
 			}
 			
-			List<Double> powerAllocations = PRNG.getInstance().split(availablePower, targetTiles.size());
+			List<Double> powerAllocations = PRNG.getInstance().split(tile.getOccupierPower(), targetTiles.size());
 			
 			for (int i = 0; i < targetTiles.size(); i++) {
 				scheduler.queueMove(tile, targetTiles.get(i), powerAllocations.get(i));

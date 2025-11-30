@@ -113,11 +113,11 @@ public class SpreadingStrategyTests {
 			totalAllocations.set(5, totalAllocations.get(5) + moveScheduler.checkMoveAction(tiles.get(1), tiles.get(4)));
 		}
 		
-		assertEquals(0.5, totalAllocations.get(0) / loops, 0.005);
-		assertEquals(0.5, totalAllocations.get(1) / loops, 0.005);
-		assertEquals(0.5, totalAllocations.get(2) / loops, 0.005);
-		assertEquals(1., totalAllocations.get(3) / loops, 0.01);
-		assertEquals(1., totalAllocations.get(4) / loops, 0.01);
-		assertEquals(1., totalAllocations.get(5) / loops, 0.01);
+		assertEquals(1, totalAllocations.get(0) / loops, 0.005);
+		assertEquals(1, totalAllocations.get(1) / loops, 0.005);
+		assertEquals(1, totalAllocations.get(2) / loops, 0.005);
+		assertEquals(2, totalAllocations.get(3) / loops, 0.01);
+		assertEquals(2, totalAllocations.get(4) / loops, 0.01);
+		assertEquals(2, totalAllocations.get(5) / loops, 0.01);
 	}
 }
