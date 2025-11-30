@@ -3,11 +3,11 @@ package tests.turn;
 import java.util.ArrayList;
 import java.util.List;
 
-import tile.ConstTile;
+import tile.ViewableTile;
 import turn.move.MoveScheduler;
 
 public class FakeMoveScheduler implements MoveScheduler {
-	private record MoveAction(ConstTile fromTile, ConstTile toTile, double availablePower) {}
+	private record MoveAction(ViewableTile fromTile, ViewableTile toTile, double availablePower) {}
 	private List<MoveAction> moveActions;
 	
 	public FakeMoveScheduler() {
@@ -15,7 +15,7 @@ public class FakeMoveScheduler implements MoveScheduler {
 	}
 	
 	@Override
-	public void queueMove(ConstTile fromTile, ConstTile toTile, double availablePower) {
+	public void queueMove(ViewableTile fromTile, ViewableTile toTile, double availablePower) {
 		moveActions.add(new MoveAction(fromTile, toTile, availablePower));
 	}
 	
@@ -23,7 +23,7 @@ public class FakeMoveScheduler implements MoveScheduler {
 		return moveActions.size();
 	}
 	
-	public boolean checkMoveAction(ConstTile fromTile, ConstTile toTile, double availablePower) {
+	public boolean checkMoveAction(ViewableTile fromTile, ViewableTile toTile, double availablePower) {
 		for (MoveAction moveAction : moveActions) {
 			if (moveAction.fromTile == fromTile && 
 				moveAction.toTile == toTile &&
@@ -35,7 +35,7 @@ public class FakeMoveScheduler implements MoveScheduler {
 		return false;
 	}
 	
-	public double checkMoveAction(ConstTile fromTile, ConstTile toTile) {
+	public double checkMoveAction(ViewableTile fromTile, ViewableTile toTile) {
 		for (MoveAction moveAction : moveActions) {
 			if (moveAction.fromTile == fromTile && moveAction.toTile == toTile) {
 				return moveAction.availablePower;

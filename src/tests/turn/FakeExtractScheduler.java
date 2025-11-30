@@ -3,11 +3,11 @@ package tests.turn;
 import java.util.ArrayList;
 import java.util.List;
 
-import tile.ConstTile;
+import tile.ViewableTile;
 import turn.extract.ExtractScheduler;
 
 public class FakeExtractScheduler implements ExtractScheduler {
-	private record ExtractAction(ConstTile tile, double resourcesToExtract, double efficiency) {}
+	private record ExtractAction(ViewableTile tile, double resourcesToExtract, double efficiency) {}
 	private List<ExtractAction> extractActions;
 	
 	public FakeExtractScheduler() {
@@ -15,7 +15,7 @@ public class FakeExtractScheduler implements ExtractScheduler {
 	}
 	
 	@Override
-	public void queueExtract(ConstTile tile, double resourcesToExtract, double efficiency) {
+	public void queueExtract(ViewableTile tile, double resourcesToExtract, double efficiency) {
 		extractActions.add(new ExtractAction(tile, resourcesToExtract, efficiency));
 	}
 	
@@ -23,7 +23,7 @@ public class FakeExtractScheduler implements ExtractScheduler {
 		return extractActions.size();
 	}
 	
-	public boolean checkExtractAction(ConstTile tile, double resourcesToExtract, double efficiency) {
+	public boolean checkExtractAction(ViewableTile tile, double resourcesToExtract, double efficiency) {
 		for (ExtractAction extractAction : extractActions) {
 			if (extractAction.tile == tile && 
 				Math.abs(extractAction.resourcesToExtract() - resourcesToExtract) < 1e-7 &&

@@ -14,6 +14,7 @@ import spreader.Spreader;
 import spreader.extraction_strategy.InstantExtraction;
 import spreader.extraction_strategy.SlowExtraction;
 import spreader.spreading_strategy.CowardSpreading;
+import tile.ViewableTile;
 import tile.ConstTile;
 import tile.DefaultTile;
 import tile.Tile;
@@ -48,9 +49,9 @@ public class MoveTests {
 
     @Test
     public void basicTests() {
-        Tile toTile = tg.get(new GridPos(0, 1));
-        ms.queueMove(new ConstTile(t1), new ConstTile(toTile), 100);
-        ms.queueMove(new ConstTile(t2), new ConstTile(toTile), 150);
+        ViewableTile toTile = tg.getTile(new GridPos(0, 1));
+        ms.queueMove(new ConstTile(t1), toTile, 100);
+        ms.queueMove(new ConstTile(t2), toTile, 150);
         ms.executeStage(tg);
 
         assertEquals(0, t1.getOccupierPower());
@@ -69,8 +70,8 @@ public class MoveTests {
         assertEquals(50, toTile.getOccupierPower());
         assertEquals(s2, toTile.getOccupier());
 
-        ms.queueMove(new ConstTile(t1), new ConstTile(toTile), 100);
-        ms.queueMove(new ConstTile(t2), new ConstTile(toTile), 150);
+        ms.queueMove(new ConstTile(t1), toTile, 100);
+        ms.queueMove(new ConstTile(t2), toTile, 150);
         ms.executeStage(tg);
 
         assertEquals(0, t1.getOccupierPower());

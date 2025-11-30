@@ -28,9 +28,8 @@ public class SpreadingStrategyTests {
 	@Test
 	public void cowardSpreadingTests() {
 		Spreader spreader = new DefaultSpreader(new CowardSpreading(), null);
-		Tile changeableTile = new DefaultTile(30, 10, spreader, 0.1);
 		List<ConstTile> tiles = List.of(
-			new ConstTile(changeableTile), 
+			new ConstTile(new DefaultTile(30, 10, spreader, 0.1)), 
 			new ConstTile(new DefaultTile(45, 5, spreader, 1.1)),
 			new ConstTile(new DefaultTile(30, 0, spreader, 0.1)), 
 			new ConstTile(new DefaultTile(45, 0, spreader, 2)), 
@@ -40,7 +39,7 @@ public class SpreadingStrategyTests {
 		);
 		
 		gridView.setOccupiedTiles(List.of(tiles.get(0), tiles.get(1), tiles.get(2), tiles.get(3)));
-		gridView.setUnoccupiedResourceTiles(tiles);
+		gridView.setEasiestUnoccupiedResourceTile(tiles.get(6));
 		moveScheduler.reset();
 		spreader.getMoveActions(gridView, moveScheduler);
 		assertEquals(3, moveScheduler.getNumMoveActions());
@@ -50,8 +49,7 @@ public class SpreadingStrategyTests {
 		
 		
 		gridView.setOccupiedTiles(List.of(tiles.get(1), tiles.get(2), tiles.get(3)));
-		gridView.setUnoccupiedResourceTiles(null);
-		changeableTile.addFlatOccupierPower(-1);
+		gridView.setEasiestUnoccupiedResourceTile(tiles.get(0));
 		moveScheduler.reset();
 		spreader.getMoveActions(gridView, moveScheduler);
 		assertEquals(3, moveScheduler.getNumMoveActions());

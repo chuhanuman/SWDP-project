@@ -9,7 +9,7 @@ import java.util.UUID;
 import grid.TileGrid;
 import simulation.TileGridSimulation.View;
 import spreader.Spreader;
-import tile.ConstTile;
+import tile.ViewableTile;
 import tile.Tile;
 import turn.TurnStage;
 
@@ -24,7 +24,7 @@ public class DefaultMoveStage implements TurnStage, MoveScheduler {
     }
 
     @Override
-    public void queueMove(ConstTile fromTile, ConstTile toTile, double availablePower) {
+    public void queueMove(ViewableTile fromTile, ViewableTile toTile, double availablePower) {
         leavingPowerMap.compute(fromTile.getID(), (id, p) ->
             p == null ? availablePower : p + availablePower
         );
@@ -39,8 +39,7 @@ public class DefaultMoveStage implements TurnStage, MoveScheduler {
         Iterator<Entry<UUID, Double>> it = leavingPowerMap.entrySet().iterator();
         while (it.hasNext()) {
             Entry<UUID, Double> e = it.next();
-            Tile tile = tileGrid.get(e.getKey());
-            tile.addFlatOccupierPower(-e.getValue());
+            tileGrid.addFlatOccupierPower(e.getKey(), -e.getValue());
             it.remove();
         }
 

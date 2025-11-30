@@ -3,7 +3,7 @@ package simulation;
 
 import java.util.Collection;
 
-import grid.DefaultGridView;
+import grid.ConstGrid;
 import grid.GridView;
 import grid.TileGrid;
 import spreader.Spreader;
@@ -35,7 +35,7 @@ public class TileGridSimulation extends Simulation {
     protected TileGridSimulation(long rngSeed, double powerLossRate, TileGrid tileGrid, TurnManager turnSpec) {
         super(rngSeed, powerLossRate);
         this.tileGrid = tileGrid;
-        this.gridView = new DefaultGridView(this.tileGrid);
+        this.gridView = new ConstGrid(this.tileGrid);
         this.turn = turnSpec;
     }
 }

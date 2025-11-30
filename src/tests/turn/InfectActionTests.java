@@ -15,6 +15,7 @@ import spreader.extraction_strategy.SlowExtraction;
 import spreader.spreading_strategy.CowardSpreading;
 import tile.ConstTile;
 import tile.DefaultTile;
+import tile.ViewableTile;
 import tile.Tile;
 import turn.move.InfectAction;
 
@@ -44,8 +45,8 @@ public class InfectActionTests {
 
     @Test
     public void basicTests() {
-        Tile tile = tg.get(new GridPos(0, 1)); // default tile specs
-        InfectAction action = new InfectAction(new ConstTile(tile));
+    	ViewableTile tile = tg.getTile(new GridPos(0, 1)); // default tile specs
+        InfectAction action = new InfectAction(tile);
         action.addSpreader(s1, 50);
         action.addSpreader(s1, 10);
         action.addSpreader(s1, 40);
@@ -58,8 +59,8 @@ public class InfectActionTests {
 
     @Test
     public void fightTests() {
-        Tile tile = tg.get(new GridPos(0, 1)); // default tile specs
-        InfectAction action = new InfectAction(new ConstTile(tile));
+        ViewableTile tile = tg.getTile(new GridPos(0, 1)); // default tile specs
+        InfectAction action = new InfectAction(tile);
         action.addSpreader(s1, 200);
         action.addSpreader(s2, 100);
         action.addSpreader(s3, 99);

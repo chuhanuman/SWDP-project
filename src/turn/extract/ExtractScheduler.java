@@ -1,6 +1,6 @@
 package turn.extract;
 
-import tile.ConstTile;
+import tile.ViewableTile;
 
 public interface ExtractScheduler {
 
@@ -10,5 +10,5 @@ public interface ExtractScheduler {
      * @param resourcesToExtract the amount of resources to extract
      * @param efficiency the efficiency at which resources are extracted
      */
-    public void queueExtract(ConstTile tile, double resourcesToExtract, double efficiency);
+    public void queueExtract(ViewableTile tile, double resourcesToExtract, double efficiency);
 }

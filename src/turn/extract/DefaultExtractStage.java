@@ -12,6 +12,7 @@ import grid.TileGrid;
 import simulation.TileGridSimulation.View;
 import spreader.Spreader;
 import tile.ConstTile;
+import tile.ViewableTile;
 import turn.TurnStage;
 
 public class DefaultExtractStage implements TurnStage, ExtractScheduler {
@@ -23,7 +24,7 @@ public class DefaultExtractStage implements TurnStage, ExtractScheduler {
     }
 
     @Override
-    public void queueExtract(ConstTile tile, double resourcesToExtract, double efficiency) {
+    public void queueExtract(ViewableTile tile, double resourcesToExtract, double efficiency) {
         // priority queue on efficiency (highest first)
         Collection<ExtractAction> existingActions = extractMap.computeIfAbsent(tile.getID(), 
                                                                                   k -> new PriorityQueue<>(new ExtractComparator()));

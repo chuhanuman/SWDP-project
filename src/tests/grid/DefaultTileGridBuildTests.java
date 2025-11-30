@@ -15,8 +15,10 @@ import spreader.Spreader;
 import spreader.extraction_strategy.InstantExtraction;
 import spreader.extraction_strategy.SlowExtraction;
 import spreader.spreading_strategy.CowardSpreading;
+import tile.ConstTile;
 import tile.DefaultTile;
 import tile.Tile;
+import tile.ViewableTile;
 
 public class DefaultTileGridBuildTests {
 
@@ -28,7 +30,7 @@ public class DefaultTileGridBuildTests {
                       .build();
 
         Set<UUID> idSet = new HashSet<>();
-        for (Tile t : tg) {
+        for (ViewableTile t : tg.getAllTiles()) {
             assertTrue(!idSet.contains(t.getID()));
             idSet.add(t.getID());
 
@@ -51,7 +53,7 @@ public class DefaultTileGridBuildTests {
                       .build();
 
         Set<UUID> idSet = new HashSet<>();
-        for (Tile t : tg) {
+        for (ViewableTile t : tg.getAllTiles()) {
             assertTrue(!idSet.contains(t.getID()));
             idSet.add(t.getID());
             
@@ -70,7 +72,7 @@ public class DefaultTileGridBuildTests {
         assertEquals(18, idSet.size());
     }
 
-    public static void checkTile(Tile t, double difficulty, double resources, Spreader occupier, double occupierPower) {
+    public static void checkTile(ViewableTile t, double difficulty, double resources, Spreader occupier, double occupierPower) {
         assertEquals(difficulty, t.getDifficulty());
         assertEquals(resources, t.getResources());
         assertEquals(occupier, t.getOccupier());

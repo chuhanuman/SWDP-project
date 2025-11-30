@@ -16,6 +16,7 @@ import spreader.spreading_strategy.CowardSpreading;
 import tile.DefaultTile;
 import tile.StealthyDecorator;
 import tile.Tile;
+import tile.ViewableTile;
 
 public class DefaultTileGridTests {
 
@@ -43,9 +44,9 @@ public class DefaultTileGridTests {
 
     @Test
     public void getTests() {
-        DefaultTileGridBuildTests.checkTile(tg.get(new GridPos(0, 0)), 1, 1, s1, 1);
-        DefaultTileGridBuildTests.checkTile(tg.get(new GridPos(0, 2)), 2, 2, s2, 2);
-        DefaultTileGridBuildTests.checkTile(tg.get(new GridPos(1, 0)), 3, 3, s3, 3);
+        DefaultTileGridBuildTests.checkTile(tg.getTile(new GridPos(0, 0)), 1, 1, s1, 1);
+        DefaultTileGridBuildTests.checkTile(tg.getTile(new GridPos(0, 2)), 2, 2, s2, 2);
+        DefaultTileGridBuildTests.checkTile(tg.getTile(new GridPos(1, 0)), 3, 3, s3, 3);
     }
 
     @Test
@@ -58,9 +59,9 @@ public class DefaultTileGridTests {
     @Test
     public void decorateTileTests() {
         tg.decorateTile(new GridPos(0, 0), StealthyDecorator.getApplier());
-        Tile dTile = tg.get(new GridPos(0, 0));
+        ViewableTile dTile = tg.getTile(new GridPos(0, 0));
         assertEquals(t1.getID(), dTile.getID());
-        assert(dTile instanceof StealthyDecorator);
-        assert(!(t1 instanceof StealthyDecorator));
+        assertEquals(-99, dTile.getDifficulty());
+        assertEquals(1, t1.getDifficulty());
     }
 }

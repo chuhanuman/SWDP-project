@@ -2,44 +2,15 @@ package grid;
 
 import java.util.UUID;
 
+import spreader.Spreader;
 import tile.ConstTile;
 import tile.Tile;
 import tile.TileDecorator;
 import tile.ViewableTile;
 
-public abstract class TileGrid implements Iterable<Tile> {
+public interface TileGrid extends GridView {
     public static abstract class Builder {
         public abstract TileGrid build();
-    }
-    
-    /**
-     * Get the (row, col) position of the tile in the grid
-     * @param tile the tile to get the position of
-     * @return (r, c) or null
-     */
-    public abstract GridPos getPos(ViewableTile tile);
-
-    /**
-     * Get the tile at the (row, col) position in the grid
-     * @param pos the (row, col) position to get the tile
-     * @return the tile or null
-     */
-    public abstract Tile get(GridPos pos);
-    
-    /**
-     * Get the tile with the provided ID in the grid
-     * @param id the id of the tile to find
-     * @return the tile or null
-     */
-    public abstract Tile get(UUID id);
-
-    /**
-     * Get the corresponding tile from the const tile instance
-     * @param tile the const tile instance
-     * @return the tile or null
-     */
-    public Tile get(ConstTile tile) {
-        return this.get(tile.getID());
     }
 
     /**
@@ -48,7 +19,27 @@ public abstract class TileGrid implements Iterable<Tile> {
      * @param decoratorFunc the function which applies the decorator to the tile
      */
     public abstract void decorateTile(GridPos pos, TileDecorator.Applier decoratorFunc);
+    
+    /**
+     * Infects the given tile
+     * @param id id of the tile to infect
+     * @param power the power of the infection attempt
+	 * @param spreader the spreader doing the infection
+     */
+	public abstract void infectTile(UUID id, double power, Spreader spreader);
 
-    public abstract int getNumRows();
-    public abstract int getNumCols();
+	/**
+	 * Turns resources from the given tile into power
+	 * @param id id of the tile to infect
+	 * @param amountToExtract the number of resources to extract
+	 * @param efficiency the efficiency of the conversion from resources to power
+	 */
+	public abstract void extractTile(UUID id, double amountToExtract, double efficiency);
+	
+	/**
+	 * Changes occupier power on the given tile by a flat amount
+	 * @param id id of the tile to infect
+	 * @param amount the increase in power if positive and the decrease in power if negative
+	 */
+	public abstract void addFlatOccupierPower(UUID id, double power);
 }

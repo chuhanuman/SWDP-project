@@ -6,7 +6,7 @@ import java.util.List;
 import grid.GridView;
 import spreader.Spreader;
 import turn.move.MoveScheduler;
-import tile.ConstTile;
+import tile.ViewableTile;
 
 public class GreedySpreading implements SpreadingStrategy {
 	int range;
@@ -17,19 +17,19 @@ public class GreedySpreading implements SpreadingStrategy {
 	
 	@Override
 	public void getMoveActions(GridView grid, MoveScheduler scheduler, Spreader spreader) {
-		for (ConstTile tile : grid.getOccupiedTiles(spreader)) {
+		for (ViewableTile tile : grid.getOccupiedTiles(spreader)) {
 			double availablePower = tile.getOccupierPower();
 			
 			double totalDifficulty = 0;
-			List<ConstTile> targetTiles = new ArrayList<ConstTile>();
-			for (ConstTile potentialTarget : grid.getAllTilesInRange(tile, range)) {
+			List<ViewableTile> targetTiles = new ArrayList<ViewableTile>();
+			for (ViewableTile potentialTarget : grid.getAllTilesInRange(tile, range)) {
 				if ((potentialTarget.getOccupier() == null || potentialTarget.getOccupier() == spreader) && potentialTarget.getResources() > 0) {
 					targetTiles.add(potentialTarget);
 					totalDifficulty += Math.max(1, potentialTarget.getDifficulty());
 				}
 			}
 			
-			for (ConstTile target : targetTiles) {
+			for (ViewableTile target : targetTiles) {
 				scheduler.queueMove(tile, target, availablePower * (Math.max(1, target.getDifficulty()) / totalDifficulty));
 			}
 		}

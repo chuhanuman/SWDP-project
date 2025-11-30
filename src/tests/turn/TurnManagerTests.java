@@ -7,7 +7,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import grid.DefaultGridView;
+import grid.ConstGrid;
 import grid.DefaultTileGrid;
 import grid.GridPos;
 import grid.TileGrid;
@@ -59,7 +59,7 @@ public class TurnManagerTests {
                             .nextStage(new DefaultExtractStage())
                             .build();
         
-        manager.executeTurn(new TileGridSimulation.View(new DefaultGridView(tg), List.of(s1, s2, s3)), tg);
+        manager.executeTurn(new TileGridSimulation.View(new ConstGrid(tg), List.of(s1, s2, s3)), tg);
 
         assertEquals(110, t1.getOccupierPower());
         assertEquals(0, t1.getResources());
@@ -76,7 +76,7 @@ public class TurnManagerTests {
                             .nextStage(new DefaultMoveStage())
                             .build();
         
-        manager.executeTurn(new TileGridSimulation.View(new DefaultGridView(tg), List.of(s1, s2, s3)), tg);
+        manager.executeTurn(new TileGridSimulation.View(new ConstGrid(tg), List.of(s1, s2, s3)), tg);
 
         assertEquals(resTile.getOccupier(), s3);
         assertEquals(resTile.getOccupierPower(), 110);
@@ -89,7 +89,7 @@ public class TurnManagerTests {
                             .nextStage(new DefaultExtractStage())
                             .build();
         
-        manager.executeTurn(new TileGridSimulation.View(new DefaultGridView(tg), List.of(s1, s2, s3)), tg);
+        manager.executeTurn(new TileGridSimulation.View(new ConstGrid(tg), List.of(s1, s2, s3)), tg);
 
         assertEquals(resTile.getOccupier(), s3);
         assertEquals(resTile.getOccupierPower(), 1000 + 5./6);

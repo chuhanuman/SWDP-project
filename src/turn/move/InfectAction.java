@@ -8,6 +8,7 @@ import java.util.AbstractMap.SimpleEntry;
 import grid.TileGrid;
 import spreader.Spreader;
 import tile.ConstTile;
+import tile.ViewableTile;
 import turn.SimulationAction;
 
 public class InfectAction implements SimulationAction {
@@ -17,9 +18,9 @@ public class InfectAction implements SimulationAction {
      * value: power of spreader infecting the tile
      */
     private final Map<Spreader, Double> spreaderMap;
-    private final ConstTile tile;
+    private final ViewableTile tile;
 
-    public InfectAction(ConstTile tile) {
+    public InfectAction(ViewableTile tile) {
         this.tile = tile;
         spreaderMap = new HashMap<>();
     }
@@ -39,7 +40,7 @@ public class InfectAction implements SimulationAction {
 
         Entry<Spreader, Double> result = computeSpreaderCancellation();
 
-        tileGrid.get(this.tile).infect(result.getValue(), result.getKey());
+        tileGrid.infectTile(this.tile.getID(), result.getValue(), result.getKey());
     }
 
     /**

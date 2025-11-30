@@ -3,7 +3,7 @@ package spreader.extraction_strategy;
 import spreader.Spreader;
 import grid.GridView;
 import turn.extract.ExtractScheduler;
-import tile.ConstTile;
+import tile.ViewableTile;
 
 public class SlowExtraction implements ExtractionStrategy {
 	private double efficiency;
@@ -16,7 +16,7 @@ public class SlowExtraction implements ExtractionStrategy {
 	
 	@Override
 	public void getExtractActions(GridView grid, ExtractScheduler scheduler, Spreader spreader) {
-		for (ConstTile tile : grid.getOccupiedTiles(spreader)) {
+		for (ViewableTile tile : grid.getOccupiedTiles(spreader)) {
 			scheduler.queueExtract(tile, maxConsumption, efficiency);
 		}
 	}

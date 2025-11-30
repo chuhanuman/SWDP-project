@@ -6,47 +6,68 @@ import java.util.Map;
 import grid.GridPos;
 import grid.GridView;
 import spreader.Spreader;
-import tile.ConstTile;
+import tile.ViewableTile;
 import tile.ViewableTile;
 
-public class FakeGridView extends GridView {
-	private Iterable<ConstTile> occupiedTiles, unoccupiedResourceTiles;
+public class FakeGridView implements GridView {
+	private Iterable<ViewableTile> occupiedTiles;
+	private ViewableTile easiestUnoccupiedResourceTile;
 	private record TileRangeRequest(ViewableTile tile, int range) {}
-	private Map<TileRangeRequest, Iterable<ConstTile>> tileRangeRequests;
+	private Map<TileRangeRequest, Iterable<ViewableTile>> tileRangeRequests;
 	
 	public FakeGridView() {
-		tileRangeRequests = new HashMap<TileRangeRequest, Iterable<ConstTile>>();
+		tileRangeRequests = new HashMap<TileRangeRequest, Iterable<ViewableTile>>();
 	}
 	
 	@Override
-	public Iterable<ConstTile> getOccupiedTiles(Spreader spreader) {
+	public int getNumRows() {
+		return -1;
+	}
+
+	@Override
+	public int getNumCols() {
+		return -1;
+	}
+	
+	@Override
+	public GridPos getPos(ViewableTile tile) {
+		return null;
+	}
+
+	@Override
+	public ViewableTile getTile(GridPos pos) {
+		return null;
+	}
+	
+	@Override
+	public Iterable<ViewableTile> getOccupiedTiles(Spreader spreader) {
 		return occupiedTiles;
 	}
 
 	@Override
-	public Iterable<ConstTile> getUnoccupiedResourceTiles() {
-		return unoccupiedResourceTiles;
+	public ViewableTile getEasiestUnoccupiedResourceTile() {
+		return easiestUnoccupiedResourceTile;
 	}
 
 	@Override
-	public Iterable<ConstTile> getAllTilesInRange(ViewableTile tile, int range) {
+	public Iterable<ViewableTile> getAllTilesInRange(ViewableTile tile, int range) {
 		return tileRangeRequests.get(new TileRangeRequest(tile, range));
 	}
 
 	@Override
-	public ConstTile get(GridPos pos) {
+	public Iterable<ViewableTile> getAllTiles() {
 		return null;
 	}
 	
-	public void setOccupiedTiles(Iterable<ConstTile> occupiedTiles) {
+	public void setOccupiedTiles(Iterable<ViewableTile> occupiedTiles) {
 		this.occupiedTiles = occupiedTiles;
 	}
 	
-	public void setUnoccupiedResourceTiles(Iterable<ConstTile> unoccupiedResourceTiles) {
-		this.unoccupiedResourceTiles = unoccupiedResourceTiles;
+	public void setEasiestUnoccupiedResourceTile(ViewableTile easiestUnoccupiedResourceTile) {
+		this.easiestUnoccupiedResourceTile = easiestUnoccupiedResourceTile;
 	}
 	
-	public void addTileRangeAnswer(ViewableTile tile, int range, Iterable<ConstTile> answer) {
+	public void addTileRangeAnswer(ViewableTile tile, int range, Iterable<ViewableTile> answer) {
 		tileRangeRequests.put(new TileRangeRequest(tile, range), answer);
 	}
 	

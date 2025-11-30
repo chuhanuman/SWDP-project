@@ -1,24 +1,27 @@
 package grid;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.PriorityQueue;
 import java.util.UUID;
 
+import spreader.Spreader;
+import tile.ConstTile;
 import tile.DefaultTile;
 import tile.Tile;
 import tile.TileDecorator;
 import tile.ViewableTile;
 
-public class DefaultTileGrid extends TileGrid {
+public class DefaultTileGrid implements TileGrid {
     public static class Builder extends TileGrid.Builder {
-        private List<List<Tile>> tileGrid;
+        private List<Tile> tileGrid;
         private int numRows, numCols;
-
-        private Map<UUID, GridPos> tilePosMap;
 
         private DefaultTile defaultTile;
         boolean firstBuild;
@@ -45,15 +48,10 @@ public class DefaultTileGrid extends TileGrid {
             this.firstBuild = true;
             this.numRows = numRows;
             this.numCols = numCols;
-            this.tileGrid = new ArrayList<List<Tile>>(numRows);
-            for (int i = 0; i < numRows; i++) {
-                tileGrid.add(new ArrayList<Tile>(numCols));
-                for (int j = 0; j < numCols; j++) {
-                    tileGrid.get(i).add(null);
-                }
+            this.tileGrid = new ArrayList<Tile>(numRows * numCols);
+            for (int i = 0; i < numRows * numCols; i++) {
+                tileGrid.add(null);
             }
-
-            this.tilePosMap = new HashMap<>(numRows * numCols);
         }
 
         /**
@@ -91,89 +89,133 @@ public class DefaultTileGrid extends TileGrid {
                 this.setDefaultTiles();
             }
 
-            return new DefaultTileGrid(tileGrid, numRows, numCols, tilePosMap);
+            return new DefaultTileGrid(tileGrid, numRows, numCols);
         }
 
         private void setDefaultTiles() {
-            for (int i = 0; i < this.numRows; i++) {
-                for (int j = 0; j < this.numCols; j++) {
-                    if (this.tileGrid.get(i).get(j) == null) {
-                        this.validSetTile(defaultTile.copy(), new GridPos(i, j));
+            for (int index = 0, row = 0; row < numRows; row++) {
+                for (int col = 0; col < numCols; col++, index++) {
+                    if (tileGrid.get(index) == null) {
+                        validSetTile(defaultTile.copy(), new GridPos(row, col));
                     }
                 }
             }
         }
 
         private void validSetTile(Tile tile, GridPos pos) {
-            tileGrid.get(pos.row()).set(pos.col(), tile);
-            tilePosMap.put(tile.getID(), pos);
+        	tileGrid.set(pos.get1DIndex(numCols), tile);
         }
     }
 
-    private final List<List<Tile>> tileGrid;
+    private final List<Tile> tileGrid;
+    private final List<ViewableTile> constTileGrid;
     private final int numRows;
     private final int numCols;
-
     private final Map<UUID, GridPos> tilePosMap;
+    private final Map<Spreader, HashSet<ViewableTile>> occupiedTiles;
+    private final PriorityQueue<ViewableTile> unoccupiedResourceTiles; //Sorted by lowest difficulty to highest
 
-    protected DefaultTileGrid(List<List<Tile>> tileGrid, int numRows, int numCols, Map<UUID, GridPos> tilePosMap) {
+    protected DefaultTileGrid(List<Tile> tileGrid, int numRows, int numCols) {
         this.tileGrid = tileGrid;
+        this.constTileGrid = new ArrayList<ViewableTile>(numRows * numCols);
+        for (Tile tile : tileGrid) {
+        	constTileGrid.add(new ConstTile(tile));
+        }
+        
         this.numRows = numRows;
         this.numCols = numCols;
 
-        this.tilePosMap = tilePosMap;
-    }
-
-    @Override
-    public Iterator<Tile> iterator() {
-        return new Iterator<Tile>() {
-            private int r = 0;
-            private int c = 0;
-
-            @Override
-            public boolean hasNext() {
-                if (c >= numCols) {
-                    r++;
-                    c = 0;
-                }
-                return r < numRows;
-            }
-
-            @Override
-            public Tile next() {
-                if (!hasNext()) {
-                    throw new NoSuchElementException();
-                }
-
-                return tileGrid.get(r).get(c++);
-            }
-        };
-    }
-
-    @Override
-    public GridPos getPos(ViewableTile tile) {
-        return tilePosMap.get(tile.getID());
-    }
-
-    @Override
-    public Tile get(GridPos pos) throws IllegalArgumentException {
-        if (!pos.inBounds(0, 0, numRows-1, numCols-1)) {
-            throw new IllegalArgumentException("tile location out of bounds: (" + pos.row() + ", " + pos.col() + ") not in [(0, 0), (" 
-                                                    + numRows + ", " + numCols + "))");
+        tilePosMap = new HashMap<>(numRows * numCols);
+        occupiedTiles = new HashMap<>();
+        unoccupiedResourceTiles = new PriorityQueue<ViewableTile>(
+			(ViewableTile left, ViewableTile right) -> Double.compare(left.getDifficulty(), right.getDifficulty())
+		);
+        for (int index = 0, row = 0; row < numRows; row++) {
+            for (int col = 0; col < numCols; col++, index++) {
+            	ViewableTile tile = constTileGrid.get(index);
+        		GridPos pos = new GridPos(row, col);
+        		tilePosMap.put(tile.getID(), pos);
+        		updateTileReferences(null, tile);
+        	}
         }
-        
-        return tileGrid.get(pos.row()).get(pos.col());
-    } 
-
-    @Override
-    public Tile get(UUID id) {
-        return this.get(tilePosMap.get(id));
     }
 
     @Override
     public void decorateTile(GridPos pos, TileDecorator.Applier decoratorFunc) {
-        tileGrid.get(pos.row()).set(pos.col(), decoratorFunc.apply(this.get(pos)));
+    	int index = pos.get1DIndex(numCols);
+        tileGrid.set(index, decoratorFunc.apply(tileGrid.get(index)));
+        
+        ViewableTile oldTile = constTileGrid.get(index);
+        constTileGrid.set(index, new ConstTile(tileGrid.get(index)));
+        updateTileReferences(oldTile, constTileGrid.get(index));
     }
+    
+    @Override
+	public void infectTile(UUID id, double power, Spreader spreader) {
+    	ViewableTile tile = getTile(id);
+    	Spreader oldSpreader = tile.getOccupier();
+    	getModifiableTile(id).infect(power, spreader);
+    	
+    	if (tile.getOccupier() != oldSpreader) {
+    		if (oldSpreader != null) {
+    			occupiedTiles.get(spreader).remove(tile);
+    		} else if (tile.getResources() > 0) {
+				unoccupiedResourceTiles.remove(tile);
+			}
+    		
+    		if (occupiedTiles.get(spreader) == null) {
+				occupiedTiles.put(spreader, new HashSet<>());
+			}
+			
+			occupiedTiles.get(spreader).add(tile);
+    	}
+	}
+
+	@Override
+	public void extractTile(UUID id, double amountToExtract, double efficiency) {
+		ViewableTile tile = getTile(id);
+		double resources = getModifiableTile(id).extract(amountToExtract);
+		getModifiableTile(id).addFlatOccupierPower(resources * efficiency);
+		
+		if (tile.getResources() == 0) {
+			unoccupiedResourceTiles.remove(tile);
+		}
+	}
+
+	@Override
+	public void addFlatOccupierPower(UUID id, double power) {
+		ViewableTile tile = getTile(id);
+		Spreader oldSpreader = tile.getOccupier();
+		getModifiableTile(id).addFlatOccupierPower(power);
+		
+		if (tile.getOccupier() != oldSpreader) {
+			occupiedTiles.get(oldSpreader).remove(tile);
+			
+			if (tile.getResources() > 0) {
+				unoccupiedResourceTiles.add(tile);
+			}
+		}
+	}
+	
+	private void updateTileReferences(ViewableTile oldTile, ViewableTile newTile) {
+		if (oldTile != null) {
+			if (oldTile.getOccupier() != null) {
+				occupiedTiles.get(oldTile.getOccupier()).remove(oldTile);
+			} else if (oldTile.getResources() > 0) {
+				unoccupiedResourceTiles.remove(oldTile);
+			}
+		}
+		
+		if (newTile.getOccupier() != null) {
+			if (occupiedTiles.get(newTile.getOccupier()) == null) {
+				occupiedTiles.put(newTile.getOccupier(), new HashSet<>());
+			}
+			
+			occupiedTiles.get(newTile.getOccupier()).add(newTile);
+		} else if (newTile.getResources() > 0) {
+			unoccupiedResourceTiles.add(newTile);
+		}
+	}
 
     @Override
     public int getNumRows() {
@@ -183,5 +225,63 @@ public class DefaultTileGrid extends TileGrid {
     @Override
     public int getNumCols() {
         return this.numCols;
+    }
+    
+    @Override
+    public GridPos getPos(ViewableTile tile) {
+        return tilePosMap.get(tile.getID());
+    }
+    
+    @Override
+	public ViewableTile getTile(GridPos pos) {
+		return constTileGrid.get(pos.get1DIndex(numCols));
+	}
+    
+    private ViewableTile getTile(UUID id) {
+        return constTileGrid.get(tilePosMap.get(id).get1DIndex(numCols));
+    }
+    
+    private Tile getModifiableTile(UUID id) {
+        return tileGrid.get(tilePosMap.get(id).get1DIndex(numCols));
+    }
+
+    @Override
+    public Iterable<ViewableTile> getOccupiedTiles(Spreader spreader) {
+    	if (occupiedTiles.get(spreader) != null) {
+    		return occupiedTiles.get(spreader);
+    	} else {
+    		return Collections.emptyList();
+    	}
+    }
+
+    @Override
+    public ViewableTile getEasiestUnoccupiedResourceTile() {
+        return unoccupiedResourceTiles.peek();
+    }
+
+    @Override
+    public Iterable<ViewableTile> getAllTilesInRange(ViewableTile tile, int range) {
+    	GridPos pos = getPos(tile);
+        if (pos == null) {
+        	return null;
+        }
+    	
+    	List<ViewableTile> tilesInRange = new ArrayList<>();
+    	int minR = Math.max(0, pos.row() - range);
+        int maxR = Math.min(numRows - 1, pos.row() + range);
+        int minC = Math.max(0, pos.col() - range);
+        int maxC = Math.min(numCols - 1, pos.col() + range);
+    	for (int row = minR; row <= maxR; row++) {
+    		for (int col = minC; col <= maxC; col++) {
+        		tilesInRange.add(constTileGrid.get((new GridPos(row, col)).get1DIndex(numCols)));
+        	}
+    	}
+        
+        return tilesInRange;
+    }
+    
+    @Override
+    public Iterable<ViewableTile> getAllTiles() {
+        return constTileGrid;
     }
 }

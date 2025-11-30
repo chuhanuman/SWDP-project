@@ -2,7 +2,7 @@ package tile;
 
 import spreader.Spreader;
 
-public interface Tile extends ViewableTile{
+public interface Tile extends ViewableTile {
 	/**
 	 * Performs a deep copy of the tile
 	 * @return a deep copy of the tile
