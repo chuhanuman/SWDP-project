@@ -18,6 +18,7 @@ public class ExtraDefensesDecorator extends TileDecorator {
 	public void infect(double power, Spreader spreader) {
 		child.infect(power - 5, spreader);
 	}
+	
 	public static Applier getApplier() {
 		return APPLIER;
 	}

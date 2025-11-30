@@ -16,6 +16,7 @@ public class EfficientExtractionDecorator extends TileDecorator {
 	public double extract(double amountToExtract) {
 		return child.extract(amountToExtract) * 1.5;
 	}
+	
 	public static Applier getApplier() {
 		return APPLIER;
 	}

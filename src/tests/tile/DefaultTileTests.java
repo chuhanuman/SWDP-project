@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 import spreader.Spreader;
+import tests.spreader.FakeSpreader;
 import spreader.DefaultSpreader;
 import tile.Tile;
 import tile.DefaultTile;
@@ -27,7 +28,7 @@ public class DefaultTileTests {
 		tile = new DefaultTile(5, 5, null, 5);
 		assertEquals(0, tile.getOccupierPower());
 		
-		Spreader spreader = new DefaultSpreader(null, null);
+		Spreader spreader = new FakeSpreader();
 		tile = new DefaultTile(5, 5, spreader, 5);
 		assertEquals(spreader, tile.getOccupier());
 		assertEquals(5, tile.getOccupierPower());
@@ -36,7 +37,7 @@ public class DefaultTileTests {
 	@Test
 	public void occupierTests() {
 		Tile tile = new DefaultTile(100, 100);
-		Spreader spreader = new DefaultSpreader(null, null);
+		Spreader spreader = new FakeSpreader();
 		tile.infect(0, spreader);
 		assertEquals(null, tile.getOccupier());
 		assertEquals(0, tile.getOccupierPower());
