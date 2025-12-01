@@ -68,6 +68,10 @@ public class DefaultTile implements Tile {
 	public void multiplyOccupierPower(double amount) {
 		if (amount >= 0) {
 			occupierPower *= amount;
+			
+			if (occupierPower == 0) {
+				occupier = null;
+			}
 		}
 	}
 
