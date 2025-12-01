@@ -1,8 +1,8 @@
 package turn.deplete;
 
+import grid.GridView;
 import grid.TileGrid;
-import simulation.TileGridSimulation.View;
-import tile.Tile;
+import tile.ViewableTile;
 import turn.TurnStage;
 
 public class GrowStage implements TurnStage {
@@ -19,15 +19,15 @@ public class GrowStage implements TurnStage {
     }
 
     @Override
-    public void gatherActions(View simulation) {
+    public void gatherActions(GridView gridView) {
         // nothing to prepare before execution
         return;
     }
 
     @Override
     public void executeStage(TileGrid tileGrid) {
-        for (Tile t : tileGrid) {
-            t.multiplyOccupierPower(proportion);
+        for (ViewableTile t : tileGrid.getAllTiles()) {
+            tileGrid.multiplyOccupierPower(t.getID(), this.proportion);
         }
     }
 }

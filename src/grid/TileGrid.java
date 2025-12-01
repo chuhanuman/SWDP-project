@@ -40,7 +40,14 @@ public interface TileGrid extends GridView {
 	/**
 	 * Changes occupier power on the given tile by a flat amount
 	 * @param id id of the tile to infect
-	 * @param amount the increase in power if positive and the decrease in power if negative
+	 * @param power the increase in power if positive and the decrease in power if negative
 	 */
 	public abstract void addFlatOccupierPower(UUID id, double power);
+
+	/**
+	 * Changes occupier power on the given tile by a proportion amount
+	 * @param id id of the tile to infect
+	 * @param amount the proportional increase in power if > 1 and the decrease in power if < 1
+	 */
+	public abstract void multiplyOccupierPower(UUID id, double amount);
 }

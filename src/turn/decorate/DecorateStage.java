@@ -7,19 +7,20 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
+import grid.GridPos;
 import grid.GridView;
 import grid.TileGrid;
 import prng.PRNG;
-import simulation.TileGridSimulation.View;
 import tile.ConstTile;
 import tile.TileDecorator;
+import tile.ViewableTile;
 import turn.TurnStage;
 
 public class DecorateStage implements TurnStage {
 
     private double decorateChance;
     private List<TileDecorator.Applier> appliers;
-    private Map<UUID, TileDecorator.Applier> decorations;
+    private Map<GridPos, TileDecorator.Applier> decorations;
 
     /**
      * Stage which randomly decorates tiles
@@ -33,22 +34,21 @@ public class DecorateStage implements TurnStage {
     }
 
     @Override
-    public void gatherActions(View simulation) {
+    public void gatherActions(GridView gridView) {
         PRNG rng = PRNG.getInstance();
-        GridView grid = simulation.grid();
-        for (ConstTile t : grid) {
+        for (ViewableTile t : gridView.getAllTiles()) {
             if (rng.chance(decorateChance)) {
-                decorations.put(t.getID(), rng.choice(appliers));
+                decorations.put(gridView.getPos(t), rng.choice(appliers));
             }
         }
     }
 
     @Override
     public void executeStage(TileGrid tileGrid) {
-        Iterator<Entry<UUID, TileDecorator.Applier>> it = decorations.entrySet().iterator();
+        Iterator<Entry<GridPos, TileDecorator.Applier>> it = decorations.entrySet().iterator();
         while (it.hasNext()) {
-            Entry<UUID, TileDecorator.Applier> e = it.next();
-            tileGrid.decorateTile(tileGrid.getPos(tileGrid.get(e.getKey())), e.getValue());
+            Entry<GridPos, TileDecorator.Applier> e = it.next();
+            tileGrid.decorateTile(e.getKey(), e.getValue());
             it.remove();
         }
     }

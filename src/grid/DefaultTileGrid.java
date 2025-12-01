@@ -189,13 +189,7 @@ public class DefaultTileGrid implements TileGrid {
 		Spreader oldSpreader = tile.getOccupier();
 		getModifiableTile(id).addFlatOccupierPower(power);
 		
-		if (tile.getOccupier() != oldSpreader) {
-			occupiedTiles.get(oldSpreader).remove(tile);
-			
-			if (tile.getResources() > 0) {
-				unoccupiedResourceTiles.add(tile);
-			}
-		}
+		checkOccupierChange(oldSpreader, tile);
 	}
 	
 	private void updateTileReferences(ViewableTile oldTile, ViewableTile newTile) {
@@ -290,4 +284,24 @@ public class DefaultTileGrid implements TileGrid {
     public Iterable<Spreader> getSpreaders() {
     	return occupiedTiles.keySet();
     }
+
+    @Override
+    public void multiplyOccupierPower(UUID id, double amount) {
+        ViewableTile tile = getTile(id);
+		Spreader oldSpreader = tile.getOccupier();
+		getModifiableTile(id).multiplyOccupierPower(amount);
+		
+        checkOccupierChange(oldSpreader, tile);
+    }
+
+    private void checkOccupierChange(Spreader oldSpreader, ViewableTile tile) {
+        if (tile.getOccupier() != oldSpreader) {
+			occupiedTiles.get(oldSpreader).remove(tile);
+			
+			if (tile.getResources() > 0) {
+				unoccupiedResourceTiles.add(tile);
+			}
+		}
+    }
+    
 }
