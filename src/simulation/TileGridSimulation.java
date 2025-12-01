@@ -3,11 +3,17 @@ package simulation;
 
 import java.io.PrintStream;
 import java.util.Collection;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import grid.ConstGrid;
 import grid.GridView;
 import grid.TileGrid;
+import logging.SimulationLogger;
 import spreader.Spreader;
+import tile.ViewableTile;
 import turn.TurnManager;
 
 public class TileGridSimulation extends Simulation {
@@ -41,13 +47,70 @@ public class TileGridSimulation extends Simulation {
 
     @Override
     public void print(PrintStream out) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'print'");
+        SimulationLogger logger = SimulationLogger.getInstance();
+
+        out.println("--- Final Simulation State ---");
+        out.println("Total Turns: " + turn);
+
+        // Collect and print tile information
+        Iterable<ViewableTile> tiles = gridView.getAllTiles();
+
+        Map<Spreader, Integer> spreaderCounts = new HashMap<>();
+        int tileCount = 0;
+        int occupiedTiles = 0;
+        double totalResources = 0;
+        double totalPower = 0;
+        List<Map<String, Object>> tileDetails = new ArrayList<>();
+
+        for (ViewableTile tile : tiles) {
+            tileCount++;
+            totalResources += tile.getResources();
+            if (tile.getOccupier() != null) {
+                occupiedTiles++;
+                totalPower += tile.getOccupierPower();
+                spreaderCounts.merge(tile.getOccupier(), 1, Integer::sum);
+            }
+
+            // Collect detailed tile information
+            Map<String, Object> tileInfo = new HashMap<>();
+            tileInfo.put("id", tile.getID().toString());
+            tileInfo.put("resources", tile.getResources());
+            tileInfo.put("difficulty", tile.getDifficulty());
+            tileInfo.put("occupierPower", tile.getOccupierPower());
+            tileInfo.put("occupier", tile.getOccupier() != null ?
+                tile.getOccupier().getClass().getSimpleName() : null);
+            tileDetails.add(tileInfo);
+        }
+
+        out.println("Total Tiles: " + tileCount);
+        out.println("Occupied Tiles: " + occupiedTiles);
+        out.println("Total Resources: " + String.format("%.2f", totalResources));
+        out.println("Total Power: " + String.format("%.2f", totalPower));
+        out.println("\nSpreader Distribution:");
+
+        for (Map.Entry<Spreader, Integer> entry : spreaderCounts.entrySet()) {
+            out.println("  " + entry.getKey().getClass().getSimpleName() + ": " + entry.getValue() + " tiles");
+        }
+
+        logger.addFinalStateInfo("totalTurns", turn);
+        logger.addFinalStateInfo("totalTiles", tileCount);
+        logger.addFinalStateInfo("occupiedTiles", occupiedTiles);
+        logger.addFinalStateInfo("totalResources", totalResources);
+        logger.addFinalStateInfo("totalPower", totalPower);
+
+        Map<String, Integer> spreaderDistribution = new HashMap<>();
+        for (Map.Entry<Spreader, Integer> entry : spreaderCounts.entrySet()) {
+            spreaderDistribution.put(entry.getKey().getClass().getSimpleName(), entry.getValue());
+        }
+        logger.addFinalStateInfo("spreaderDistribution", spreaderDistribution);
+        logger.addFinalStateInfo("tiles", tileDetails);
     }
 
     @Override
     public void run(int totalTurns) {
+        SimulationLogger logger = SimulationLogger.getInstance();
         for (int i = 0; i < totalTurns; i++ ) {
+            logger.log(new logging.events.TimeStepEvent(turn));
             turnManager.executeTurn(gridView, tileGrid);
             turn++;
         }
