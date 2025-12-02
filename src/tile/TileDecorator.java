@@ -6,11 +6,12 @@ import spreader.Spreader;
 
 /**
  * Abstract class that decorates a tile
- * Role(s): decorator role in decorator pattern
+ * Role(s): decorator role in decorator pattern, the inner class Applier plays the command role in the command pattern
  */
 public abstract class TileDecorator implements Tile {
 	/**
 	 * Functional interface for applying a decorator to an inner tile
+	 * Role(s): command role in command pattern
 	 */
 	public static interface Applier {
 		TileDecorator apply(Tile inner);
