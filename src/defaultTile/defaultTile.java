@@ -12,14 +12,6 @@ public class DefaultTile implements Tile {
     private Spreader spreader;
     private final int maxResources;
 
-    /**
-     * Constructor for a tile with a spreader (occupied tile).
-     * 
-     * @param defenseLevel How difficult it is for aliens to spread here
-     * @param resources Initial resources available on this tile
-     * @param spreader The alien spreader occupying this tile
-     * @param maxResources Maximum resources this tile can hold
-     */
     public DefaultTile(int defenseLevel, int resources, Spreader spreader, int maxResources) {
         this.defenseLevel = defenseLevel;
         this.resources = resources;
@@ -27,12 +19,6 @@ public class DefaultTile implements Tile {
         this.maxResources = maxResources;
     }
 
-    /**
-     * Constructor for an empty tile (no spreader).
-     * 
-     * @param defenseLevel How difficult it is for aliens to spread here
-     * @param resources Initial resources available on this tile
-     */
     public DefaultTile(int defenseLevel, int resources) {
         this(defenseLevel, resources, null, resources);
     }
