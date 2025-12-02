@@ -4,6 +4,10 @@ import java.util.UUID;
 
 import spreader.Spreader;
 
+/**
+ * Handles the interface for an unmodifiable tile
+ * Role(s): N/A
+ */
 public interface ViewableTile {
     
     /**

@@ -4,6 +4,10 @@ import grid.GridView;
 import turn.move.MoveScheduler;
 import turn.extract.ExtractScheduler;
 
+/**
+ * Handles the interface for a spreader
+ * Role(s): N/A
+ */
 public interface Spreader {
 	/**
 	 * Tells the spreader to queue up any movements it wants its infections to make

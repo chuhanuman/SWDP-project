@@ -8,6 +8,10 @@ import spreader.Spreader;
 import turn.move.MoveScheduler;
 import tile.ViewableTile;
 
+/**
+ * Concrete implementation of a spreading strategy that spreads everywhere it can exploit
+ * Role(s): concrete strategy role in strategy pattern
+ */
 public class GreedySpreading implements SpreadingStrategy {
 	int range;
 	

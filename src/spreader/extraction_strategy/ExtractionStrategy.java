@@ -4,6 +4,10 @@ import spreader.Spreader;
 import grid.GridView;
 import turn.extract.ExtractScheduler;
 
+/**
+ * Handles interface for an extraction strategy
+ * Role(s): strategy role in strategy pattern
+ */
 public interface ExtractionStrategy {
 	/**
 	 * Tells the strategy to queue up any resource extractions it wants to do

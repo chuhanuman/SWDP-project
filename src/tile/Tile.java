@@ -2,6 +2,10 @@ package tile;
 
 import spreader.Spreader;
 
+/**
+ * Handles the interface for a tile
+ * Role(s): component role in decorator pattern, prototype role in prototype pattern
+ */
 public interface Tile extends ViewableTile {
 	/**
 	 * Performs a deep copy of the tile

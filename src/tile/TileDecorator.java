@@ -4,6 +4,10 @@ import java.util.UUID;
 
 import spreader.Spreader;
 
+/**
+ * Abstract class that decorates a tile
+ * Role(s): decorator role in decorator pattern
+ */
 public abstract class TileDecorator implements Tile {
 	/**
 	 * Functional interface for applying a decorator to an inner tile

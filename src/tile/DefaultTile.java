@@ -4,6 +4,10 @@ import java.util.UUID;
 
 import spreader.Spreader;
 
+/**
+ * Default concrete implementation of a tile
+ * Role(s): concrete component role in decorator pattern, concrete prototype in prototype pattern
+ */
 public class DefaultTile implements Tile {
 	private UUID id;
 

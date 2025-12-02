@@ -9,6 +9,10 @@ import spreader.Spreader;
 import turn.move.MoveScheduler;
 import tile.ViewableTile;
 
+/**
+ * Concrete implementation of a spreading strategy that spreads randomly
+ * Role(s): concrete strategy role in strategy pattern, client role in singleton pattern
+ */
 public class RandomSpreading implements SpreadingStrategy {
 	@Override
 	public void getMoveActions(GridView grid, MoveScheduler scheduler, Spreader spreader) {

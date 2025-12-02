@@ -5,6 +5,10 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Concrete implementation of a random number generator
+ * Role(s): singleton role in singleton pattern
+ */
 public class PRNG {
 	private static PRNG instance = null;
 
