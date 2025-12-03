@@ -10,7 +10,7 @@ import tile.ViewableTile;
 
 /**
  * Concrete implementation of a spreading strategy that spreads everywhere it can exploit
- * Role(s): concrete strategy role in strategy pattern
+ * Role(s): concrete strategy role in strategy pattern, client role in iterator pattern
  */
 public class GreedySpreading implements SpreadingStrategy {
 	int range;

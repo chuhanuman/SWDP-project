@@ -7,7 +7,7 @@ import tile.ViewableTile;
 
 /**
  * Concrete implementation of an extraction strategy that extracts everything
- * Role(s): concrete strategy role in strategy pattern
+ * Role(s): concrete strategy role in strategy pattern, client role in iterator pattern
  */
 public class InstantExtraction implements ExtractionStrategy {
 	private double efficiency;

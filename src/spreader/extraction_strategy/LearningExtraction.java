@@ -7,7 +7,7 @@ import tile.ViewableTile;
 
 /**
  * Concrete implementation of an extraction strategy that extracts with a higher efficiency each time
- * Role(s): concrete strategy role in strategy pattern
+ * Role(s): concrete strategy role in strategy pattern, client role in iterator pattern
  */
 public class LearningExtraction implements ExtractionStrategy {
 	private double efficiency;

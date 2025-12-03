@@ -7,7 +7,7 @@ import tile.ViewableTile;
 
 /**
  * Concrete implementation of a spreading strategy that spreads to easier to infect places first
- * Role(s): concrete strategy role in strategy pattern
+ * Role(s): concrete strategy role in strategy pattern, client role in iterator pattern
  */
 public class CowardSpreading implements SpreadingStrategy {
 	@Override

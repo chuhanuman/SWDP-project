@@ -11,7 +11,7 @@ import tile.ViewableTile;
 
 /**
  * Concrete implementation of a spreading strategy that spreads randomly
- * Role(s): concrete strategy role in strategy pattern, client role in singleton pattern
+ * Role(s): concrete strategy role in strategy pattern, client role in singleton pattern, client role in iterator pattern
  */
 public class RandomSpreading implements SpreadingStrategy {
 	@Override
