@@ -18,8 +18,6 @@ public class DefaultTile implements Tile {
 	
 	public DefaultTile(double difficulty, double resources) {
 		this.setRequired(difficulty, resources, null, 0);
-		this.occupier = null;
-		this.occupierPower = 0;
 	}
 	
 	public DefaultTile(double difficulty, double resources, Spreader occupier, double occupierPower) {
