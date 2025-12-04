@@ -16,6 +16,9 @@ public class DefaultTile implements Tile {
 	private Spreader occupier;
 	private double occupierPower;
 	
+	private DefaultTile() {
+	}
+	
 	public DefaultTile(double difficulty, double resources) {
 		this.setRequired(difficulty, resources, null, 0);
 	}
@@ -26,7 +29,14 @@ public class DefaultTile implements Tile {
 	
 	@Override
 	public Tile copy() {
-		return new DefaultTile(difficulty, resources, occupier, occupierPower);
+		DefaultTile copy = new DefaultTile();
+		copy.id = UUID.randomUUID();
+		copy.difficulty = difficulty;
+		copy.resources = resources;
+		copy.occupier = occupier;
+		copy.occupierPower = occupierPower;
+		
+		return copy;
 	}
 	
 	@Override
