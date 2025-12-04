@@ -2,8 +2,11 @@ package turn;
 
 import grid.GridView;
 import grid.TileGrid;
-import simulation.TileGridSimulation;
 
+/**
+ * Represents one action stage of a turn
+ * Role(s): n/a
+ */
 public interface TurnStage {
     
     /**

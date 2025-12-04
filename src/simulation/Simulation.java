@@ -4,6 +4,10 @@ import java.io.PrintStream;
 
 import prng.PRNG;
 
+/**
+ * Represents a turn-based simulation
+ * Role: n/a
+ */
 public abstract class Simulation {
     public static abstract class Builder {
         protected long rngSeed;

@@ -5,6 +5,10 @@ import grid.TileGrid;
 import tile.ViewableTile;
 import turn.TurnStage;
 
+/**
+ * Implementation for a turn stage where all spreaders grow/shrink proportionally.
+ * Role: n/a
+ */
 public class GrowStage implements TurnStage {
 
     private double proportion;

@@ -2,6 +2,10 @@ package turn.extract;
 
 import tile.ViewableTile;
 
+/**
+ * Interface for spreaders to queue extraction actions to
+ * Role: n/a
+ */
 public interface ExtractScheduler {
 
     /**

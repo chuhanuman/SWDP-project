@@ -9,7 +9,6 @@ import simulation.Simulation;
 import simulation.TileGridSimulation;
 import spreader.*;
 import spreader.extraction_strategy.InstantExtraction;
-import spreader.spreading_strategy.CowardSpreading;
 import spreader.spreading_strategy.GreedySpreading;
 import tile.DefaultTile;
 import tile.EfficientExtractionDecorator;

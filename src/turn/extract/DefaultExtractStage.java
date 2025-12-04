@@ -11,10 +11,13 @@ import java.util.UUID;
 import grid.GridView;
 import grid.TileGrid;
 import spreader.Spreader;
-import tile.ConstTile;
 import tile.ViewableTile;
 import turn.TurnStage;
 
+/**
+ * Implementation for a spreader extraction scheduler and turn stage.
+ * Role: n/a
+ */
 public class DefaultExtractStage implements TurnStage, ExtractScheduler {
 
     private Map<UUID, Collection<ExtractAction>> extractMap;

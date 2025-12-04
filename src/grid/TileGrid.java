@@ -1,14 +1,14 @@
 package grid;
 
-import java.util.Collection;
 import java.util.UUID;
 
 import spreader.Spreader;
-import tile.ConstTile;
-import tile.Tile;
 import tile.TileDecorator;
-import tile.ViewableTile;
 
+/**
+ * Represents a viewable and modifiable 2D grid of tiles.
+ * Role: Iterator used in some methods
+ */
 public interface TileGrid extends GridView {
     public static abstract class Builder {
         public abstract TileGrid build();

@@ -1,12 +1,12 @@
 package grid;
 
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-
 import spreader.Spreader;
-import tile.Tile;
 import tile.ViewableTile;
 
+/**
+ * View-only wrapper of tile grid object.
+ * Role: n/a
+ */
 public class ConstGrid implements GridView {
     private TileGrid tileGrid;
 
