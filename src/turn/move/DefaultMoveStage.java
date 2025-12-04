@@ -35,7 +35,7 @@ public class DefaultMoveStage implements TurnStage, MoveScheduler {
 
         SimulationLogger.getInstance().log(
             new logging.events.SpreadEvent(
-                fromTile.getOccupier().getClass().getSimpleName(),
+                fromTile.getOccupier() == null ? null : fromTile.getOccupier().getClass().getSimpleName(),
                 fromTile.getID(),
                 toTile.getID(),
                 availablePower
