@@ -1,5 +1,9 @@
 package grid;
 
+/**
+ * Simple record for grid position.
+ * Role: n/a
+ */
 public record GridPos(int row, int col) {
 	public int get1DIndex(int numCols) {
 		return row * numCols + col;

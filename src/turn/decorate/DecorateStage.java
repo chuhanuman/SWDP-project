@@ -5,17 +5,19 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.UUID;
 
 import grid.GridPos;
 import grid.GridView;
 import grid.TileGrid;
 import prng.PRNG;
-import tile.ConstTile;
 import tile.TileDecorator;
 import tile.ViewableTile;
 import turn.TurnStage;
 
+/**
+ * Implementation for a stage where tiles are randomly decorated.
+ * Role: A client for decorator pattern
+ */
 public class DecorateStage implements TurnStage {
 
     private double decorateChance;

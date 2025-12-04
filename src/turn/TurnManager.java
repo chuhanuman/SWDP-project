@@ -5,8 +5,11 @@ import java.util.List;
 
 import grid.GridView;
 import grid.TileGrid;
-import simulation.TileGridSimulation;
 
+/**
+ * Manages execution of a whole turn via an ordered list of stages
+ * Role: n/a
+ */
 public class TurnManager {
     public static class Builder {
         private List<TurnStage> stages;

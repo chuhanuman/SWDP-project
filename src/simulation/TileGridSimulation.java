@@ -2,14 +2,16 @@ package simulation;
 
 
 import java.io.PrintStream;
-import java.util.Collection;
 
 import grid.ConstGrid;
 import grid.GridView;
 import grid.TileGrid;
-import spreader.Spreader;
 import turn.TurnManager;
 
+/**
+ * Represents a simulation centralized around a grid of tiles.
+ * Role: n/a
+ */
 public class TileGridSimulation extends Simulation {
     public static class Builder extends Simulation.Builder {
         private TileGrid tileGrid;

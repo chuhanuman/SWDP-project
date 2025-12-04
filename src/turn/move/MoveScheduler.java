@@ -2,6 +2,10 @@ package turn.move;
 
 import tile.ViewableTile;
 
+/**
+ * Interface for spreaders to queue movement actions to
+ * Role: n/a
+ */
 public interface MoveScheduler {
 
     /**

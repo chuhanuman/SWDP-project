@@ -2,11 +2,12 @@ package grid;
 
 import tile.ViewableTile;
 
-import java.util.Collection;
-import java.util.UUID;
-
 import spreader.Spreader;
 
+/**
+ * Represents a viewable 2D grid of tiles.
+ * Role: iterator used in some methods
+ */
 public interface GridView {
 	/**
      * Returns the number of rows

@@ -7,10 +7,13 @@ import java.util.AbstractMap.SimpleEntry;
 
 import grid.TileGrid;
 import spreader.Spreader;
-import tile.ConstTile;
 import tile.ViewableTile;
 import turn.SimulationAction;
 
+/**
+ * Represents/handles logic for a single infection action
+ * Role: n/a
+ */
 public class InfectAction implements SimulationAction {
     
     /**

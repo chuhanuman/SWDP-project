@@ -10,9 +10,12 @@ import grid.GridView;
 import grid.TileGrid;
 import spreader.Spreader;
 import tile.ViewableTile;
-import tile.Tile;
 import turn.TurnStage;
 
+/**
+ * Implementation of a spreader movement scheduler and turn stage.
+ * Role: n/a
+ */
 public class DefaultMoveStage implements TurnStage, MoveScheduler {
 
     Map<UUID, Double> leavingPowerMap;

@@ -15,6 +15,10 @@ import tile.Tile;
 import tile.TileDecorator;
 import tile.ViewableTile;
 
+/**
+ * Implementation of 2D grid of tiles.
+ * Role: n/a
+ */
 public class DefaultTileGrid implements TileGrid {
     public static class Builder extends TileGrid.Builder {
         private List<Tile> tileGrid;
