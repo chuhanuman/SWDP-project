@@ -5,6 +5,10 @@ import grid.GridView;
 import turn.extract.ExtractScheduler;
 import tile.ViewableTile;
 
+/**
+ * Concrete implementation of an extraction strategy that extracts with a higher efficiency each time
+ * Role(s): concrete strategy role in strategy pattern
+ */
 public class LearningExtraction implements ExtractionStrategy {
 	private double efficiency;
 	private double learningRate;

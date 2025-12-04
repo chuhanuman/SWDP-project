@@ -2,20 +2,16 @@ package grid;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.PriorityQueue;
 import java.util.UUID;
 
 import logging.SimulationLogger;
 import spreader.Spreader;
 import tile.ConstTile;
-import tile.DefaultTile;
 import tile.Tile;
 import tile.TileDecorator;
 import tile.ViewableTile;
@@ -25,7 +21,7 @@ public class DefaultTileGrid implements TileGrid {
         private List<Tile> tileGrid;
         private int numRows, numCols;
 
-        private DefaultTile defaultTile;
+        private Tile defaultTile;
         boolean firstBuild;
 
         public Builder(int numRows, int numCols) throws IllegalArgumentException {
@@ -80,7 +76,7 @@ public class DefaultTileGrid implements TileGrid {
          * provides a default {@code Tile.Builder} for filling in uninitialized tiles at build time.
          * @param tileBuilder the builder specifying the default tile
          */
-        public Builder setDefaultTile(DefaultTile defaultTile) {
+        public Builder setDefaultTile(Tile defaultTile) {
             this.defaultTile = defaultTile;
             return this;
         }

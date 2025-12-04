@@ -5,6 +5,10 @@ import spreader.Spreader;
 import turn.move.MoveScheduler;
 import tile.ViewableTile;
 
+/**
+ * Concrete implementation of a spreading strategy that spreads to easier to infect places first
+ * Role(s): concrete strategy role in strategy pattern
+ */
 public class CowardSpreading implements SpreadingStrategy {
 	@Override
 	public void getMoveActions(GridView grid, MoveScheduler scheduler, Spreader spreader) {

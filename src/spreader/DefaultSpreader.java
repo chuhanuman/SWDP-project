@@ -6,6 +6,10 @@ import grid.GridView;
 import turn.move.MoveScheduler;
 import turn.extract.ExtractScheduler;
 
+/**
+ * Default concrete implementation of a spreader
+ * Role(s): context role in strategy pattern
+ */
 public class DefaultSpreader implements Spreader {
 	private SpreadingStrategy spreadingStrategy;
 	private ExtractionStrategy extractionStrategy;

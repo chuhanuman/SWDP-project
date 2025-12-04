@@ -1,5 +1,9 @@
 package tile;
 
+/**
+ * Concrete implementation that decorates a tile to improve its extraction efficiency
+ * Role(s): concrete decorator role in decorator pattern, concrete prototype in prototype pattern, the static field Applier is in the concrete command role in the command pattern
+ */
 public class EfficientExtractionDecorator extends TileDecorator {
 	private static final TileDecorator.Applier APPLIER = EfficientExtractionDecorator::new;
 

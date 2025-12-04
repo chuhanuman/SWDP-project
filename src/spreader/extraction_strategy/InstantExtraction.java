@@ -5,6 +5,10 @@ import grid.GridView;
 import turn.extract.ExtractScheduler;
 import tile.ViewableTile;
 
+/**
+ * Concrete implementation of an extraction strategy that extracts everything
+ * Role(s): concrete strategy role in strategy pattern
+ */
 public class InstantExtraction implements ExtractionStrategy {
 	private double efficiency;
 	

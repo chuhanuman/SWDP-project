@@ -4,6 +4,10 @@ import java.util.UUID;
 
 import spreader.Spreader;
 
+/**
+ * Default concrete implementation of an unmodifiable tile
+ * Role(s): N/A
+ */
 public class ConstTile implements ViewableTile {
 	private Tile child;
 	

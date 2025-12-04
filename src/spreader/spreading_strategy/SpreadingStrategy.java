@@ -4,6 +4,10 @@ import spreader.Spreader;
 import grid.GridView;
 import turn.move.MoveScheduler;
 
+/**
+ * Handles interface for a spreading strategy
+ * Role(s): strategy role in strategy pattern
+ */
 public interface SpreadingStrategy {
 	/**
 	 * Tells the strategy to queue up any move actions it wants to do
