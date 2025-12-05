@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.UUID;
 
+import logging.SimulationLogger;
 import spreader.Spreader;
 import tile.ConstTile;
 import tile.Tile;
@@ -144,11 +145,20 @@ public class DefaultTileGrid implements TileGrid {
     @Override
     public void decorateTile(GridPos pos, TileDecorator.Applier decoratorFunc) {
     	int index = pos.get1DIndex(numCols);
-        tileGrid.set(index, decoratorFunc.apply(tileGrid.get(index)));
-        
-        ViewableTile oldTile = constTileGrid.get(index);
+        Tile oldTile = tileGrid.get(index);
+        tileGrid.set(index, decoratorFunc.apply(oldTile));
+
+        String decoratorName = tileGrid.get(index).getClass().getSimpleName();
+        SimulationLogger.getInstance().log(
+            new logging.events.DecorationEvent(
+                String.format("(%d,%d)", pos.row(), pos.col()),
+                decoratorName
+            )
+        );
+
+        ViewableTile oldViewable = constTileGrid.get(index);
         constTileGrid.set(index, new ConstTile(tileGrid.get(index)));
-        updateTileReferences(oldTile, constTileGrid.get(index));
+        updateTileReferences(oldViewable, constTileGrid.get(index));
     }
     
     @Override
@@ -186,9 +196,19 @@ public class DefaultTileGrid implements TileGrid {
 	@Override
 	public void addFlatOccupierPower(UUID id, double power) {
 		ViewableTile tile = getTile(id);
+		double oldPower = tile.getOccupierPower();
 		Spreader oldSpreader = tile.getOccupier();
 		getModifiableTile(id).addFlatOccupierPower(power);
-		
+
+		SimulationLogger.getInstance().log(
+			new logging.events.PowerChangeEvent(
+				id,
+				oldPower,
+				tile.getOccupierPower(),
+				"flat"
+			)
+		);
+
 		checkOccupierChange(oldSpreader, tile);
 	}
 	
@@ -288,9 +308,19 @@ public class DefaultTileGrid implements TileGrid {
     @Override
     public void multiplyOccupierPower(UUID id, double amount) {
         ViewableTile tile = getTile(id);
+		double oldPower = tile.getOccupierPower();
 		Spreader oldSpreader = tile.getOccupier();
 		getModifiableTile(id).multiplyOccupierPower(amount);
-		
+
+		SimulationLogger.getInstance().log(
+			new logging.events.PowerChangeEvent(
+				id,
+				oldPower,
+				tile.getOccupierPower(),
+				"multiply"
+			)
+		);
+
         checkOccupierChange(oldSpreader, tile);
     }
 

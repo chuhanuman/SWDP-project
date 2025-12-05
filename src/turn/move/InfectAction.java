@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 import java.util.AbstractMap.SimpleEntry;
 
 import grid.TileGrid;
+import logging.SimulationLogger;
 import spreader.Spreader;
 import tile.ViewableTile;
 import turn.SimulationAction;
@@ -42,6 +43,14 @@ public class InfectAction implements SimulationAction {
         }
 
         Entry<Spreader, Double> result = computeSpreaderCancellation();
+
+        SimulationLogger.getInstance().log(
+            new logging.events.InfectionEvent(
+                this.tile.getID(),
+                result.getValue(),
+                result.getKey().getClass().getSimpleName()
+            )
+        );
 
         tileGrid.infectTile(this.tile.getID(), result.getValue(), result.getKey());
     }

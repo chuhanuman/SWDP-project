@@ -5,6 +5,8 @@ import java.util.List;
 import grid.DefaultTileGrid;
 import grid.GridPos;
 import grid.TileGrid;
+import logging.SimulationLogger;
+import logging.SimulationLogger.LogLevel;
 import simulation.Simulation;
 import simulation.TileGridSimulation;
 import spreader.*;
@@ -23,6 +25,8 @@ import turn.move.DefaultMoveStage;
 public class ExampleSimRun {
     public static void main(String[] args) {
         // EXAMPLE SIMULATION
+
+        SimulationLogger.getInstance().setLogLevel(LogLevel.DEBUG);
 
         // spreader example, as many as you want can be there
         Spreader s1 = new DefaultSpreader(new GreedySpreading(1), new InstantExtraction(1));

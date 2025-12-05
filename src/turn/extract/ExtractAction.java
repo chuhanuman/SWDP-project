@@ -3,6 +3,7 @@ package turn.extract;
 import grid.TileGrid;
 import tile.ViewableTile;
 import turn.SimulationAction;
+import logging.SimulationLogger;
 
 /**
  * Represents/handles logic for a single extract action
@@ -13,7 +14,14 @@ public record ExtractAction(ViewableTile tile, double resourcesToExtract, double
 
     @Override
     public void execute(TileGrid tileGrid) {
+        SimulationLogger.getInstance().log(
+            new logging.events.ExtractionEvent(
+                this.tile.getID(),
+                resourcesToExtract,
+                efficiency
+            )
+        );
         tileGrid.extractTile(this.tile.getID(), resourcesToExtract, efficiency);
     }
-    
+
 }
