@@ -81,16 +81,16 @@ public class FileIO {
     private static SimulationOutput buildOutput(TileGrid grid, int totalSteps) {
         SimulationOutput output = new SimulationOutput();
         output.totalSteps = totalSteps;
-        output.gridWidth = grid.getWidth();
-        output.gridHeight = grid.getHeight();
+        output.gridWidth = grid.getNumCols();
+        output.gridHeight = grid.getNumRows();
         
         // collect tile states
         List<TileState> tileStates = new ArrayList<>();
         int occupiedCount = 0;
         double totalResources = 0;
         
-        for (int row = 0; row < grid.getHeight(); row++) {
-            for (int col = 0; col < grid.getWidth(); col++) {
+        for (int row = 0; row < grid.getNumRows(); row++) {
+            for (int col = 0; col < grid.getNumCols(); col++) {
                 GridPos pos = new GridPos(col, row);
                 ViewableTile tile = grid.getTile(pos);
                 

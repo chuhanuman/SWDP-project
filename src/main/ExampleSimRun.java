@@ -5,6 +5,7 @@ import java.util.List;
 import grid.DefaultTileGrid;
 import grid.GridPos;
 import grid.TileGrid;
+import io.FileIO;
 import simulation.Simulation;
 import simulation.TileGridSimulation;
 import spreader.*;
