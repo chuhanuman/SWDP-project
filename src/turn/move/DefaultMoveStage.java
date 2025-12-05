@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import grid.GridView;
 import grid.TileGrid;
+import logging.SimulationLogger;
 import spreader.Spreader;
 import tile.ViewableTile;
 import turn.TurnStage;
@@ -34,6 +35,15 @@ public class DefaultMoveStage implements TurnStage, MoveScheduler {
 
         infectionMap.computeIfAbsent(toTile.getID(), (id) -> new InfectAction(toTile));
         infectionMap.get(toTile.getID()).addSpreader(fromTile.getOccupier(), availablePower);
+
+        SimulationLogger.getInstance().log(
+            new logging.events.SpreadEvent(
+                fromTile.getOccupier() == null ? null : fromTile.getOccupier().getClass().getSimpleName(),
+                fromTile.getID(),
+                toTile.getID(),
+                availablePower
+            )
+        );
     }
 
     @Override
