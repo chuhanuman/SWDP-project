@@ -24,7 +24,8 @@ public class SimulationLogger {
 
     private static SimulationLogger instance;
     private Logger logger;
-    private final LevelFilter filter;
+    private LogFilter filter;
+    private LogOutput output;
     private final CollectionOutput collectionOutput;
     private final Map<String, Object> finalState;
     private PrintStream currentOutputStream;
@@ -41,11 +42,11 @@ public class SimulationLogger {
     }
 
     private void rebuildLogger() {
-        CompositeOutput compositeOutput = new CompositeOutput(
+        this.output = new CompositeOutput(
             new PrintStreamOutput(currentOutputStream),
             collectionOutput
         );
-        this.logger = new SimulationEventLogger(filter, compositeOutput);
+        this.logger = new SimulationEventLogger(filter, output);
     }
 
     /**
@@ -60,19 +61,71 @@ public class SimulationLogger {
     }
 
     /**
-     * Set the logging level
+     * Set the logging level (only works if using LevelFilter)
      * @param level the log level to use
      */
     public void setLogLevel(LogLevel level) {
-        filter.setLevel(level);
+        if (filter instanceof LevelFilter) {
+            ((LevelFilter) filter).setLevel(level);
+        }
     }
 
     /**
-     * Get the current logging level
-     * @return the current log level
+     * Get the current logging level (only works if using LevelFilter)
+     * @return the current log level, or null if not using LevelFilter
      */
     public LogLevel getLogLevel() {
-        return filter.getLevel();
+        if (filter instanceof LevelFilter) {
+            return ((LevelFilter) filter).getLevel();
+        }
+        return null;
+    }
+
+    /**
+     * Replace the current filter with a new one
+     * @param newFilter the filter to use
+     */
+    public void setFilter(LogFilter newFilter) {
+        this.filter = newFilter;
+        rebuildLogger();
+    }
+
+    /**
+     * Get the current filter
+     * @return the current filter
+     */
+    public LogFilter getFilter() {
+        return this.filter;
+    }
+
+    /**
+     * Add an output to the current output
+     * @param newOutput the output to add
+     */
+    public void addOutput(LogOutput newOutput) {
+        if (output != null) {
+            output.addOutput(newOutput);
+        }
+    }
+
+    /**
+     * Replace all outputs with new ones (rebuilds the logger)
+     * Note: This will keep the collectionOutput for getSimulationLog() to work
+     * @param outputs the outputs to use
+     */
+    public void setOutputs(LogOutput... outputs) {
+        this.output = new CompositeOutput(outputs);
+        // Always add collection output to maintain getSimulationLog() functionality
+        this.output.addOutput(collectionOutput);
+        rebuildLogger();
+    }
+
+    /**
+     * Get the current output
+     * @return the current output
+     */
+    public LogOutput getOutput() {
+        return this.output;
     }
 
     /**
