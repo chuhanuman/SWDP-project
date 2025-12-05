@@ -1,0 +1,33 @@
+{
+  "width": 10,
+  "height": 10,
+  "maxDuration": 100,
+  "seed": 12345,
+  "csvMapFile": "",
+  "defaultTile": {
+    "difficulty": 10,
+    "resources": 1000
+  },
+  "tileTypes": {},
+  "alienForces": [
+    {
+      "type": "aggressive",
+      "spreadingStrategy": "GREEDY",
+      "extractionStrategy": "INSTANT",
+      "strategyParameter": 1.0,
+      "startingPositions": [
+        {
+          "col": 0,
+          "row": 0,
+          "initialOccupierPower": 100
+        }
+      ]
+    }
+  ],
+  "decoratorProbability": 0.01,
+  "growthRate": 0.9,
+  "logging": {
+    "level": "DEFAULT",
+    "outputFile": "output/final_state.json"
+  }
+}

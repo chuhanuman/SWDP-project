@@ -28,12 +28,14 @@ public class SimulationLogger {
     private final CollectionOutput collectionOutput;
     private final Map<String, Object> finalState;
     private PrintStream currentOutputStream;
+    private String outputFilePath;
 
     private SimulationLogger() {
         this.filter = new LevelFilter(LogLevel.DEFAULT);
         this.collectionOutput = new CollectionOutput();
         this.currentOutputStream = System.out;
         this.finalState = new HashMap<>();
+        this.outputFilePath = null;
 
         rebuildLogger();
     }
@@ -80,6 +82,22 @@ public class SimulationLogger {
     public void setOutputStream(PrintStream stream) {
         this.currentOutputStream = stream;
         rebuildLogger();
+    }
+
+    /**
+     * Set the output file path for logging
+     * @param path the file path to use for output
+     */
+    public void setOutputFilePath(String path) {
+        this.outputFilePath = path;
+    }
+
+    /**
+     * Get the output file path for logging
+     * @return the file path used for output
+     */
+    public String getOutputFilePath() {
+        return this.outputFilePath;
     }
 
     /**

@@ -106,6 +106,21 @@ public class TileGridSimulation extends Simulation {
         }
         logger.addFinalStateInfo("spreaderDistribution", spreaderDistribution);
         logger.addFinalStateInfo("tiles", tileDetails);
+
+        // Write final state to JSON file
+        String outputPath = logger.getOutputFilePath();
+        if (outputPath != null && !outputPath.isEmpty()) {
+            try {
+                out.println("\nWriting final state to: " + outputPath);
+                io.FileIO.writeFinalState(this.tileGrid, this.turn, outputPath);
+                out.println("Final state written successfully!");
+            } catch (java.io.IOException e) {
+                out.println("Warning: Failed to write final state to file: " + e.getMessage());
+                e.printStackTrace(out);
+            }
+        } else {
+            out.println("\nNo output file specified in configuration - skipping file write.");
+        }
     }
 
     @Override

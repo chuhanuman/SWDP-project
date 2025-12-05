@@ -1,14 +1,31 @@
 package io;
 
-// requires Gson library - add to your project dependencies
+// requires Gson library - added to project dependencies
 // Maven: <dependency><groupId>com.google.gson</groupId><artifactId>gson</artifactId><version>2.10.1</version></dependency>
 // Gradle: implementation 'com.google.gson:gson:2.10.1'
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import grid.DefaultTileGrid;
 import grid.TileGrid;
 import grid.GridPos;
+import tile.DefaultTile;
+import tile.Tile;
 import tile.ViewableTile;
+import tile.EfficientExtractionDecorator;
+import tile.ExtraDefensesDecorator;
+import tile.StealthyDecorator;
+import spreader.DefaultSpreader;
+import spreader.Spreader;
+import spreader.spreading_strategy.*;
+import spreader.extraction_strategy.*;
+import simulation.TileGridSimulation;
+import turn.TurnManager;
+import turn.extract.DefaultExtractStage;
+import turn.move.DefaultMoveStage;
+import turn.decorate.DecorateStage;
+import turn.deplete.GrowStage;
+import logging.SimulationLogger;
 
 import java.io.*;
 import java.util.*;
@@ -23,11 +40,11 @@ public class FileIO {
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     /**
-    reads simulation configuration from a JSON file
-     
-    @param configPath path to the JSON configuration file
-    @return SimulationConfig object containing all configuration parameters
-    @throws IOException if file reading fails
+     * reads simulation configuration from a JSON file
+     *  
+     * @param configPath path to the JSON configuration file
+     * @return SimulationConfig object containing all configuration parameters
+     * @throws IOException if file reading fails
      */
     public static SimulationConfig readConfig(String configPath) throws IOException {
         try (Reader reader = new FileReader(configPath)) {
@@ -61,12 +78,12 @@ public class FileIO {
     }
 
     /**
-    writes the final simulation state to a JSON file.
+     * writes the final simulation state to a JSON file.
      
-    @param grid the tile grid after simulation
-    @param totalSteps total number of steps executed
-    @param outputPath path to write the output JSON file
-    @throws IOException if file writing fails
+     * @param grid the tile grid after simulation
+     * @param totalSteps total number of steps executed
+     * @param outputPath path to write the output JSON file
+     * @throws IOException if file writing fails
      */
     public static void writeFinalState(TileGrid grid, int totalSteps, String outputPath) 
             throws IOException {
@@ -116,6 +133,213 @@ public class FileIO {
         output.totalRemainingResources = totalResources;
         
         return output;
+    }
+
+    /**
+     * Builds a complete simulation from a configuration file.
+    
+     * @param configPath Path to JSON configuration file
+     * @return Fully constructed TileGridSimulation ready to run
+     * @throws IOException If config file cannot be read
+     * @throws IllegalArgumentException If config contains invalid data
+     */
+     
+    public static TileGridSimulation buildSimulation(String configPath) throws IOException {
+        SimulationConfig config = readConfig(configPath);
+        
+        // configure logging before building simulation
+        configureLogger(config);
+        
+        // build tile grid from config
+        TileGrid grid = buildTileGrid(config);
+        
+        // build turn manager from config
+        TurnManager manager = buildTurnManager(config);
+        
+        // build simulation
+        TileGridSimulation.Builder simBuilder = new TileGridSimulation.Builder(grid, manager);
+        
+        // set seed if provided
+        if (config.seed != null) {
+            simBuilder.setRNGSeed(config.seed);
+        }
+        
+        return (TileGridSimulation) simBuilder.build();
+    }
+
+    // Configure SimulationLogger based on config settings
+    private static void configureLogger(SimulationConfig config) {
+        if (config.logging == null) {
+            return;
+        }
+        
+        SimulationLogger logger = SimulationLogger.getInstance();
+        
+        // Set log level
+        if (config.logging.level != null) {
+            try {
+                SimulationLogger.LogLevel level = 
+                    SimulationLogger.LogLevel.valueOf(config.logging.level.toUpperCase());
+                logger.setLogLevel(level);
+            } catch (IllegalArgumentException e) {
+                System.err.println("Warning: Unknown log level '" + config.logging.level + 
+                                   "', using DEFAULT");
+            }
+        }
+        
+        // Set output file path - storing for later use in print()
+        if (config.logging.outputFile != null) {
+            logger.setOutputFilePath(config.logging.outputFile);
+        }
+    }
+
+    /**
+     * Builds the TileGrid by orchestrating the DefaultTileGrid.Builder.
+     * Reads CSV map if provided and places tiles accordingly.
+     */
+    private static TileGrid buildTileGrid(SimulationConfig config) throws IOException {
+        DefaultTileGrid.Builder gridBuilder = new DefaultTileGrid.Builder(
+            config.width, 
+            config.height
+        );
+        
+        // Set default tile
+        Tile defaultTile = new DefaultTile(
+            config.defaultTile.difficulty, 
+            config.defaultTile.resources
+        );
+        gridBuilder.setDefaultTile(defaultTile);
+        
+        // Place specific tiles from CSV map if provided
+        if (config.csvMapFile != null && !config.csvMapFile.isEmpty()) {
+            String[][] tileMap = readCSVMap(config.csvMapFile);
+            
+            if (config.tileTypes != null) {
+                for (int row = 0; row < tileMap.length && row < config.height; row++) {
+                    for (int col = 0; col < tileMap[row].length && col < config.width; col++) {
+                        String tileType = tileMap[row][col];
+                        
+                        // Skip if it's DEFAULT or not defined
+                        if (!"DEFAULT".equals(tileType) && config.tileTypes.containsKey(tileType)) {
+                            TileTypeConfig tileConfig = config.tileTypes.get(tileType);
+                            Tile tile = new DefaultTile(
+                                tileConfig.difficulty,
+                                tileConfig.resources
+                            );
+                            gridBuilder.setTile(tile, new GridPos(col, row));
+                        }
+                    }
+                }
+            }
+        }
+        
+        // Place alien forces at their starting positions
+        if (config.alienForces != null) {
+            for (AlienForceConfig alienConfig : config.alienForces) {
+                Spreader spreader = createSpreader(alienConfig);
+                
+                // Place spreader at each starting position
+                for (StartingPosition pos : alienConfig.startingPositions) {
+                    Tile tile = new DefaultTile(
+                        config.defaultTile.difficulty,
+                        config.defaultTile.resources,
+                        spreader,
+                        pos.initialOccupierPower
+                    );
+                    gridBuilder.setTile(tile, new GridPos(pos.col, pos.row));
+                }
+            }
+        }
+        
+        return gridBuilder.build();
+    }
+
+    /**
+     * Builds the TurnManager by orchestrating the TurnManager.Builder
+     * Sets up sequence of stages for each turn
+     */
+    private static TurnManager buildTurnManager(SimulationConfig config) {
+        TurnManager.Builder builder = new TurnManager.Builder();
+        
+        // Adding standard stages in order
+        builder.nextStage(new DefaultExtractStage());
+        builder.nextStage(new DefaultMoveStage());
+        
+        // Add decorator stage with probability from config
+        double decoratorProbability = (config.decoratorProbability != null) 
+            ? config.decoratorProbability : 0.01;
+        builder.nextStage(new DecorateStage(
+            decoratorProbability,
+            List.of(
+                StealthyDecorator.getApplier(),
+                ExtraDefensesDecorator.getApplier(),
+                EfficientExtractionDecorator.getApplier()
+            )
+        ));
+        
+        // Add growth stage
+        double growthRate = (config.growthRate != null) ? config.growthRate : 0.9;
+        builder.nextStage(new GrowStage(growthRate));
+        
+        return builder.build();
+    }
+
+    // Factory method to create a Spreader from config - Delegates to strategy factory methods created by other team members
+    private static Spreader createSpreader(AlienForceConfig config) {
+        SpreadingStrategy spreadStrategy = createSpreadingStrategy(
+            config.spreadingStrategy, 
+            config.strategyParameter
+        );
+        
+        ExtractionStrategy extractStrategy = createExtractionStrategy(
+            config.extractionStrategy,
+            config.strategyParameter
+        );
+        
+        return new DefaultSpreader(spreadStrategy, extractStrategy);
+    }
+
+    /**
+     * Factory method for spreading strategies.
+     * Maps string names to actual strategy implementations.
+     */
+    private static SpreadingStrategy createSpreadingStrategy(String type, double parameter) {
+        if (type == null) {
+            type = "GREEDY"; // default
+        }
+        
+        switch (type.toUpperCase()) {
+            case "GREEDY":
+                return new GreedySpreading((int) parameter);
+            case "COWARD":
+            case "LEAST_RESISTANCE":
+                return new CowardSpreading();
+            case "RANDOM":
+                return new RandomSpreading();
+            default:
+                throw new IllegalArgumentException("Unknown spreading strategy: " + type);
+        }
+    }
+
+    /**
+     * Factory method for extraction strategies.
+     * Maps string names to actual strategy implementations.
+     */
+    private static ExtractionStrategy createExtractionStrategy(String type, double parameter) {
+        if (type == null) {
+            type = "INSTANT";   // default
+        }
+        
+        switch (type.toUpperCase()) {
+            case "INSTANT":
+                return new InstantExtraction(parameter);
+            case "LEARNING":
+                return new LearningExtraction(parameter, 1.1);
+            case "SLOW":
+                return new SlowExtraction(parameter, 100.0);
+            default:
+                throw new IllegalArgumentException("Unknown extraction strategy: " + type);
+        }
     }
 
     // Config Classes (JSON input)
