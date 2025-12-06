@@ -14,7 +14,7 @@ import logging.outputs.PrintStreamOutput;
  * Singleton logger for simulation events.
  * Supports different logging levels and stores final state information.
  */
-public class SimulationLogger {
+public class SimulationLogger implements Logger {
 
     public enum LogLevel {
         DEBUG,   // Logs every change
@@ -23,7 +23,6 @@ public class SimulationLogger {
     }
 
     private static SimulationLogger instance;
-    private Logger logger;
     private LogFilter filter;
     private LogOutput output;
     private final Map<String, Object> finalState;
@@ -35,16 +34,10 @@ public class SimulationLogger {
         this.currentOutputStream = System.out;
         this.finalState = new HashMap<>();
         this.outputFilePath = null;
-
-        rebuildLogger();
-    }
-
-    private void rebuildLogger() {
         this.output = new CompositeOutput(
             new PrintStreamOutput(currentOutputStream),
             new CollectionOutput()
         );
-        this.logger = new SimulationEventLogger(filter, output);
     }
 
     /**
@@ -85,7 +78,6 @@ public class SimulationLogger {
      */
     public void setFilter(LogFilter newFilter) {
         this.filter = newFilter;
-        rebuildLogger();
     }
 
     /**
@@ -107,7 +99,7 @@ public class SimulationLogger {
     }
 
     /**
-     * Replace all outputs with new ones (rebuilds the logger)
+     * Replace all outputs with new ones
      * Note: This will add a CollectionOutput for getSimulationLog() to work
      * @param outputs the outputs to use
      */
@@ -115,7 +107,6 @@ public class SimulationLogger {
         this.output = new CompositeOutput(outputs);
         // Always add collection output to maintain getSimulationLog() functionality
         this.output.addOutput(new CollectionOutput());
-        rebuildLogger();
     }
 
     /**
@@ -132,7 +123,11 @@ public class SimulationLogger {
      */
     public void setOutputStream(PrintStream stream) {
         this.currentOutputStream = stream;
-        rebuildLogger();
+        // Rebuild the output composite with new stream
+        this.output = new CompositeOutput(
+            new PrintStreamOutput(currentOutputStream),
+            new CollectionOutput()
+        );
     }
 
     /**
@@ -154,8 +149,8 @@ public class SimulationLogger {
     /**
      * Reset the logger state (useful between simulation runs)
      */
+    @Override
     public void reset() {
-        logger.reset();
         output.clear();
         finalState.clear();
     }
@@ -164,8 +159,11 @@ public class SimulationLogger {
      * Log an event
      * @param event the event to log
      */
+    @Override
     public void log(LogEvent event) {
-        logger.log(event);
+        if (filter.shouldLog(event)) {
+            output.write(event.format());
+        }
     }
 
     /**
