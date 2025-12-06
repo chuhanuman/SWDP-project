@@ -25,7 +25,7 @@ public class SimulationLogger {
     private static SimulationLogger instance;
     private Logger logger;
     private LogFilter filter;
-    private CompositeOutput output;
+    private LogOutput output;
     private final Map<String, Object> finalState;
     private PrintStream currentOutputStream;
     private String outputFilePath;
