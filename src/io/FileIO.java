@@ -89,7 +89,10 @@ public class FileIO {
             throws IOException {
         SimulationOutput output = buildOutput(grid, totalSteps);
         
-        try (Writer writer = new FileWriter(outputPath)) {
+        File file = new File(outputPath);
+        file.getParentFile().mkdirs();
+        
+        try (Writer writer = new FileWriter(file)) {
             gson.toJson(output, writer);
         }
     }
