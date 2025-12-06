@@ -1,8 +1,7 @@
 {
-  "width": 10,
-  "height": 10,
-  "maxDuration": 100,
-  "seed": 12345,
+  "width": 100,
+  "height": 100,
+  "maxDuration": 1000,
   "csvMapFile": "",
   "defaultTile": {
     "difficulty": 10,
@@ -48,7 +47,7 @@
       },
       "extractionStrategy": {
         "type": "LEARNING",
-        "efficiency": 1.0,
+        "efficiency": 0.5,
         "learningRate": 1.1
       },
       "startingPositions": [
@@ -84,9 +83,9 @@
     }
   ],
   "decoratorProbability": 0.01,
-  "growthRate": 0.9,
+  "growthRate": 0.95,
   "logging": {
-    "level": "DEFAULT",
+    "level": "SILENT",
     "outputFile": "output/final_state.json"
   }
 }

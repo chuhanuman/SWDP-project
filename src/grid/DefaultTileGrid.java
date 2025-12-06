@@ -111,6 +111,7 @@ public class DefaultTileGrid implements TileGrid {
 
     private final List<Tile> tileGrid;
     private final List<ViewableTile> constTileGrid;
+    private final List<Spreader> spreaders;
     private final int numRows;
     private final int numCols;
     private final Map<UUID, GridPos> tilePosMap;
@@ -126,7 +127,8 @@ public class DefaultTileGrid implements TileGrid {
         
         this.numRows = numRows;
         this.numCols = numCols;
-
+        
+        spreaders = new ArrayList<>();
         tilePosMap = new HashMap<>(numRows * numCols);
         occupiedTiles = new HashMap<>();
         unoccupiedResourceTiles = new PriorityQueue<ViewableTile>(
@@ -135,9 +137,13 @@ public class DefaultTileGrid implements TileGrid {
         for (int index = 0, row = 0; row < numRows; row++) {
             for (int col = 0; col < numCols; col++, index++) {
             	ViewableTile tile = constTileGrid.get(index);
-        		GridPos pos = new GridPos(row, col);
+            	GridPos pos = new GridPos(row, col);
         		tilePosMap.put(tile.getID(), pos);
         		updateTileReferences(null, tile);
+        		
+        		if (tile.getOccupier() != null && !spreaders.contains(tile.getOccupier())) {
+        			spreaders.add(tile.getOccupier());
+        		}
         	}
         }
     }
@@ -302,7 +308,7 @@ public class DefaultTileGrid implements TileGrid {
 
     @Override
     public Iterable<Spreader> getSpreaders() {
-    	return occupiedTiles.keySet();
+    	return spreaders;
     }
 
     @Override
