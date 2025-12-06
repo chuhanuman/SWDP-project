@@ -216,18 +216,22 @@ public class FileIO {
             String[][] tileMap = readCSVMap(config.csvMapFile);
             
             if (config.tileTypes != null) {
+            	Map<String, Tile> tilePrototypes = new HashMap<>();
+            	for (Map.Entry<String, TileTypeConfig> entry : config.tileTypes.entrySet()) {
+            		Tile tile = new DefaultTile(
+                        entry.getValue().difficulty,
+                        entry.getValue().resources
+                    );
+            		tilePrototypes.put(entry.getKey(), tile);
+            	}
+            	
                 for (int row = 0; row < tileMap.length && row < config.height; row++) {
                     for (int col = 0; col < tileMap[row].length && col < config.width; col++) {
                         String tileType = tileMap[row][col];
                         
                         // Skip if it's DEFAULT or not defined
-                        if (!"DEFAULT".equals(tileType) && config.tileTypes.containsKey(tileType)) {
-                            TileTypeConfig tileConfig = config.tileTypes.get(tileType);
-                            Tile tile = new DefaultTile(
-                                tileConfig.difficulty,
-                                tileConfig.resources
-                            );
-                            gridBuilder.setTile(tile, new GridPos(col, row));
+                        if (!"DEFAULT".equals(tileType) && tilePrototypes.containsKey(tileType)) {
+                            gridBuilder.setTile(tilePrototypes.get(tileType), new GridPos(col, row));
                         }
                     }
                 }
