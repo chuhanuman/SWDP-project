@@ -22,4 +22,10 @@ public interface Spreader {
 	 * @param scheduler simulation object to queue actions to
 	 */
 	public abstract void getExtractActions(GridView grid, ExtractScheduler scheduler);
+	
+	/**
+	 * Returns the name of the spreader
+	 * @return name of the spreader
+	 */
+	public abstract String getName();
 }

@@ -15,4 +15,9 @@ public class FakeSpreader implements Spreader {
 	public void getExtractActions(GridView grid, ExtractScheduler scheduler) {
 		return;
 	}
+
+	@Override
+	public String getName() {
+		return null;
+	}
 }

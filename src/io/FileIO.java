@@ -117,10 +117,10 @@ public class FileIO {
                 state.row = row;
                 state.difficulty = tile.getDifficulty();
                 state.resources = tile.getResources();
-                state.occupierPower = tile.getOccupierPower();
-                state.occupied = (tile.getOccupier() != null);
+                state.occupier = (tile.getOccupier() == null) ? null : tile.getOccupier().getName();
+                state.occupierPower = (tile.getOccupier() == null) ? null : tile.getOccupierPower();
                 
-                if (state.occupied) {
+                if (tile.getOccupier() != null) {
                     occupiedCount++;
                 }
                 totalResources += tile.getResources();
@@ -302,7 +302,7 @@ public class FileIO {
         SpreadingStrategy spreadStrategy = createSpreadingStrategy(config.spreadingStrategy);
         ExtractionStrategy extractStrategy = createExtractionStrategy(config.extractionStrategy);
         
-        return new DefaultSpreader(spreadStrategy, extractStrategy);
+        return new DefaultSpreader(spreadStrategy, extractStrategy, config.type);
     }
 
     /**
@@ -441,7 +441,7 @@ public class FileIO {
         public int row;
         public double difficulty;
         public double resources;
-        public double occupierPower;
-        public boolean occupied;
+        public String occupier;
+        public Double occupierPower;
     }
 }

@@ -80,7 +80,7 @@ public class TileGridSimulation extends Simulation {
             tileInfo.put("difficulty", tile.getDifficulty());
             tileInfo.put("occupierPower", tile.getOccupierPower());
             tileInfo.put("occupier", tile.getOccupier() != null ?
-                tile.getOccupier().getClass().getSimpleName() : null);
+                tile.getOccupier().getName() : null);
             tileDetails.add(tileInfo);
         }
 
@@ -91,7 +91,7 @@ public class TileGridSimulation extends Simulation {
         out.println("\nSpreader Distribution:");
 
         for (Map.Entry<Spreader, Integer> entry : spreaderCounts.entrySet()) {
-            out.println("  " + entry.getKey().getClass().getSimpleName() + ": " + entry.getValue() + " tiles");
+            out.println("  " + entry.getKey().getName() + ": " + entry.getValue() + " tiles");
         }
 
         logger.addFinalStateInfo("totalTurns", turn);
@@ -102,7 +102,7 @@ public class TileGridSimulation extends Simulation {
 
         Map<String, Integer> spreaderDistribution = new HashMap<>();
         for (Map.Entry<Spreader, Integer> entry : spreaderCounts.entrySet()) {
-            spreaderDistribution.put(entry.getKey().getClass().getSimpleName(), entry.getValue());
+            spreaderDistribution.put(entry.getKey().getName(), entry.getValue());
         }
         logger.addFinalStateInfo("spreaderDistribution", spreaderDistribution);
         logger.addFinalStateInfo("tiles", tileDetails);
