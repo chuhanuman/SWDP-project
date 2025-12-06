@@ -2,7 +2,7 @@ package tile;
 
 /**
  * Concrete implementation that decorates a tile to lower its perceived difficulty 
- * Role(s): concrete decorator role in decorator pattern, concrete prototype in prototype pattern, the static field Applier is in the concrete command role in the command pattern
+ * Role(s): concrete decorator role in decorator pattern, concrete prototype in prototype pattern, receiver role in command pattern, the static field Applier is in the concrete command role in the command pattern
  */
 public class StealthyDecorator extends TileDecorator {
 	private static final TileDecorator.Applier APPLIER = StealthyDecorator::new;

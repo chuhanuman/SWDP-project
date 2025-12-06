@@ -7,7 +7,7 @@ import tile.TileDecorator;
 
 /**
  * Represents a viewable and modifiable 2D grid of tiles.
- * Role(s): product role in builder pattern, inner class builder plays the builder role in the builder pattern
+ * Role(s): product role in builder pattern, invoker role in command pattern, inner class builder plays the builder role in the builder pattern
  */
 public interface TileGrid extends GridView {
     public static abstract class Builder {

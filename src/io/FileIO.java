@@ -231,7 +231,7 @@ public class FileIO {
                         
                         // Skip if it's DEFAULT or not defined
                         if (!"DEFAULT".equals(tileType) && tilePrototypes.containsKey(tileType)) {
-                            gridBuilder.setTile(tilePrototypes.get(tileType), new GridPos(col, row));
+                            gridBuilder.setTile(tilePrototypes.get(tileType).copy(), new GridPos(col, row));
                         }
                     }
                 }
