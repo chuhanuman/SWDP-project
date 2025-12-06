@@ -1,5 +1,8 @@
 package logging;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Interface for outputting log messages.
  * Supports the Composite pattern for combining multiple outputs.
@@ -32,5 +35,23 @@ public interface LogOutput {
     default boolean removeOutput(LogOutput output) {
         // Leaf nodes don't support removing children
         return false;
+    }
+
+    /**
+     * Get collected messages (for outputs that collect messages)
+     * Default implementation returns empty list (leaf behavior)
+     * @return list of collected messages
+     */
+    default List<String> getMessages() {
+        // Leaf nodes that don't collect return empty list
+        return new ArrayList<>();
+    }
+
+    /**
+     * Clear any collected state (for outputs that maintain state)
+     * Default implementation does nothing (leaf behavior)
+     */
+    default void clear() {
+        // Leaf nodes with no state don't need to clear
     }
 }

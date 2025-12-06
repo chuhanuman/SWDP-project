@@ -42,4 +42,22 @@ public class CompositeOutput implements LogOutput {
             output.write(message);
         }
     }
+
+    @Override
+    public List<String> getMessages() {
+        // Collect messages from all child outputs
+        List<String> allMessages = new ArrayList<>();
+        for (LogOutput output : outputs) {
+            allMessages.addAll(output.getMessages());
+        }
+        return allMessages;
+    }
+
+    @Override
+    public void clear() {
+        // Clear all child outputs
+        for (LogOutput output : outputs) {
+            output.clear();
+        }
+    }
 }

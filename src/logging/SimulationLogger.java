@@ -25,15 +25,13 @@ public class SimulationLogger {
     private static SimulationLogger instance;
     private Logger logger;
     private LogFilter filter;
-    private LogOutput output;
-    private final CollectionOutput collectionOutput;
+    private CompositeOutput output;
     private final Map<String, Object> finalState;
     private PrintStream currentOutputStream;
     private String outputFilePath;
 
     private SimulationLogger() {
         this.filter = new LevelFilter(LogLevel.DEFAULT);
-        this.collectionOutput = new CollectionOutput();
         this.currentOutputStream = System.out;
         this.finalState = new HashMap<>();
         this.outputFilePath = null;
@@ -44,7 +42,7 @@ public class SimulationLogger {
     private void rebuildLogger() {
         this.output = new CompositeOutput(
             new PrintStreamOutput(currentOutputStream),
-            collectionOutput
+            new CollectionOutput()
         );
         this.logger = new SimulationEventLogger(filter, output);
     }
@@ -110,13 +108,13 @@ public class SimulationLogger {
 
     /**
      * Replace all outputs with new ones (rebuilds the logger)
-     * Note: This will keep the collectionOutput for getSimulationLog() to work
+     * Note: This will add a CollectionOutput for getSimulationLog() to work
      * @param outputs the outputs to use
      */
     public void setOutputs(LogOutput... outputs) {
         this.output = new CompositeOutput(outputs);
         // Always add collection output to maintain getSimulationLog() functionality
-        this.output.addOutput(collectionOutput);
+        this.output.addOutput(new CollectionOutput());
         rebuildLogger();
     }
 
@@ -158,7 +156,7 @@ public class SimulationLogger {
      */
     public void reset() {
         logger.reset();
-        collectionOutput.clear();
+        output.clear();
         finalState.clear();
     }
 
@@ -184,6 +182,6 @@ public class SimulationLogger {
      * @return list of all logged messages
      */
     public List<String> getSimulationLog() {
-        return collectionOutput.getMessages();
+        return output.getMessages();
     }
 }
