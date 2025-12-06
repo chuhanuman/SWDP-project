@@ -137,8 +137,7 @@ public class FileIO {
     }
 
     /**
-     * Builds a complete simulation from a configuration file
-     * Orchestrates calling other builders to construct the full simulation
+     * Builds a complete simulation from a configuration file.
      * 
      * @param configPath Path to JSON configuration file
      * @return Fully constructed TileGridSimulation ready to run
