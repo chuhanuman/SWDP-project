@@ -8,18 +8,77 @@
     "difficulty": 10,
     "resources": 1000
   },
-  "tileTypes": {},
+  "tileTypes": {
+    "WEAK": {
+      "difficulty": 5,
+      "resources": 500
+    },
+    "STRONG": {
+      "difficulty": 20,
+      "resources": 2000
+    },
+    "RICH": {
+      "difficulty": 10,
+      "resources": 5000
+    }
+  },
   "alienForces": [
     {
       "type": "aggressive",
-      "spreadingStrategy": "GREEDY",
-      "extractionStrategy": "INSTANT",
-      "strategyParameter": 1.0,
+      "spreadingStrategy": {
+        "type": "GREEDY",
+        "range": 1
+      },
+      "extractionStrategy": {
+        "type": "INSTANT",
+        "efficiency": 1.0
+      },
       "startingPositions": [
         {
           "col": 0,
           "row": 0,
           "initialOccupierPower": 100
+        }
+      ]
+    },
+    {
+      "type": "defensive",
+      "spreadingStrategy": {
+        "type": "COWARD"
+      },
+      "extractionStrategy": {
+        "type": "LEARNING",
+        "efficiency": 1.0,
+        "learningRate": 1.1
+      },
+      "startingPositions": [
+        {
+          "col": 9,
+          "row": 9,
+          "initialOccupierPower": 50
+        },
+        {
+          "col": 8,
+          "row": 9,
+          "initialOccupierPower": 50
+        }
+      ]
+    },
+    {
+      "type": "slow_consumer",
+      "spreadingStrategy": {
+        "type": "RANDOM"
+      },
+      "extractionStrategy": {
+        "type": "SLOW",
+        "efficiency": 0.8,
+        "maxConsumption": 50.0
+      },
+      "startingPositions": [
+        {
+          "col": 5,
+          "row": 5,
+          "initialOccupierPower": 75
         }
       ]
     }

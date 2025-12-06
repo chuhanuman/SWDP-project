@@ -137,14 +137,14 @@ public class FileIO {
     }
 
     /**
-     * Builds a complete simulation from a configuration file.
-    
+     * Builds a complete simulation from a configuration file
+     * Orchestrates calling other builders to construct the full simulation
+     * 
      * @param configPath Path to JSON configuration file
      * @return Fully constructed TileGridSimulation ready to run
      * @throws IOException If config file cannot be read
      * @throws IllegalArgumentException If config contains invalid data
      */
-     
     public static TileGridSimulation buildSimulation(String configPath) throws IOException {
         SimulationConfig config = readConfig(configPath);
         
@@ -168,7 +168,9 @@ public class FileIO {
         return (TileGridSimulation) simBuilder.build();
     }
 
-    // Configure SimulationLogger based on config settings
+    /**
+     * Configure SimulationLogger based on config settings
+     */
     private static void configureLogger(SimulationConfig config) {
         if (config.logging == null) {
             return;
@@ -197,6 +199,7 @@ public class FileIO {
     /**
      * Builds the TileGrid by orchestrating the DefaultTileGrid.Builder.
      * Reads CSV map if provided and places tiles accordingly.
+     * Uses prototype pattern for tile creation efficiency.
      */
     private static TileGrid buildTileGrid(SimulationConfig config) throws IOException {
         DefaultTileGrid.Builder gridBuilder = new DefaultTileGrid.Builder(
@@ -216,15 +219,17 @@ public class FileIO {
             String[][] tileMap = readCSVMap(config.csvMapFile);
             
             if (config.tileTypes != null) {
-            	Map<String, Tile> tilePrototypes = new HashMap<>();
-            	for (Map.Entry<String, TileTypeConfig> entry : config.tileTypes.entrySet()) {
-            		Tile tile = new DefaultTile(
+                // Create prototype tiles (one per type) - Prototype Pattern
+                Map<String, Tile> tilePrototypes = new HashMap<>();
+                for (Map.Entry<String, TileTypeConfig> entry : config.tileTypes.entrySet()) {
+                    Tile tile = new DefaultTile(
                         entry.getValue().difficulty,
                         entry.getValue().resources
                     );
-            		tilePrototypes.put(entry.getKey(), tile);
-            	}
-            	
+                    tilePrototypes.put(entry.getKey(), tile);
+                }
+                
+                // Place tiles using prototypes
                 for (int row = 0; row < tileMap.length && row < config.height; row++) {
                     for (int col = 0; col < tileMap[row].length && col < config.width; col++) {
                         String tileType = tileMap[row][col];
@@ -241,6 +246,7 @@ public class FileIO {
         // Place alien forces at their starting positions
         if (config.alienForces != null) {
             for (AlienForceConfig alienConfig : config.alienForces) {
+                // Create one spreader per force
                 Spreader spreader = createSpreader(alienConfig);
                 
                 // Place spreader at each starting position
@@ -289,67 +295,71 @@ public class FileIO {
         return builder.build();
     }
 
-    // Factory method to create a Spreader from config - Delegates to strategy factory methods created by other team members
+    /**
+     * Factory method to create a Spreader from config.
+     * Delegates to strategy factory methods created by other team members.
+     */
     private static Spreader createSpreader(AlienForceConfig config) {
-        SpreadingStrategy spreadStrategy = createSpreadingStrategy(
-            config.spreadingStrategy, 
-            config.strategyParameter
-        );
-        
-        ExtractionStrategy extractStrategy = createExtractionStrategy(
-            config.extractionStrategy,
-            config.strategyParameter
-        );
+        SpreadingStrategy spreadStrategy = createSpreadingStrategy(config.spreadingStrategy);
+        ExtractionStrategy extractStrategy = createExtractionStrategy(config.extractionStrategy);
         
         return new DefaultSpreader(spreadStrategy, extractStrategy);
     }
 
     /**
      * Factory method for spreading strategies.
-     * Maps string names to actual strategy implementations.
+     * Maps string names to actual strategy implementations with proper parameters.
      */
-    private static SpreadingStrategy createSpreadingStrategy(String type, double parameter) {
-        if (type == null) {
-            type = "GREEDY"; // default
+    private static SpreadingStrategy createSpreadingStrategy(StrategyConfig config) {
+        if (config == null || config.type == null) {
+            return new GreedySpreading(1); // default
         }
         
-        switch (type.toUpperCase()) {
+        switch (config.type.toUpperCase()) {
             case "GREEDY":
-                return new GreedySpreading((int) parameter);
+                int range = (config.range != null) ? config.range : 1;
+                return new GreedySpreading(range);
             case "COWARD":
             case "LEAST_RESISTANCE":
                 return new CowardSpreading();
             case "RANDOM":
                 return new RandomSpreading();
             default:
-                throw new IllegalArgumentException("Unknown spreading strategy: " + type);
+                throw new IllegalArgumentException("Unknown spreading strategy: " + config.type);
         }
     }
 
     /**
      * Factory method for extraction strategies.
-     * Maps string names to actual strategy implementations.
+     * Maps string names to actual strategy implementations with proper parameters.
      */
-    private static ExtractionStrategy createExtractionStrategy(String type, double parameter) {
-        if (type == null) {
-            type = "INSTANT";   // default
+    private static ExtractionStrategy createExtractionStrategy(StrategyConfig config) {
+        if (config == null || config.type == null) {
+            return new InstantExtraction(1.0); // default
         }
         
-        switch (type.toUpperCase()) {
+        switch (config.type.toUpperCase()) {
             case "INSTANT":
-                return new InstantExtraction(parameter);
+                double efficiency = (config.efficiency != null) ? config.efficiency : 1.0;
+                return new InstantExtraction(efficiency);
             case "LEARNING":
-                return new LearningExtraction(parameter, 1.1);
+                double learnEff = (config.efficiency != null) ? config.efficiency : 1.0;
+                double learnRate = (config.learningRate != null) ? config.learningRate : 1.1;
+                return new LearningExtraction(learnEff, learnRate);
             case "SLOW":
-                return new SlowExtraction(parameter, 100.0);
+                double slowEff = (config.efficiency != null) ? config.efficiency : 1.0;
+                double maxCons = (config.maxConsumption != null) ? config.maxConsumption : 100.0;
+                return new SlowExtraction(slowEff, maxCons);
             default:
-                throw new IllegalArgumentException("Unknown extraction strategy: " + type);
+                throw new IllegalArgumentException("Unknown extraction strategy: " + config.type);
         }
     }
 
-    // Config Classes (JSON input)
+    // ===== Configuration Classes (for JSON input) =====
 
-    // config class for simulation input - maps directly to JSON structure
+    /**
+     * Configuration class for simulation input - maps directly to JSON structure
+     */
     public static class SimulationConfig {
         public int width;
         public int height;
@@ -364,37 +374,57 @@ public class FileIO {
         public LoggingConfig logging;
     }
 
-    // config for a tile type
+    /**
+     * Configuration for a tile type
+     */
     public static class TileTypeConfig {
         public double difficulty;
         public double resources;
     }
 
-    // config for alien forces - each alien force can occupy multiple tiles at start
+    /**
+     * Configuration for alien forces - each alien force can occupy multiple tiles at start
+     */
     public static class AlienForceConfig {
         public String type;
-        public String spreadingStrategy;
-        public String extractionStrategy;
-        public double strategyParameter;
+        public StrategyConfig spreadingStrategy;
+        public StrategyConfig extractionStrategy;
         public List<StartingPosition> startingPositions;
     }
     
-    // represents a starting position for an alien force
+    /**
+     * Configuration for a strategy with its specific parameters
+     */
+    public static class StrategyConfig {
+        public String type;
+        public Integer range;              // for GreedySpreading
+        public Double efficiency;          // for all extraction strategies
+        public Double learningRate;        // for LearningExtraction
+        public Double maxConsumption;      // for SlowExtraction
+    }
+    
+    /**
+     * Represents a starting position for an alien force
+     */
     public static class StartingPosition {
         public int col;
         public int row;
         public double initialOccupierPower;
     }
 
-    // config for logging behavior
+    /**
+     * Configuration for logging behavior
+     */
     public static class LoggingConfig {
-        public String level; // "DEBUG" or "DEFAULT"
+        public String level; // "DEBUG", "DEFAULT", or "SILENT"
         public String outputFile;
     }
 
-    // Output Classes (JSON output)
+    // ===== Output Classes (for JSON output) =====
 
-    // output class for final simulation state
+    /**
+     * Output class for final simulation state
+     */
     public static class SimulationOutput {
         public int totalSteps;
         public int gridWidth;
@@ -404,7 +434,9 @@ public class FileIO {
         public List<TileState> tiles;
     }
 
-    // state of a single tile in the output
+    /**
+     * State of a single tile in the output
+     */
     public static class TileState {
         public int col;
         public int row;
