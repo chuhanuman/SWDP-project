@@ -14,7 +14,7 @@ import logging.outputs.PrintStreamOutput;
  * Singleton logger for simulation events.
  * Supports different logging levels and stores final state information.
  */
-public class SimulationLogger {
+public class SimulationLogger implements Logger {
 
     public enum LogLevel {
         DEBUG,   // Logs every change
@@ -23,29 +23,21 @@ public class SimulationLogger {
     }
 
     private static SimulationLogger instance;
-    private Logger logger;
-    private final LevelFilter filter;
-    private final CollectionOutput collectionOutput;
+    private LogFilter filter;
+    private LogOutput output;
     private final Map<String, Object> finalState;
     private PrintStream currentOutputStream;
     private String outputFilePath;
 
     private SimulationLogger() {
         this.filter = new LevelFilter(LogLevel.DEFAULT);
-        this.collectionOutput = new CollectionOutput();
         this.currentOutputStream = System.out;
         this.finalState = new HashMap<>();
         this.outputFilePath = null;
-
-        rebuildLogger();
-    }
-
-    private void rebuildLogger() {
-        CompositeOutput compositeOutput = new CompositeOutput(
+        this.output = new CompositeOutput(
             new PrintStreamOutput(currentOutputStream),
-            collectionOutput
+            new CollectionOutput()
         );
-        this.logger = new SimulationEventLogger(filter, compositeOutput);
     }
 
     /**
@@ -60,19 +52,69 @@ public class SimulationLogger {
     }
 
     /**
-     * Set the logging level
+     * Set the logging level (only works if using LevelFilter)
      * @param level the log level to use
      */
     public void setLogLevel(LogLevel level) {
-        filter.setLevel(level);
+        if (filter instanceof LevelFilter) {
+            ((LevelFilter) filter).setLevel(level);
+        }
     }
 
     /**
-     * Get the current logging level
-     * @return the current log level
+     * Get the current logging level (only works if using LevelFilter)
+     * @return the current log level, or null if not using LevelFilter
      */
     public LogLevel getLogLevel() {
-        return filter.getLevel();
+        if (filter instanceof LevelFilter) {
+            return ((LevelFilter) filter).getLevel();
+        }
+        return null;
+    }
+
+    /**
+     * Replace the current filter with a new one
+     * @param newFilter the filter to use
+     */
+    public void setFilter(LogFilter newFilter) {
+        this.filter = newFilter;
+    }
+
+    /**
+     * Get the current filter
+     * @return the current filter
+     */
+    public LogFilter getFilter() {
+        return this.filter;
+    }
+
+    /**
+     * Add an output to the current output
+     * @param newOutput the output to add
+     */
+    public void addOutput(LogOutput newOutput) {
+        if (output != null) {
+            output.addOutput(newOutput);
+        }
+    }
+
+    /**
+     * Replace all outputs with new ones
+     * Note: This will add a CollectionOutput for getSimulationLog() to work
+     * @param outputs the outputs to use
+     */
+    public void setOutputs(LogOutput... outputs) {
+        this.output = new CompositeOutput(outputs);
+        // Always add collection output to maintain getSimulationLog() functionality
+        this.output.addOutput(new CollectionOutput());
+    }
+
+    /**
+     * Get the current output
+     * @return the current output
+     */
+    public LogOutput getOutput() {
+        return this.output;
     }
 
     /**
@@ -81,7 +123,11 @@ public class SimulationLogger {
      */
     public void setOutputStream(PrintStream stream) {
         this.currentOutputStream = stream;
-        rebuildLogger();
+        // Rebuild the output composite with new stream
+        this.output = new CompositeOutput(
+            new PrintStreamOutput(currentOutputStream),
+            new CollectionOutput()
+        );
     }
 
     /**
@@ -103,9 +149,9 @@ public class SimulationLogger {
     /**
      * Reset the logger state (useful between simulation runs)
      */
+    @Override
     public void reset() {
-        logger.reset();
-        collectionOutput.clear();
+        output.clear();
         finalState.clear();
     }
 
@@ -113,8 +159,11 @@ public class SimulationLogger {
      * Log an event
      * @param event the event to log
      */
+    @Override
     public void log(LogEvent event) {
-        logger.log(event);
+        if (filter.shouldLog(event)) {
+            output.write(event.format());
+        }
     }
 
     /**
@@ -131,6 +180,6 @@ public class SimulationLogger {
      * @return list of all logged messages
      */
     public List<String> getSimulationLog() {
-        return collectionOutput.getMessages();
+        return output.getMessages();
     }
 }

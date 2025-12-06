@@ -23,6 +23,7 @@ public class CollectionOutput implements LogOutput {
      * Get all collected messages
      * @return a copy of the message list
      */
+    @Override
     public List<String> getMessages() {
         return new ArrayList<>(messages);
     }
@@ -30,6 +31,7 @@ public class CollectionOutput implements LogOutput {
     /**
      * Clear all collected messages
      */
+    @Override
     public void clear() {
         messages.clear();
     }
