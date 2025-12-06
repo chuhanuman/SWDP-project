@@ -5,6 +5,7 @@ import logging.SimulationLogger.LogLevel;
 
 /**
  * Event logged when a tile is decorated
+ * Role(s): A concrete implementation for the Template Method pattern for LogEvent
  */
 public class DecorationEvent implements LogEvent {
     private final String position;

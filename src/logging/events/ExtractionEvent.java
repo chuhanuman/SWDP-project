@@ -6,6 +6,7 @@ import logging.SimulationLogger.LogLevel;
 
 /**
  * Event logged when resources are extracted from a tile
+ * Role(s): A concrete implementation for the Template Method pattern for LogEvent
  */
 public class ExtractionEvent implements LogEvent {
     private final UUID tileId;

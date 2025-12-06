@@ -5,6 +5,7 @@ import logging.SimulationLogger.LogLevel;
 
 /**
  * Generic event for custom messages
+ * Role(s): A concrete implementation for the Template Method pattern for LogEvent
  */
 public class GenericEvent implements LogEvent {
     private final String message;

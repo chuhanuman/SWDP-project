@@ -5,6 +5,7 @@ import logging.SimulationLogger.LogLevel;
 
 /**
  * Event logged at the start of each time step
+ * Role(s): A concrete implementation for the Template Method pattern for LogEvent
  */
 public class TimeStepEvent implements LogEvent {
     private final int turn;

@@ -2,6 +2,7 @@ package logging;
 
 /**
  * Interface for filtering log events.
+ * Role(s): This is the abstraction for the log filter strategy, contributing to the Strategy pattern.
  */
 public interface LogFilter {
     /**

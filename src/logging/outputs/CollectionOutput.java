@@ -6,6 +6,7 @@ import logging.LogOutput;
 
 /**
  * Collects log messages in memory for later retrieval
+ * Role(s): This is a concrete strategy implementing the abstract LogOutput strategy, part of the Strategy Pattern.
  */
 public class CollectionOutput implements LogOutput {
     private final List<String> messages;

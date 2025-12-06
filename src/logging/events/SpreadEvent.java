@@ -6,6 +6,7 @@ import logging.SimulationLogger.LogLevel;
 
 /**
  * Event logged when a spreader spreads to a new tile
+ * Role(s): A concrete implementation for the Template Method pattern for LogEvent
  */
 public class SpreadEvent implements LogEvent {
     private final String spreaderName;
