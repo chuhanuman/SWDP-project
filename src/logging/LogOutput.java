@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  * Interface for outputting log messages.
- * Supports the Composite pattern for combining multiple outputs.
+ * Role(s): Supports the Composite pattern for combining multiple outputs. This is also a part of the Strategy pattern also.
  */
 public interface LogOutput {
     /**
@@ -39,7 +39,7 @@ public interface LogOutput {
 
     /**
      * Get collected messages (for outputs that collect messages)
-     * Default implementation returns empty list (leaf behavior)
+     * Default implementation returns empty list
      * @return list of collected messages
      */
     default List<String> getMessages() {
@@ -49,7 +49,7 @@ public interface LogOutput {
 
     /**
      * Clear any collected state (for outputs that maintain state)
-     * Default implementation does nothing (leaf behavior)
+     * Default implementation does nothing
      */
     default void clear() {
         // Leaf nodes with no state don't need to clear

@@ -4,6 +4,7 @@ import logging.SimulationLogger.LogLevel;
 
 /**
  * Represents a loggable event in the simulation.
+ * Role(s): This is the base interface for the template method in logging different events, this contributes to the Template Method pattern.
  */
 public interface LogEvent {
     /**

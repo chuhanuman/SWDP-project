@@ -6,6 +6,7 @@ import logging.SimulationLogger.LogLevel;
 
 /**
  * Event logged when a tile's power changes
+ * Role(s): A concrete implementation for the Template Method pattern for LogEvent
  */
 public class PowerChangeEvent implements LogEvent {
     private final UUID tileId;
