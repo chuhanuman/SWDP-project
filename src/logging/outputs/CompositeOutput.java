@@ -7,7 +7,7 @@ import logging.LogOutput;
 
 /**
  * Combines multiple LogOutput implementations to write to multiple destinations.
- * Implements the Composite pattern for LogOutput.
+ * Role(s): Implements the Composite pattern for LogOutput, can be a composite class for multiple strategies, contributing to both the Composite pattern and Strategy pattern.
  */
 public class CompositeOutput implements LogOutput {
     private final List<LogOutput> outputs;

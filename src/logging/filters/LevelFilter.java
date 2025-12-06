@@ -6,6 +6,7 @@ import logging.SimulationLogger.LogLevel;
 
 /**
  * Filters log events based on log level.
+ * Role(s): This is a concrete strategy implementing the abstract LogFilter strategy, part of the Strategy Pattern.
  */
 public class LevelFilter implements LogFilter {
     private LogLevel currentLevel;

@@ -13,6 +13,7 @@ import logging.outputs.PrintStreamOutput;
 /**
  * Singleton logger for simulation events.
  * Supports different logging levels and stores final state information.
+ * Role(s): This is the singleton logger, supporting the Singleton pattern. This is also the facade that controls the other parts (LogFilter, LogEvent, LogOutput), supporting the Facade pattern.
  */
 public class SimulationLogger implements Logger {
 

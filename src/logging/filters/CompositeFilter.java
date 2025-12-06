@@ -8,7 +8,7 @@ import logging.LogFilter;
 
 /**
  * Combines multiple filters using AND logic (all filters must pass).
- * Implements the Composite pattern for LogFilter.
+ * Role(s): Implements the Composite pattern for LogFilter, is also a part of the strategy pattern.
  */
 public class CompositeFilter implements LogFilter {
     private final List<LogFilter> filters;
