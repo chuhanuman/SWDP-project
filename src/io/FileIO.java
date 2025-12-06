@@ -31,10 +31,8 @@ import java.io.*;
 import java.util.*;
 
 /**
-handles input/output operations for the alien simulation
-reads JSON configuration files, reads CSV map files, and writes simulation results
- 
-file I/O only
+ * Handles file input/output operations for the alien simulation
+ * Role(s): director role in builder pattern, client role in prototype pattern
  */
 public class FileIO {
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();

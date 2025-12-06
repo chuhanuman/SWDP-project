@@ -16,7 +16,7 @@ import turn.TurnStage;
 
 /**
  * Implementation for a stage where tiles are randomly decorated.
- * Role: A client for decorator pattern
+ * Role(s): client role in decorator pattern, client role in singleton pattern, client role in iterator pattern
  */
 public class DecorateStage implements TurnStage {
 

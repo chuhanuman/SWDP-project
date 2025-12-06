@@ -18,7 +18,7 @@ import tile.ViewableTile;
 
 /**
  * Implementation of 2D grid of tiles.
- * Role: n/a
+ * Role(s): client role in prototype pattern, inner class builder plays the concrete builder role in the builder pattern
  */
 public class DefaultTileGrid implements TileGrid {
     public static class Builder extends TileGrid.Builder {

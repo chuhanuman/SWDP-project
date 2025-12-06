@@ -16,7 +16,7 @@ import turn.TurnManager;
 
 /**
  * Represents a simulation centralized around a grid of tiles.
- * Role: n/a
+ * Role(s): client role in iterator pattern, inner class builder plays the concrete builder role in the builder pattern
  */
 public class TileGridSimulation extends Simulation {
     public static class Builder extends Simulation.Builder {

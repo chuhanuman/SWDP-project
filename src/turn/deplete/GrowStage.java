@@ -7,7 +7,7 @@ import turn.TurnStage;
 
 /**
  * Implementation for a turn stage where all spreaders grow/shrink proportionally.
- * Role: n/a
+ * Role(s): client role in iterator pattern
  */
 public class GrowStage implements TurnStage {
 

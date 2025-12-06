@@ -16,7 +16,7 @@ import turn.TurnStage;
 
 /**
  * Implementation for a spreader extraction scheduler and turn stage.
- * Role: n/a
+ * Role(s): client role in iterator pattern
  */
 public class DefaultExtractStage implements TurnStage, ExtractScheduler {
 

@@ -8,7 +8,7 @@ import grid.TileGrid;
 
 /**
  * Manages execution of a whole turn via an ordered list of stages
- * Role: n/a
+ * Role(s): product role in builder pattern, inner class builder plays the concrete builder role in the builder pattern
  */
 public class TurnManager {
     public static class Builder {

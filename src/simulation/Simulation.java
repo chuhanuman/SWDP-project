@@ -6,7 +6,7 @@ import prng.PRNG;
 
 /**
  * Represents a turn-based simulation
- * Role: n/a
+ * Role(s): product role in builder pattern, inner class builder plays the builder role in the builder pattern
  */
 public abstract class Simulation {
     public static abstract class Builder {
@@ -37,7 +37,6 @@ public abstract class Simulation {
     protected Simulation(long rngSeed) {
         PRNG.seed(rngSeed);
         turn = 0;
-        // TODO: add more simulation parameters?
     }
 
     /**

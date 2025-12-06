@@ -6,7 +6,7 @@ import spreader.Spreader;
 
 /**
  * Represents a viewable 2D grid of tiles.
- * Role: iterator used in some methods
+ * Role(s): collection role in iterator pattern
  */
 public interface GridView {
 	/**

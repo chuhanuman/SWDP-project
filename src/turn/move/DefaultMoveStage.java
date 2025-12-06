@@ -15,7 +15,7 @@ import turn.TurnStage;
 
 /**
  * Implementation of a spreader movement scheduler and turn stage.
- * Role: n/a
+ * Role(s): client role in iterator pattern
  */
 public class DefaultMoveStage implements TurnStage, MoveScheduler {
 
